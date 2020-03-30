@@ -1,5 +1,5 @@
 p {
-  line-height: 1.5em
+  line-height: 1.5em;
 }
 
 header {
@@ -12,7 +12,7 @@ header {
   justify-content: space-between;
 }
 header a,
-header a:visited  {
+header a:visited {
   color: #212529;
   text-decoration: none;
 }
@@ -28,7 +28,8 @@ footer {
   margin-top: 4em;
 }
 
-time, address {
+time,
+address {
   display: inline;
 }
 
@@ -40,6 +41,9 @@ time, address {
   margin: 0.5em 0;
 }
 
+blockquote {
+  color: #666;
+}
 
 .highlight {
   margin-bottom: 1rem;

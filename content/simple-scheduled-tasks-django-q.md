@@ -11,7 +11,7 @@ If you ask around online for help with this, people will often point you to [Cel
 
 > Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation, but supports scheduling as well.
 
-Asynchronous what? Celery sounds scary to beginners and it happens to be pain in the ass to set up. If you need Celery, then it's well worth the effort, but I believe that it's overkill for most people who are setting up their first scheduled task in Django. The main stumbling block is that Celery requires that you set up some kind of "broker", which is a program which keeps track of what tasks that need to be done.
+Asynchronous what? Celery sounds scary to beginners and it happens to be pain in the ass to set up. If you need Celery, then it's well worth the effort, but I believe that it's overkill for most people who are setting up their first scheduled task in Django. The main stumbling block is that Celery requires that you set up some kind of "broker", which is a program which keeps track of all the tasks that need to be done.
 
 I think the best solution for beginners is [Django-Q](https://django-q.readthedocs.io/en/latest/). It's much simpler to set up and run in production that Celery and is perfectly fine for basic scheduling tasks. Django-Q can use just your existing database as a broker, which means you don't have to set up any new infrastructure. If you find that you need to use a different broker, you can swap it out later.
 

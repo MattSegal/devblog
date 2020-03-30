@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="content">
+{% block content_title %}
+<h2>All articles</h2>
+{% endblock %}
+
+<div class="ui list middle aligned divided">
+{% for article in articles_page.object_list %}
+  <div class="item">
+    <div class="header">
+      <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a>
+    </div>
+    <div class="article-details">
+      {{ article.locale_date }}, by
+      {% for author in article.authors %}
+        {{ author }}
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+{% if articles_page.has_other_pages() %}
+    {% include 'pagination.html' %}
+{% endif %}
+</section><!-- /#content -->
+{% endblock content %}

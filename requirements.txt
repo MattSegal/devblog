@@ -1,0 +1,3 @@
+markdown
+pelican
+pygments-lexer-babylon

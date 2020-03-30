@@ -1,0 +1,78 @@
+p {
+  line-height: 1.5em
+}
+
+header {
+  max-width: calc(1127px + 2rem);
+  margin: 0 auto 2rem auto;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  justify-content: space-between;
+}
+header a,
+header a:visited  {
+  color: #212529;
+  text-decoration: none;
+}
+header h1 {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+footer {
+  padding: 1em 0;
+  height: 50px;
+  margin-top: 4em;
+}
+
+time, address {
+  display: inline;
+}
+
+.article-details {
+  opacity: 0.8;
+}
+
+.item {
+  margin: 0.5em 0;
+}
+
+
+.highlight {
+  margin-bottom: 1rem;
+  border: 1px solid #999;
+  padding: 2rem 0 2rem 2rem;
+  box-shadow: 1px 1px 4px #999;
+  position: relative;
+}
+
+pre {
+  font-size: 0.9em;
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .highlight {
+    padding: 2rem 0 2em 1em;
+    margin-left: -1em;
+    margin-right: -1em;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+  pre {
+    font-size: 0.5em;
+  }
+}
+
+.bio {
+  padding: 20px 0 40px 0;
+  border-top: 1px solid #999;
+  margin-top: 20px;
+  font-style: italic;
+}
+.bio a {
+  font-weight: bold;
+}

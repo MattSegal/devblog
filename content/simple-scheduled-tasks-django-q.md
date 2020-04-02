@@ -3,11 +3,12 @@ Slug: simple-scheduled-tasks
 Date: 2020-03-30 12:00
 Category: Django
 
-How do you run some code once a day in Django, or every hour on a schedule?
-There are a lot of reasons you'd want to do this, and anybody running a backend web service will run into this problem eventually.
-Maybe you want to delete some expired data, update the status of some of your models, or poll a 3rd-party API.
+How do you run some code once a day in Django, or every hour?
 
-If you ask around online for help with this, people will often point you to [Celery](http://www.celeryproject.org/). If you look at Celery's website:
+There are a lot of reasons you might want to do this. Maybe you want to process a batch of data every night, or send out a bunch of emails once a week. You might want to regularly scrape a website and store the results in the database.
+If you're running a backend web service, you will run into this problem eventually.
+
+If you ask around online for help with setting up a scheduler, people will often point you to [Celery](http://www.celeryproject.org/). If you look at Celery's website:
 
 > Celery is an asynchronous task queue/job queue based on distributed message passing. It is focused on real-time operation, but supports scheduling as well.
 

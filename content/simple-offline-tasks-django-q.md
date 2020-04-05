@@ -3,7 +3,7 @@ Slug: offline-tasks
 Date: 2020-04-2 12:00
 Category: Django
 
-What do you do if you have a Django view runs too slow? Your user send you a request and it takes ages before they receive a response. Slow views are a bad user experience - people don't like waiting, and if the view takes too long to return (30-60s), they might even receive a "408 Request Timeout" error.
+What do you do if you have a Django view runs too slow? Your user sends you a request and it takes ages before they receive a response. Slow views are a bad user experience - people don't like waiting, and if the view takes too long to return (30-60s), they might even receive a "408 Request Timeout" error.
 
 Sometimes you can fine tune your code and improve the performance enough to fix the slow runtime, but sometimes there's nothing you can do to make it faster. What do you do when your code looks like this?
 
@@ -49,7 +49,9 @@ This is a common problem and Django has a lot of tools that will provide this fu
 
 ### Setting up Django Q
 
-To get started you need Django Q set up. You can skip past this section to the worked example below and do this later. The first thing to do is install the Django Q package alongside Django:
+To get started you need Django Q set up. You can skip past this section to the worked example below and do this later.
+
+The first thing to do is install the Django Q package alongside Django:
 
 ```bash
 pip install django-q
@@ -57,7 +59,7 @@ pip install django-q
 
 #### Configure settings
 
-Then we need to adjust our Django settings so that Django knows that it should use the Django Q app. We also need to configure DjangoQ to use the database as the task broker.
+Then we need to adjust our Django settings so that Django knows that it should use the Django Q app. We also need to configure Django Q to use the database as the task broker.
 
 ```python
 # shop/settings.py
@@ -126,7 +128,6 @@ def refresh_stocks_view(request):
         stock.price = some_api.fetch_price(stock.code)
         stock.save()
 
-    return HttpResponse("Prices updated!")
     return render(request, 'stocks.html', {'stocks': stocks})
 
 ```

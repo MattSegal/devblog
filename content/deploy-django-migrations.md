@@ -5,9 +5,9 @@ Category: Django
 
 You've started learning Django, you've created a new Django app and you've deployed it to a Linux webserver in the cloud somewhere. It's all set up and running nicely. Now you want to make some more changes and you need to update your models.
 
-How do you deploy those model changes? How do you get those change sinto your production database?
+How do you deploy those model changes? How do you get those changes into your production database?
 
-First I'll show you a simple way to run your migrations on a deloyed Django app with a worked example, then I'll discuss some more advanced considerations.
+First I'll show you a simple way to run your migrations on a deployed Django app with a worked example, then I'll discuss some more advanced considerations.
 
 ### Simple method
 

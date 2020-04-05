@@ -3,7 +3,7 @@ Slug: offline-tasks
 Date: 2020-04-2 12:00
 Category: Django
 
-What do you do if you have a Django view runs too slow? Your user sends you a request and it takes ages before they receive a response. Slow views are a bad user experience - people don't like waiting, and if the view takes too long to return (30-60s), they might even receive a "408 Request Timeout" error.
+What do you do if you have a Django view that runs too slow? Slow views are a bad user experience. Users hate waiting. Even worse, if the view takes too long to return a response, they will receive a "408 Request Timeout" error, completely ruining the website experience.
 
 Sometimes you can fine tune your code and improve the performance enough to fix the slow runtime, but sometimes there's nothing you can do to make it faster. What do you do when your code looks like this?
 
@@ -30,7 +30,7 @@ So how do you fix this problem? You can't make your `long_running_task` any fast
 
 ### Somewhere else?
 
-In Django, when your view receives a request and then returns a response, everything is happening on one thread. That is to say, each line of code has to run one after the other. We want to push our long running code into a different thread so that the view doesn't have to wait for our task to finish. We want to do something like this:
+In Django, when your view function runs, everything is happening on one thread. That is to say, each line of code has to run one after the other. We want to push our long running code into a different thread so that the view doesn't have to wait for our task to finish before it can return a response. We want to do something like this:
 
 ```python
 # views.py

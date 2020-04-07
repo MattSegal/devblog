@@ -43,7 +43,7 @@ Choose this when:
 - You typically deploy the frontend and backend together
 - You need a tight integration between the frontend and backend (eg. data passing, server-side rendering)
 
-### Option 2 - Completely seperate infrastructure
+### Option 2 - Completely separate infrastructure
 
 This is an approach that has become more popular over the last several years. In this setup you have two separate codebases, one for the frontend and one for the backend, each with their own Git repository.
 

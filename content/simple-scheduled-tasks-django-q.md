@@ -1,4 +1,4 @@
-Title: Simple Scheduled Tasks with Django-Q
+Title: Simple scheduled tasks with Django Q
 Slug: simple-scheduled-tasks
 Date: 2020-03-30 12:00
 Category: Django

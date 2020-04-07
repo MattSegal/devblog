@@ -1,4 +1,4 @@
-Title: Fix Long Running Tasks in Django Views
+Title: Fix long running tasks in Django views
 Slug: offline-tasks
 Date: 2020-04-2 12:00
 Category: Django

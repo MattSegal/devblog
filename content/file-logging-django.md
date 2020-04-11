@@ -3,7 +3,7 @@ Slug: file-logging-django
 Date: 2020-04-10 12:00
 Category: Django
 
-You've deployed a Django to a webserver and something has gone wrong. What happened? When you're debugging Django on your local computer, you can just throw a print statement into your code and check the output in the runserver logs. What about in production? Where do the logs go there? How can I set up Django so it's easy to see what is happening?
+You've deployed Django to a webserver and something has broken. There's an error _somewhere_. What happened? When you're debugging Django on your local computer, you can just throw a print statement into your code and check the output in the runserver logs. What about in production? Where do the logs go there? How can I set up Django so it's easy to see what is happening?
 
 ### Write your logs to a file
 
@@ -13,7 +13,7 @@ You need to get your deployed Django app to write its logs to a file, so that yo
 - track extra data like the current time and function
 - filter your logs
 
-You might be thinking that using "print" works fine when you're using Django's dev web server. It's true! They work fine locally, but when you're in production with DEBUG=False, you won't be able to see your print statements anymore in Django's log output. Log messages will still show up when you're working locally so there's nothing to lose by ditching print for logging.
+You might be thinking that using "print" works fine when you're using Django's dev web server. It's true! Using "print" works fine locally, but when you're in production with DEBUG=False, you won't be able to see your print statements anymore in Django's log output. Log messages will still show up when you're working locally so there's nothing to lose by ditching print for logging.
 
 ### How to use logging in Django
 

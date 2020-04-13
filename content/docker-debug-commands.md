@@ -109,6 +109,12 @@ Say I wanted to poke around in the "worker" container, then I need to note its i
 docker exec -it 518f741c4415 bash
 ```
 
+It's a little easier if you're using docker-compose. If you want to get into an already running "web" container:
+
+```bash
+docker-compose exec web bash
+```
+
 ### Get a bash shell in a brand new container
 
 Sometimes you want to poke around inside a container that is based on an image, to see what is baked into the image. You can do this using docker or docker-compose.

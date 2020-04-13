@@ -1,5 +1,7 @@
 set -e
 . ./env/bin/activate
+export PELICAN_GA="UA-103174696-6"
+export PELICAN_HOSTURL="https://mattsegal.dev"
 make clean
 make publish
 aws s3 cp \
@@ -7,7 +9,3 @@ aws s3 cp \
     --acl public-read \
     ./output \
     s3://mattsegal.dev
-
-aws cloudfront create-invalidation \
-    --distribution-id E1N8GMO4U6RJRA \
-    --paths "/*"

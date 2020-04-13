@@ -9,7 +9,7 @@ The problem is that to get to your logs, you have to log into your server, find 
 
 This post will show you how to push your Django logs into [Papertrail](https://www.papertrail.com/). Papertrail is a free web-based log aggregator that is reasonably simple to set up. It stores ~6 days of searchable logs. It's best for small, simple projects where you don't want to do anything complicated.
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/5ede7f70b62645ca82c1ffbf4c0e64eb" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/5ede7f70b62645ca82c1ffbf4c0e64eb" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ### Create an account
 

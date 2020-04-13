@@ -72,7 +72,7 @@ The fix is to read some documentation. Not the [Django docs](https://docs.django
 
 I'm going to cut to video to show you the rest of the fix.
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/914ef155a98f49faba6c3c8af3d686a4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/914ef155a98f49faba6c3c8af3d686a4" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 You can use the techniques of overriding on any of the class-based view methods, depending on what you need to do.
 

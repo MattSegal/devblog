@@ -28,9 +28,17 @@ footer {
   margin-top: 4em;
 }
 
+img {
+  max-width: 100%;
+}
+
 time,
 address {
   display: inline;
+}
+
+code {
+  font-size: 1rem;
 }
 
 .article-details {
@@ -79,4 +87,11 @@ pre {
 }
 .bio a {
   font-weight: bold;
+}
+
+.loom-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  margin: 1rem 0;
 }

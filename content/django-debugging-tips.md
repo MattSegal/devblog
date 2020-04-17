@@ -102,11 +102,11 @@ So how do you use this practically? Well, in a Django view, you can check all so
 # views.py
 
 def my_view(request):
-    assert Thing.objects.exists(), 'there is at least 1 thing in db'
+    assert Thing.objects.exists(), 'there must be at least 1 thing in db'
     thing = Things.objects.last()
-    assert thing, 'thing exists'
-    assert thing.name, 'thing has name'
-    assert type(thing.name) is str, 'thing name is a str'
+    assert thing, 'thing must exist'
+    assert thing.name, 'thing must have name'
+    assert type(thing.name) is str, 'thing name must be a str'
     return HttpResponse(f"The thing is called {thing.name}")
 
 ```

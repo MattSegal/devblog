@@ -19,7 +19,20 @@ header a:visited {
 header h1 {
   margin: 0;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
+  color: #e97dfd;
+  text-transform: uppercase;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+}
+#banner-animation {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 0;
+  height: 50px;
+  pointer-events: none;
+  z-index: -1;
 }
 
 footer {

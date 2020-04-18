@@ -108,10 +108,11 @@
     <meta name="twitter:image" content="{{ SITEURL }}/theme/social-card.png" />
   </head>
   <body id="index" class="home">
+    <canvas id="banner-animation"></canvas>
     <div class="ui container text" style="padding-bottom: 20px;">
-      <header id="banner" class="body">
+      <header class="body">
         <a href="{{ SITEURL }}/">
-          <h1>
+          <h1 id="banner">
             {{ SITENAME }}
           </h1>
         </a>
@@ -141,5 +142,6 @@
       ga("create", "{{ GOOGLE_ANALYTICS }}", "auto");
       ga("send", "pageview");
     </script>
+    <script type="text/javascript" src="{{ SITEURL }}/theme/header.js"></script>
   </body>
 </html>

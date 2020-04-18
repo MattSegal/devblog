@@ -9,6 +9,6 @@ watchmedo \
     --directory ./content/ \
     --directory ./theme/ \
     --recursive \
-    --patterns '*.md;*.html;*.css' \
+    --patterns '*.md;*.html;*.css;*.js' \
     -- \
     make publish

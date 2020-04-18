@@ -35,10 +35,19 @@ header h1 {
   z-index: -1;
 }
 
+/* Semantic CSS override */
+.ui.header .sub.header {
+  margin-top: 0.3rem;
+}
+
 footer {
   padding: 1em 0;
   height: 50px;
   margin-top: 4em;
+}
+
+li {
+  margin: 0.3rem 0;
 }
 
 img {

@@ -1,160 +1,77 @@
-Title: UNTUITLDE
-Slug: simplest-django-deploument
+Title: Simple Django deployments: a guide
+Slug: simple-django-deployment
 Date: 2020-04-19 12:00
 Category: Django
 
-PAIN
+You're learning web development with Django. You've followed the [official introductory tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial01/) and you can get a Django app working on your local computer. Now you want to put your web app onto the internet. Maybe it's to show your friends, or you actually want to use it, or maybe you just want to learn how to deploy Django apps. I want to help you deploy your Django app, but first, let's go over why you're here.
 
-- you are a beginner coder
-- you have a Django project working on your computer
-- you want to put it on the internet
-- your main focus is learning, but you want to see results... sometime this week
-- if you don't care about learning to _how_ deploy, just use Heroku or PythonAnywhere, this guide is going to assume that you do
+### Stuck, frustrated, confused, embarrassed
 
-- I've noticed most Django deployment guides can be pretty rough on beginners
-- there are a lot of moving pieces in a Django deployment
+You've probably tried [tutorials like this](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04) which give you a bunch of steps to follow, commands to type, files to configure. This is how I learned to deploy Django: with online tutorials and a lot of Googling. When you follow these guides, you have no fucking idea what you're actually doing. Why do you use that tool? Why do you type that command? You may as well be [learning magic at Hogwarts](https://youtu.be/nAQBzjE-kvI?t=33). You could easily swap:
 
-  - guides show you gunicorn + postgres + nginx + .... Docker?
-  - it's hard doing something new, it's really hard to learn 10 new things at once
-  - you know you're not supposed to just use runserver - why?
-  - you want to learn to _do it right_
-  - what does _right_ mean anyway?
-  - one step at a time
-  - my goal is to show you how to deploy something _reasonable_ with as few new technologies as possible
+> What is apt? Why am I using it to install postgresql-contrib and libpq-dev?
 
-Call out DigitalOcean and reddit
+with
 
-- Do you _need_ to set up a reverse proxy like NGINX? No!
-- Do you _need_ to set up a database like Postgres / MySQL? No!
-- Do you _need_ Docker? No!
+> Why do I have to say Wingardium Levios*aaa* not Leviosa*rrr* to get my spell to work?
 
-* sometimes you want to just get started and have something working, not fiddle around with 10 different new technologies
-* what's the simplest Django deployment that we can get away with?
+It's not your fault. These guides throw a lot of unfamilliar tools and concepts at you without taking the time to teach you about them. The DigitalOcean guide above smacks you with:
 
-I imagine you already have set up a local Django website with SQLite as the database, following the Django tutorial or something similar and run it using `./manage.py runserver`.
-I'm going to assume that you're using Windows, because most people do.
+- apt package manager
+- PostgreSQL installation
+- PostgreSQL database admin
+- Python virtual envrionments
+- Prod Django settings
+- Running a gunicorn WSGI server
+- Firewall configurations
+- Systemd configuration
+- Socket file setup
+- NGINX reverse proxy setup
 
-Here are the new technologies that I propose we use:
+It also requires that you know:
+
+- How to spin up a new a web server
+- How to login via SSH
+- How to set DNS records
+- How to get your Django code onto the server
+
+Some of these tools and skills are necessary, some of them are not. If you don't follow their instructions perfectly then you can get stuck and have no idea how to get unstuck. Then you get frustrated, discouraged and embarrassed. It's pretty common for new developers to struggle for days, even weeks to get their first web app deployed.
+
+Hitting a wall when trying to deploy your Django app isn't inevitable. I used to work as a ski instructor (software pays better) and I was taught a saying:
+
+> Teach new skills on easy terrain. On hard terrain, stick to the old skills.
+
+This means that you shouldn't try teaching a fancy new technique on the steepest, hardest runs.
+Deploying web applications is _hard_. It gets easier with time, but it's got a nasty learning curve. It's easier to learn if we minimise the number of new skills and try to keep you an easy terrain.
+
+### Minimal new tools, small steps
+
+That's the focus of this guide. I want to help you achieve lots of small, incremental wins where you gain one small skill, then another, until you have all the skills you need to deploy your Django app. I want to you to understand what the fuck is going on so you don't get stuck. I want to introduce as few new tools as possible.
+
+Here are the new technologies that I propose we learn to use:
 
 - A Linux virtual machine in the cloud for hosting (DigitalOcean)
 - SSH and SCP for accesing the server
-- Gunicorn and XXXXXXX for running your app
-- Whitenoise to server static files
-- Cloudflare for DNS, static file caching, SSL
+- bash shell scripting
+- Python virtual envrionments
+- gunicorn WSGI server for running your app
+- supervisord for keeping gunicorn running
+- Whitenoise Python library to serve static files
+- Cloudflare SaaS tool for DNS, static file caching, SSL
 
-We will not be using
+Here are some things we will not be using:
 
-- NGINX
-- Postgres or MySQL
+- PostgreSQL database
+- NGINX reverse proxy
 - Docker
+- Ansible
 
-I've tried to keep this guide as simple as possible while also keeping it mostly production ready.
-I also aim to make it easy to debug production problems locally.
+These are great tools. I use them all the time. You should give them a try sometime... just not yet. Once you've got this simple deployment down then you can mix it up: you can add NGINX, Postgres and Docker if you like.
 
-Once you've got this deployment done you can mix it up later, you can add NGINX, Postgres and Docker if you like,
-you can experiment with different technologies.
+This guide has a few discrete, sequential steps, which I suggest you do in order:
 
-=== INTRO VIDEO ===
-
-UPSIDES
-
-- mostly testable locally
-- minimal new technologies, harder to fuck up
-- can always extend later
-
-DOWNSIDES
-
-- sqlite has limitations
-- not using NGINX has limitations
-
-Steps in guide
-
-- Non-Django infrastructure
-
-### Non Django Infrastructure
-
-This stuff is the most painful and we want to get this right first
-before we involve
-
-- create a DO droplet
-- buy a domain name
-- set up cloudflare (link to cloudflare)
-- get droplet IP and put it into cloudflare
-- ensure caching, compression
-- set A record with proxing via Cloudflare (NGINX)
-- test A record with dig or DNS checker
-- wait a while...
-
-- quick tools aside ConEmu for Windows
-- also show how to access git bash via conemu
-
-- Make sure you have bash or git-bash
-- Fuck putty
-- intro to git-bash, how to get it, where to run
-- check for ssh, scp
-- create an ssh key
-- add it to the server
-- ssh into the server
-- copy a file onto the server
-
-- create a HTML file locally
-- run http.server using Python 3 locally
-- check it in your browser
-
-- copy HTML file onto server
-- ssh in
-- cat it to view
-- run http.server on server
-- check the IP address
-- check the domain name
-
-# Prepare and test Django locally
-
-- create a Django app locally
-- add model, view
-- create migrations, save
-- get it working with runserver
-- ensure you have requirements.txt
-- set up in virtualenv
-- install whitenoise
-- add prod-specific settings
-  - debug = False
-  - allowed hosts
-  - secret key
-  - ??? what else ??? check Django deploy guide
-- test prod settings using gunicorn locally
-
-# Deploy Django to server
-
-- WINDOWS LINE ENDINGS
-- copy source code to server
-- set up virtualenv
-- collectstatic, run migrations
-- run prod settings on server
-- test locally with curl
-- test IP address
-- test DNS
-- you're in!
-
-# Make it a service, run as a service
-
-- you might have noticed that running Django only works when you have a terminal session
-- get it to run in the background
-- set up supervisord
-- run as service
-
-# Script the deployment
-
-- automate the process
-- push it into github actions
-- show pushing code changes to prod
-
-# Next steps
-
-- Start using Postgres
-- Try out using NGINX
-- Try out Celery or Django-Q
-- Try out media hosting in S3
-- Try out ???
-- Automate deployment with GitHub actions
-- Add automated unit tests
+- 1. Non-Django infrastructure setup
+- 2. Prepare and test Django locally
+- 3. Deploy Django to the server
+- 4. Run Django in the background
+- 5. Script the (re-)deployment

@@ -76,8 +76,8 @@ If you're not willing (or unable) to get your credit card out and pay for some s
 
 This guide has a few discrete, sequential steps, which I suggest you do in order:
 
-1. Non-Django infrastructure setup
-2. Prepare and test Django locally
-3. Deploy Django to the server
-4. Run Django in the background
-5. Automate the re-deployment
+1. [Non-Django infrastructure setup]({filename}/simple-django-deployment-1.md)
+2. [Prepare and test Django locally]({filename}/simple-django-deployment-2.md)
+3. [Deploy Django to the server]({filename}/simple-django-deployment-3.md)
+4. [Run Django in the background]({filename}/simple-django-deployment-4.md)
+5. [Automate the re-deployment]({filename}/simple-django-deployment-5.md)

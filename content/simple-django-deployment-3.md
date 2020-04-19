@@ -15,3 +15,5 @@ Category: Django
 - test IP address
 - test DNS
 - you're in!
+
+[Run Django in the background]({filename}/simple-django-deployment-4.md)

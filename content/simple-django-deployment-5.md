@@ -19,3 +19,8 @@ Category: Django
 - Try out ???
 - Automate deployment with GitHub actions
 - Add automated unit tests
+
+[xxxx]({filename}/file-logging-django.md)
+[xxxx]({filename}/intro-config-management.md)
+[xxxx]({filename}/simple-offline-tasks-django-q.md)
+[xxxx]({filename}/sentry-for-django-error-monitoring.md)

@@ -19,3 +19,5 @@ Category: Django
   - secret key
   - ??? what else ??? check Django deploy guide
 - test prod settings using gunicorn locally
+
+[Deploy Django to the server]({filename}/simple-django-deployment-3.md)

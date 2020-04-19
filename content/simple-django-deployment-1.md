@@ -4,12 +4,20 @@ Slug: simple-django-deployment-1
 Date: 2020-04-19 13:00
 Category: Django
 
-### Non Django Infrastructure
+This part will be the most painful and frustrating, so we want to get this bit right first before we involve our Django app. Here we will learn how to:
 
-This part involves the most painful tooling, so we want to get this bit right first before we involve our Django app.
+- Buy a domain name
+- Set up our cloud web server
+- Set up a Cloudflare reverse-proxy
+- Learn how to access our server, upload files
+- Test our setup
 
-- create a DO droplet
+This is, admittedly, a fuckton of stuff to do and many of these steps will be new to you, so let's proceed by taking many tiny steps.
+
+### Buy a domain name
+
 - buy a domain name
+- create a DO droplet
 - set up cloudflare (link to cloudflare)
 - get droplet IP and put it into cloudflare
 - ensure caching, compression
@@ -39,3 +47,5 @@ This part involves the most painful tooling, so we want to get this bit right fi
 - run http.server on server
 - check the IP address
 - check the domain name
+
+[Prepare and test Django locally]({filename}/simple-django-deployment-2.md)

@@ -10,9 +10,7 @@ const CELL_LENGTH = 3; // px
 const canvas = document.getElementById("banner-animation");
 const banner = document.getElementById("banner");
 const ctx = canvas.getContext("2d");
-// const WHITE = "rgb(240, 240, 240)";
 const WHITE = "rgb(255, 255, 255)";
-const BLACK = "rgb(180, 180, 180)";
 
 class GameOfLife {
   // FIXME - handle resize
@@ -119,8 +117,6 @@ class GameOfLife {
     // Render every grid element
     for (let rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
       for (let colIdx = 0; colIdx < this.numCols; colIdx++) {
-        // ctx.fillStyle = this.grid[rowIdx][colIdx] ? BLACK : WHITE;
-
         const cellValue = this.grid[rowIdx][colIdx];
         if (cellValue > 0) {
           ctx.fillStyle = getFillStyle(cellValue);

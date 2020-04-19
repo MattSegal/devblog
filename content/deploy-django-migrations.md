@@ -1,4 +1,5 @@
 Title: How to deploy Django migrations
+Description: A guide on how to deploy migrations in Django
 Slug: deploy-django-migrations
 Date: 2020-04-4 12:00
 Category: Django

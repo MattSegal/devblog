@@ -1,4 +1,5 @@
 Title: Quickly fix bugs in Django with Python's debugger
+Description: A guide on how to get started with the Python debugger
 Slug: django-debug-pdb
 Date: 2020-04-11 12:00
 Category: Django

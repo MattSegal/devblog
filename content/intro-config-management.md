@@ -1,4 +1,5 @@
 Title: Introduction to configuration management
+Description: This talk goes over some practices and tools that you can use to keep your environments consistent.
 Slug: intro-config-management
 Date: 2020-04-8 12:00
 Category: DevOps

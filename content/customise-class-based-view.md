@@ -1,4 +1,5 @@
 Title: How to customise a class based view in Django
+Description: A guide on how to dig into class-based view internals
 Slug: customise-class-based-view-django
 Date: 2020-4-9 12:00
 Category: Django

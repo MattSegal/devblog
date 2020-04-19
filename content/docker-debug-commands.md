@@ -1,4 +1,5 @@
 Title: 9 commands for debugging Django in Docker containers
+Description: A list of handy Docker commands
 Slug: docker-container-debugging
 Date: 2020-04-8 12:00
 Category: Docker

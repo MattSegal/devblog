@@ -1,4 +1,5 @@
 Title: Nand to Tetris is a great course
+Description: You might know how to write and run code, but what's actually happening inside the computer?
 Slug: nand-to-tetris
 Date: 2020-04-17 12:00
 Category: Programming

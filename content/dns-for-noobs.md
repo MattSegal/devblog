@@ -1,4 +1,5 @@
 Title: DNS for beginners: how to give your site a domain name
+Description: A guide for setting up domain names
 Slug: dns-for-noobs
 Date: 2020-4-13 12:00
 Category: DevOps

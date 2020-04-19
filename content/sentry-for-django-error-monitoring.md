@@ -1,4 +1,5 @@
 Title: Sentry is great for tracking Django errors
+Description: An introduction to the Sentry error monitoring service
 Slug: sentry-for-django-error-monitoring
 Date: 2020-04-8 12:00
 Category: Django

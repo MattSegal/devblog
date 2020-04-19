@@ -1,4 +1,5 @@
 Title: 4 tips for debugging in Django
+Description: This post will share 4 tips which will help you speed up your bug catching.
 Slug: django-debug-tips
 Date: 2020-04-12 12:00
 Category: Django

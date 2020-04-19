@@ -1,6 +1,7 @@
 Title: Simple Django Deployments part two: local setup
+Description: How to make sure Django is working before you deploy it
 Slug: simple-django-deployment-2
-Date: 2020-04-19 12:00
+Date: 2020-04-19 14:00
 Category: Django
 
 # Prepare and test Django locally

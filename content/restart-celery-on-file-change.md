@@ -1,4 +1,5 @@
 Title: How to restart Celery on file change
+Description: Quick guide on how to use Watchdog
 Slug: restart-celery-on-file-change
 Date: 2020-04-7 12:00
 Category: Django

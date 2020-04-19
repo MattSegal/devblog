@@ -1,4 +1,5 @@
 Title: 3 ways to deploy a Django backend with a React frontend
+Description: A review of Django deployment options
 Slug: django-spa-infrastructure
 Date: 2020-04-7 12:00
 Category: Django

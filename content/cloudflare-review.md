@@ -1,4 +1,5 @@
 Title: Cloudflare makes DNS slightly less painful  
+Description: A review of Cloudflare for beginners, and a guide on how to get set up
 Slug: cloudflare-review
 Date: 2020-04-18 12:00
 Category: DevOps

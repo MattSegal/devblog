@@ -1,4 +1,5 @@
 Title: Fix long running tasks in Django views
+Description: How to use Django Q to push tasks offline
 Slug: offline-tasks
 Date: 2020-04-2 12:00
 Category: Django

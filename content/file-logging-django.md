@@ -1,4 +1,5 @@
 Title: How to save Django logs in production
+Description: A guide for setting up file logging in production with Django
 Slug: file-logging-django
 Date: 2020-04-10 12:00
 Category: Django

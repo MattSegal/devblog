@@ -1,4 +1,5 @@
 Title: Simple Django deployments: a guide
+Description: How to deploy Django in many small steps
 Slug: simple-django-deployment
 Date: 2020-04-19 12:00
 Category: Django
@@ -63,13 +64,15 @@ Here are some things we will not be using:
 
 - PostgreSQL database
 - NGINX reverse proxy
-- Docker
-- Ansible
+- Containers (eg. Docker, Kubernetes)
+- Config management tools (eg. Ansible)
+
+These are great tools. I use them all the time. You should give them a try sometime... just not yet. Once you've got this simple deployment down then you can mix it up: you can add NGINX, Postgres and Docker if you like.
+
+### The guide
 
 Just so you know, this guide will involve buying a domain name, and using a paid cloud service.
 If you're not willing (or unable) to get your credit card out and pay for some stuff, then you will not be able to complete every step, but you can still follow along.
-
-These are great tools. I use them all the time. You should give them a try sometime... just not yet. Once you've got this simple deployment down then you can mix it up: you can add NGINX, Postgres and Docker if you like.
 
 This guide has a few discrete, sequential steps, which I suggest you do in order:
 

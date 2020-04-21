@@ -44,6 +44,19 @@ We'd usually do this early \$EXPLAIN_WHY
 - check the domain name
 - start Django
 
-### Next steps
+# Next steps
 
-[Automate your deployment]({filename}/simple-django-deployment-6.md)
+- Add logging
+- start using git for deployments
+- Try out Celery or Django-Q for offline tasks
+- Try using Postgres
+- Try out using NGINX
+- Try out media hosting in S3
+- Try out ???
+- Automate deployment with GitHub actions
+- Add automated unit tests
+
+[xxxx]({filename}/file-logging-django.md)
+[xxxx]({filename}/intro-config-management.md)
+[xxxx]({filename}/simple-offline-tasks-django-q.md)
+[xxxx]({filename}/sentry-for-django-error-monitoring.md)

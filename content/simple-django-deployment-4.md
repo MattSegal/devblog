@@ -9,6 +9,10 @@ Category: Django
 - you might have noticed that running Django only works when you have a terminal session
 - get it to run in the background
 - set up supervisord
-- run as service
+- run as service (as root)
+- we don't want to run as root (why?)
+- create gunicorn user
+- give user file permissions over /app/ chown -R
+- change supervisord to run as gunicorn or something?
 
-[Set up your domain]({filename}/simple-django-deployment-5.md)
+[Script the deployment]({filename}/simple-django-deployment-5.md)

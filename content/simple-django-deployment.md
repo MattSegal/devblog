@@ -53,7 +53,7 @@ Here are the new technologies that I propose we learn to use:
 
 - A Linux virtual machine in the cloud for hosting (DigitalOcean)
 - SSH and SCP for accesing the server
-- bash shell scripting
+- git-bash shell scripting
 - Python virtual envrionments
 - gunicorn WSGI server for running your app
 - supervisord for keeping gunicorn running
@@ -66,6 +66,7 @@ Here are some things we will not be using:
 - NGINX reverse proxy
 - Containers (eg. Docker, Kubernetes)
 - Config management tools (eg. Ansible, Fabric)
+- Git version control
 
 You should give them a try sometime... just not yet.
 
@@ -90,5 +91,5 @@ This guide has five steps, which I suggest you do in order:
 2. [Prepare and test Django locally]({filename}/simple-django-deployment-2.md)
 3. [Deploy Django to the server]({filename}/simple-django-deployment-3.md)
 4. [Run Django in the background]({filename}/simple-django-deployment-4.md)
-5. [Domain setup]({filename}/simple-django-deployment-5.md)
-6. [Automate the re-deployment]({filename}/simple-django-deployment-6.md)
+5. [Automate the re-deployment]({filename}/simple-django-deployment-5.md)
+6. [Domain setup]({filename}/simple-django-deployment-6.md)

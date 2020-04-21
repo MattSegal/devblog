@@ -6,10 +6,26 @@ Category: Django
 
 # Deploy Django to server
 
-- WINDOWS LINE ENDINGS
+/srv/app
+/srv/env
+/srv/static?
+
+- create app folder /srv/app/
 - copy source code to server
+- WINDOWS LINE ENDINGS dos2unix?
+- find pyc and delete
+- only copy source code! not SQLite database (how?)
+- find py files (print dir tree?)
+- try run migrations to create database - see failure
 - set up virtualenv
+- install requirements
+- activate env
+- try run migrations - see failure
+- change secret key envar in /etc/environment
 - collectstatic, run migrations
+- look for SQLite database
+- look for staticfiles?????
+- run gunicorn from same bash script
 - run prod settings on server
 - test locally with curl
 - test IP address

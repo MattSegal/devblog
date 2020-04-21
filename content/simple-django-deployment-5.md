@@ -1,4 +1,4 @@
-Title: Simple Django Deployments part five: automation
+Title: Simple Django Deployments part five: deployment automation
 Description: Script your Django deployment with bash
 Slug: simple-django-deployment-5
 Date: 2020-04-19 17:00

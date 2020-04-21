@@ -4,7 +4,7 @@ Slug: simple-django-deployment
 Date: 2020-04-19 12:00
 Category: Django
 
-You're learning web development with Django. You've followed the [official introductory tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial01/) and you can get a Django app working on your local computer. Now you want to put your web app onto the internet. Maybe it's to show your friends, or you actually want to use it, or maybe you just want to learn how to deploy Django apps. I want to help you deploy your Django app, but first, let's go over why you're here.
+You're learning web development with Django. You've followed the [official introductory tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial01/) and you can get a Django app working on your local computer. Now you want to put your web app onto the internet. Maybe it's to show your friends, or you actually want to use it for something, or maybe you just want to learn how to deploy Django apps. I want to help you deploy your Django app, but first, let's go over why you're here.
 
 ### Stuck, frustrated, confused, embarrassed
 
@@ -43,7 +43,7 @@ Hitting a wall when trying to deploy your Django app isn't inevitable. I used to
 > Teach new skills on easy terrain. On hard terrain, stick to the old skills.
 
 This means that you shouldn't try teaching a fancy new technique on the steepest, hardest runs.
-Deploying web applications is _hard_. It gets easier with time, but it's got a nasty learning curve. It's easier to learn if we minimise the number of new skills and try to keep you an easy terrain.
+Deploying web applications is _hard_. It gets easier with time, but it's got a nasty learning curve. It's easier to learn if we minimise the number of new skills and try to keep you in a familiar environment.
 
 ### Minimal new tools, small steps
 
@@ -65,19 +65,30 @@ Here are some things we will not be using:
 - PostgreSQL database
 - NGINX reverse proxy
 - Containers (eg. Docker, Kubernetes)
-- Config management tools (eg. Ansible)
+- Config management tools (eg. Ansible, Fabric)
 
-These are great tools. I use them all the time. You should give them a try sometime... just not yet. Once you've got this simple deployment down then you can mix it up: you can add NGINX, Postgres and Docker if you like.
+You should give them a try sometime... just not yet.
+
+> But don't professional web developers use NGINX/Docker/Postgres/etc? That's what everyone on Reddit says! I don't want to learn bad practices :(
+
+It's true that these are all great tools. I use them all the time, but I think they make learning to deploy Django uneccesarily complicated.
+The good news is that you can always add them to your infrastructure later on.
+Once you've got this simple deployment down then you can mix it up: you can add NGINX, Postgres and Docker if you like.
 
 ### The guide
 
-Just so you know, this guide will involve buying a domain name, and using a paid cloud service.
-If you're not willing (or unable) to get your credit card out and pay for some stuff, then you will not be able to complete every step, but you can still follow along.
+I am going to assume that you are using Windows for the guide, partly because that just what a lot of people use, and partly because that's the worst-case scenario.
+That's right, doing this stuff on Windows is hard-mode.
+If you have a Mac or Linux desktop, then you can still follow along, there will just be slightly fewer things for you to do.
 
-This guide has a few discrete, sequential steps, which I suggest you do in order:
+Also, just so you know, this guide will involve buying a domain name ($2 - $10 USD / year), and using a paid cloud service (5 bucks / month).
+If you're not willing (or unable) to get your credit card out and pay for some stuff, then you will not be able to complete every step.
 
-1. [Non-Django infrastructure setup]({filename}/simple-django-deployment-1.md)
+This guide has five steps, which I suggest you do in order:
+
+1. [Server setup]({filename}/simple-django-deployment-1.md)
 2. [Prepare and test Django locally]({filename}/simple-django-deployment-2.md)
 3. [Deploy Django to the server]({filename}/simple-django-deployment-3.md)
 4. [Run Django in the background]({filename}/simple-django-deployment-4.md)
-5. [Automate the re-deployment]({filename}/simple-django-deployment-5.md)
+5. [Domain setup]({filename}/simple-django-deployment-5.md)
+6. [Automate the re-deployment]({filename}/simple-django-deployment-6.md)

@@ -11,4 +11,4 @@ Category: Django
 - set up supervisord
 - run as service
 
-[Automate the re-deployment]({filename}/simple-django-deployment-5.md)
+[Set up your domain]({filename}/simple-django-deployment-5.md)

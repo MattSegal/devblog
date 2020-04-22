@@ -25,4 +25,4 @@ Category: Django
 
 ### Next steps
 
-[Automate your deployment]({filename}/simple-django-deployment-6.md)
+[Set up your domain]({filename}/simple-django-deployment-6.md)

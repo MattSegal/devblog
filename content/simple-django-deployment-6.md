@@ -1,4 +1,4 @@
-Title: Simple Django Deployments part five: domain setup
+Title: Simple Django Deployments part six: domain setup
 Description: Setup your Django app's domain name
 Slug: simple-django-deployment-6
 Date: 2020-04-19 18:00
@@ -55,6 +55,8 @@ We'd usually do this early \$EXPLAIN_WHY
 - Try out ???
 - Automate deployment with GitHub actions
 - Add automated unit tests
+- fail2ban
+- database backups
 
 [xxxx]({filename}/file-logging-django.md)
 [xxxx]({filename}/intro-config-management.md)

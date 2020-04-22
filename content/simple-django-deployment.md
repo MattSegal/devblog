@@ -78,11 +78,11 @@ Once you've got this simple deployment down then you can mix it up: you can add 
 
 ### The guide
 
-I am going to assume that you are using Windows for the guide, partly because that just what a lot of people use, and partly because that's the worst-case scenario.
-That's right, doing this stuff on Windows is hard-mode.
-If you have a Mac or Linux desktop, then you can still follow along, there will just be slightly fewer things for you to do.
+I am going to assume that you are using Windows for the guide, partly because it's what most new developers use, and partly because it's the worst-case scenario.
+That's right: doing this stuff on Windows is hard-mode.
+If you have a Mac or Linux desktop, then you can still follow along - there will just be slightly fewer things for you to do.
 
-Also, just so you know, this guide will involve buying a domain name ($2 - $10 USD / year), and using a paid cloud service (5 bucks / month).
+Also, just so you know, this guide will involve buying a domain name ($2 - $10 USD / year) and using a paid cloud service (5 bucks / month).
 If you're not willing (or unable) to get your credit card out and pay for some stuff, then you will not be able to complete every step.
 
 This guide has five steps, which I suggest you do in order:

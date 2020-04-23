@@ -130,6 +130,7 @@ show diagram of how runserver works
 DISCUSS SQLITE HERE
 
 - discuss SQLite limitations?
+- mention issues migrating from SQLite to PostgreSQL
 
 https://www.sqlite.org/whentouse.html
 

@@ -55,8 +55,8 @@ Here are the new technologies that I propose we learn to use:
 - SSH and SCP for accesing the server
 - git-bash shell scripting
 - Python virtual envrionments
-- gunicorn WSGI server for running your app
-- supervisord for keeping gunicorn running
+- Gunicorn WSGI server for running your app
+- Supervisor for keeping Gunicorn running
 - Whitenoise Python library to serve static files
 - Cloudflare SaaS tool for DNS, static file caching, SSL
 

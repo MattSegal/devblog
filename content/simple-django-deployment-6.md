@@ -52,11 +52,13 @@ We'd usually do this early \$EXPLAIN_WHY
 - Try out Celery or Django-Q for offline tasks
 - Try using Postgres
 - Try out using NGINX
+- Try put your gunicorn server / Django app inside of Docker with Docker Swarm
 - Try out media hosting in S3
 - Try out ???
 - Automate deployment with GitHub actions
 - Add automated unit tests
 - fail2ban
+- set up a firewall
 - database backups
 
 [xxxx]({filename}/file-logging-django.md)

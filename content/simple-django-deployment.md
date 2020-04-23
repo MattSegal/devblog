@@ -70,9 +70,9 @@ Here are some things we will not be using:
 
 You should give them a try sometime... just not yet.
 
-> But don't professional web developers use NGINX/Docker/Postgres/etc? That's what everyone on Reddit says! I don't want to learn bad practices :(
+> But don't professional web developers use NGINX/Docker/Postgres/etc? That's what people on Reddit say! I don't want to learn bad practices :(
 
-It's true that these are all great tools. I use them all the time, but I think they make learning to deploy Django uneccesarily complicated.
+It's true that these are all great tools. I use them often, but I think they will make learning to deploy Django unnecessarily complicated.
 The good news is that you can always add them to your infrastructure later on.
 Once you've got this simple deployment down then you can mix it up: you can add NGINX, Postgres and Docker if you like.
 
@@ -85,7 +85,7 @@ If you have a Mac or Linux desktop, then you can still follow along - there will
 Also, just so you know, this guide will involve buying a domain name ($2 - $10 USD / year) and using a paid cloud service (5 bucks / month).
 If you're not willing (or unable) to get your credit card out and pay for some stuff, then you will not be able to complete every step.
 
-This guide has five steps, which I suggest you do in order:
+I said this was a "simple" guide, but I didn't say it's short: it's surprisingly long in fact. This guide has five steps, which I suggest you do in order:
 
 1. [Server setup]({filename}/simple-django-deployment-1.md)
 2. [Prepare and test Django locally]({filename}/simple-django-deployment-2.md)

@@ -69,7 +69,11 @@ code {
 }
 
 .item {
-  margin: 0.5em 0;
+  margin-bottom: 1rem;
+  padding-top: 1rem !important;
+}
+.item > h3.header {
+  font-weight: 600 !important;
 }
 
 blockquote {

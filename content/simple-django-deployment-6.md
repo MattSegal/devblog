@@ -47,6 +47,7 @@ We'd usually do this early \$EXPLAIN_WHY
 # Next steps
 
 - Add logging
+- add error reporitng
 - start using git for deployments
 - Try out Celery or Django-Q for offline tasks
 - Try using Postgres

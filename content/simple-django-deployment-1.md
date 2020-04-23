@@ -130,7 +130,7 @@ By the way, it turns out that "LTS" stands for [Long Term Support](https://en.wi
 
 So now we know how to create a server, log in with ssh and install the software we need to run Django.
 Next I will show you how to upload files to the server with scp.
-In addition, I'll show you how to run a quick and easy HTTP web server, which can be useful for debugging later.
+In addition, I'll show you how to run a quick and easy HTTP web server, which can be useful for debugging later. You will need [Python 3 installed](https://realpython.com/installing-python/#windows) on your desktop for this step.
 
 <div class="loom-embed"><iframe src="https://www.loom.com/embed/3925e8a8ef45406eb5d25b623d4d5834" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
@@ -153,6 +153,8 @@ If we use our web browser and visit our web server's IP address (64.225.23.131 i
 One way we can figure out what's going on is to log into the VM using ssh and make a HTTP GET request using curl. If the curl request works, then we know that the our HTTP server program is working and serving requests _inside_ the VM, and the problem is something between our computer and the VM. Once we've narrowed down the exact problem, then we can figure out how to fix it.
 
 ![troubleshooting http]({attach}troubleshoot-http.png)
+
+This style of troubleshooting will become useful when we start setting up our Django app on the server.
 
 ### Next steps
 

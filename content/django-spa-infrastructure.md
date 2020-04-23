@@ -27,7 +27,7 @@ You will need to use something like [django-webpack-loader](https://github.com/o
 
 The pros are:
 
-- **Simplest infrastructure.** Other than setting up django-webpack-loader and adding a Webpack build to the start of your deployment process, there's nothing else you need to do to your production infrustructure. Nothing extra to set up, pay for, configure, debug or tear your hair out over.
+- **Simplest infrastructure.** Other than setting up django-webpack-loader and adding a Webpack build to the start of your deployment process, there's nothing else you need to do to your production infrastructure. Nothing extra to set up, pay for, configure, debug or tear your hair out over.
 - **Cross-cutting changes.** If you need to make a change that affects both your frontend and backend, then you can do it all in one Git commit and get your changes into production using a single deployment.
 - **Tighter integration.** With this setup you can use Django's views to pass context data from the backend to the frontend via templates. In addition, you can do server side rendering (with additional messing around with NodeJS).
 
@@ -50,7 +50,7 @@ This is an approach that has become more popular over the last several years. In
 
 The frontend is deployed as a "static site" of just HTML CSS and JavaScript assets. It is hosted separately to Django, in an [AWS S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html), [Netlify](https://www.netlify.com/), or something similar. The frontend is built, tested and deployed independently of the backend. The frontend gets data from the backend soley through REST API calls.
 
-The backend is a Django REST API with no HTML views (other than the admin pages), and hosts no static content (other than what's needed for the admin). It is built, tested and deployed independently of the backend.
+The backend is a Django REST API with no HTML views (other than the admin pages), and hosts no static content (other than what's needed for the admin). It is built, tested and deployed independently of the frontend.
 
 Importantly, since the frontend and backend are on different servers, they will also have different domain names. The backend might live on something like api.myapp.com and the frontend on www.myapp.com.
 

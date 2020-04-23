@@ -82,3 +82,5 @@ supervisorctl
 ### Logging
 
 - we need logging or we're fucked
+
+### Security check?

@@ -66,6 +66,10 @@ supervisorctl start gunicorn
 
 # Discussion - what if this goes wrong?
 
+# Optional - Script the setup
+
+link to config management
+
 # Optional - idempotent scripting
 
 # Optional - back up database

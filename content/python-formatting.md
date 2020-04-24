@@ -1,4 +1,5 @@
 Title: Never think about Python formatting again
+Description: Why you should give the black auto formatter a try
 Slug: python-formatting-with-black
 Date: 2020-04-24 12:00
 Category: Programming

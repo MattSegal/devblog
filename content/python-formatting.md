@@ -56,7 +56,7 @@ Is there a way to avoid this mess? How can we get rid of all this incidental wor
 
 ### Give black a try
 
-[Black](https://github.com/psf/black/) is a tool that auto-formats your Python code. You jut run black over all your .py files and the correct formatting is applied for you. It's like [prettier](https://prettier.io/), but for Python instead of JavaScript.
+[Black](https://github.com/psf/black/) is a tool that auto-formats your Python code. You run black over all your .py files and the correct formatting is applied for you. It's like [prettier](https://prettier.io/), but for Python instead of JavaScript.
 
 Importantly, Black has minimal configuration. You basically only get to choose the maximum line length that you want, and everything else is decided by the formatter. It's the "uncompromising Python code formatter". This means you don't get to choose what formatting style you use, but it also means you don't need to decide either: once you've adopted Black, you _never need to think about Python formatting again_. No more config files, no more arguing with your coworkers. Spend your time on more valuable things, like what your code is doing.
 
@@ -64,13 +64,13 @@ Is it safe to just run your whole codebase through this tool? I think so. Black 
 
 Here's some of the other benefits of Black:
 
-- **Less work when coding**: all the time you spend manually formatting your code can now be spent writing more code, or thinking, or something.
+- **Less work when coding**: all the time you spend manually formatting your code can now be spent elsewhere.
 - **More productive pull requests**: the person reviewing your code can't [bikeshed](https://en.wiktionary.org/wiki/bikeshedding) your formatting, because it's out of your hands - instead they'll need to actually look at what your code is doing.
-- **Smaller diffs in source control**: there will be no formatting changes applied between commits, so the only changes left are meaningful ones. In addition, their formatting style is optimised around minimising diffs.
-- **Keep the linter off your back**: if you are also using a linter like flake8, then black will help you avoid basic [PEP 8](https://www.python.org/dev/peps/pep-0008/) errors.
-- **Auto format on save in your IDE**: This one is huuuuge. You can set up black to reformat your code _as you write it_. I've found this helps me write code much faster.
+- **Smaller diffs**: there will be no formatting changes in your diffs, so the only changes left are meaningful ones. In addition, the Black formatting style is optimised around minimising diffs.
+- **Keep the linter off your back**: if you are also using a linter like flake8, then Black will help you avoid basic [PEP 8](https://www.python.org/dev/peps/pep-0008/) errors.
+- **Auto format on save in your IDE**: This one is huuuuge. You can set up Black to reformat your code _as you write it_. I've found this helps me write code much faster.
 
-### Running black
+### Running Black
 
 You have to install it.
 

@@ -1,81 +1,145 @@
-Title: Simple Django Deployments part five: deployment automation
+Title: Simple django deployment part five: deployment automation
 Description: Script your Django deployment with bash
 Slug: simple-django-deployment-5
 Date: 2020-04-19 17:00
 Category: Django
 
-# Script the deployment
+Deploying our Django app involved a lot of different commands, right? It would suck to have to do all that over again, wouldn't it?
 
-That was, um, a lot, right? It would suck to have to do all that over again, wouldn't it?
+Having to manually type all those commands again would be tedious, slow and easy to screw up.
+Even worse, the harder it is to deploy, the less often you are going to do it.
+If you deployments are infrequent, then they'll contain more features in one big batch and they'll be risker, because there's more things that could go wrong, and it's harder to tell what caused any issues that crop up.
+Frequent, small deployments are key to pumping out lots of valuable code with lower risk.
+The [Phoenix Project](https://www.amazon.com.au/Phoenix-Project-DevOps-Helping-Business/dp/0988262592)
+is a great book that talks more about this idea (srsly give it a read).
 
-Goal is to run a single script and it all just happens.
+So, if we want to deploy fast and often, we're going to need to automate the process. Hell, even if we want to do this again in a week we need to automate the process, because we're definitely going to forget what-the-fuck we just did.
+No need to get fancy, we can do the whole thing with a bunch of bash scripts.
+You can get fancy later.
 
-./scripts/deploy.sh
-./scripts/upload-to-server.sh
-./scripts/congfigure-server.sh
+Our goal is that you can run a single bash script and your whole deployment happens.
 
-```bash
-SERVER=64.225.23.131
-set -e
-# Prepare deploy directory
-rm -rf deploy
-cp -r tute deploy
-cp requirements.txt deploy
-find deploy -name \*.pyc -delete
-find deploy -name **pycache** -delete
+We'll write these scripts in stages:
 
-# Copy files to server
-ssh root@$SERVER "rm -rf /root/deploy/"
-scp -r deploy root@$SERVER:/root/
+- Uploading new code to the server
+- Installing the new code
+- Single deploy script
+- Backing up the database
+- Automating the server setup
 
-ssh root@$SERVER
-# Then... on the server
-set -e
-supervisorctl stop gunicorn
-rm /app/requirements.txt
-rm -rf /app/tute/
-cp -r /root/deploy/tute /app/tute
-cp /root/deply/requirements.txt /app/requirements.txt
-cd /app/
-. env/bin/activate
-pip install -r requirements.txt
-cd tute
-./manage.py migrate
-./manage.py collectstatic
-supervisorctl start gunicorn
-```
+### Uploading new code to the server
 
-- automate the process with bash
+If you recall, we uploaded code to the server by creating a "deploy" directory locally,
+then uploading that directory to our server. After that we did some clean up work on that directory
+to deal with Python bytecode (pyc) files and Windows line endings.
 
-- note that this process has limitations (stopping gunicorn)
-- note that you could run tests and checks here
-- ssh into server, stop gunicorn
-- nuke old code (immutable)
-- copy code from local to server with scp
-- activate virtualenv
-- install new requirements
-- run migrations
-- collect static
-- chown again?
-- start gunicorn
-- now that this script is written, you can easily move it into a CI server
+Let's automate the upload first. The files that we need to copy over are:
 
-- show pushing code changes to prod
+- requirements.txt for our Python packages
+- tute for our Django code
+- scripts for our bash scripts
+- config for our Gunicorn and Supervisor config
 
-# Discussion - starting and stopping gunicorn
+UPLOADING CODE VIDEO
 
-# Discussion - what if this goes wrong?
+- emphasise that it's important to copy local code, not change code on the server
+- you want to make a promise to yourself, for your own sanity
+- how can you debug if the code is different
+- local code loses its meaning
+- create scripts/upload-code.sh
+- chmod +x ./scripts/\*.sh
+- note that script assumes you're in a particular dir
+- run repeatedly with each next step
+- run with changes to show that it works
 
-# Optional - Script the setup
+### Installing the new code
 
-link to config management
+Now we have automated the process of getting our code onto the server,
+let's script the bit where we install it in the project dir and run Gunicorn
 
-# Optional - idempotent scripting
+INSTALLING CODE VIDEO
 
-# Optional - back up database
+- create scripts/install-code.sh
+- chmod +x ./scripts/\*.sh
+- test our code by adding a new feature
 
-- stateful vs stateless
+So, you might have noticed that we stop Gunicorn at the start of the deployment and start it again it at the end. That means your site will be offline during the deployment and if something goes wrong, it'll stay down. You have to log in and manually fix the problem to get it running again.
+
+This is fine for personal projects and low traffic websites - nobody will notice. If you're running some important, high traffic website, then there are techniques to make sure that your website is always running - but we won't go into that here. We're keeping it simple for now.
+
+### Single deploy script
+
+Alright we're basically done with this section, now all we need to do is combine our two scripts into a master deploy script.
+
+SINGLE DEPLOY SCRIPT VIDEO
+
+- create scripts/deploy.sh
+- chmod +x ./scripts/\*.sh
+- remove server from other scripts
+- add bit to check that server is present
+- change a feature + deploy (change text)
+- note that database is separate
+
+That's it, now we can deploy our code over and over in seconds.
+
+### Backing up the database
+
+This section is optional, it's nice to have, but not a core part of the guide. Skip it if you like.
+Here I'll show you how to back up your database on the server.
+It's very, very simple to do with SQLite because the database is just a single file.
+
+- discuss need for backups
+- write script
+- add to start of deploy script
+- discuss potential hosting locations, or download onto laptop
+- too much file size?point out that many databases are small
+
+### Automating the server setup
+
+This section is also optional, it's nice to have, but not a core part of the guide. Skip it if you like.
+
+You will get to a point where you want to move you app to a new server,
+or maybe you've broken your server really badly, or maybe you want to set your server up again slightly differently.
+When that time comes, you will not remember how you set this one up: that's why we want to automate our server setup.
+
+Automating your server setup also allows you to do things that were inconceivable before:
+
+- run hundreds of servers that are all configured the same way
+- create a new server for every new deployment (allowing for "blue-green" deployments), allowing for zero downtime during deploys
+- create servers for testing that are identical to your "live" production server
+
+I talk more about this topic in my video on [configuration management](https://mattsegal.dev/intro-config-management.html).
+
+So, we want to be able to blow away our server and make a new one with minimal work required. The good news is we're already most of the way there. Our Django app in prod is defined by 3 things at the moment:
+
+- our code (we have our code already)
+- our database (we have automatic backups already)
+- the server (we know how to set it up, we just need to automate this)
+
+Our goal in this section is to run a single script on a new DigitalOcean droplet and it all just works. In addition, we want this script to be "idempotent" - this means we want to be able to run it many times on the same server and get (mostly) the same result.
+
+WRITING SCRIPT VIDEO
+
+- discuss how this can be a slow process because some steps take a long time
+- test each command on a new server one at a time
+- write script in linear fashion, explaining steps
+- write /etc/environment in non idempotent fashion first
+- test deploy to new server
+
+TESTING SCRIPT VIDEO
+
+- blow away server
+- run scripts on new server
+- run deploy on new server
+- blow away new sever.
+
+This script can get kind of long and hairy, especially as your deployments get more complicated.
+At some point, you're going to want to use something other than a bash script to automate this process.
+When you're ready, I recommend you take a look at [Ansible](https://github.com/ansible/ansible),
+which is a great tool for writing scripts to automatically setting up servers.
+[Packer](https://www.packer.io/) is also a good tool for using scripts like the one we just wrote to
+"bake" a single virtual machine image, which can then be used to instantly create multiple copies of the same virtual machine.
 
 ### Next steps
 
-[Set up your domain]({filename}/simple-django-deployment-6.md)
+There's one last thing to do before our website is _really_ deployed - [give our app a domain name]({filename}/simple-django-deployment-6.md).

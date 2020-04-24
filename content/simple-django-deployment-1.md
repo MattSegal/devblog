@@ -1,4 +1,4 @@
-Title: Simple Django Deployments part one: infrastructure
+Title: Simple django deployment part one: infrastructure
 Description: How to set up all the non-Django crap that you need to deploy
 Slug: simple-django-deployment-1
 Date: 2020-04-19 13:00
@@ -105,9 +105,9 @@ JlN82KNevAqrDabwYPZnkDrPMGpLQi1A1icUtiBXRRskeR6ULxOASVyAJ3N1WV8T
 
 You've probably heard the word "server" used to refer to a dozen different things, so let me be specific.
 Our server will be a Linux virtual machine (VM), which we are going to rent from DigitalOcean, a cloud hosting company.
-DigitalOcean will run our VM in one of their datacenters, which is a [big building](https://lh3.googleusercontent.com/7D8_SzSQQn-uDeKq4R7SSER5LO7fjsnkCLJ-uZG443cKHFS20nU-SyvlzXaGP97Fgt31MYJdgy94563uETi9jbosUMYQzO95-H0PRg=w2114-h1058-n) [full of computers](https://www.pon-cat.com/application/files/6215/3995/7501/Datacenter-Pon_Power.jpg). For our purposes, this VM is a stand-alone computer that is for our private usage, with a static IP address which we can use to find it online.
+DigitalOcean will run our VM in one of their datacenters, which is a [big building](https://lh3.googleusercontent.com/7D8_SzSQQn-uDeKq4R7SSER5LO7fjsnkCLJ-uZG443cKHFS20nU-SyvlzXaGP97Fgt31MYJdgy94563uETi9jbosUMYQzO95-H0PRg=w2114-h1058-n) that is [full of computers](https://www.pon-cat.com/application/files/6215/3995/7501/Datacenter-Pon_Power.jpg). For our purposes, this VM is a stand-alone computer that is for our private usage, with a static IP address which we can use to find it online.
 
-The first thing you need to do is create an account with [DigitalOcean](https://www.digitalocean.com/). The only reason I've chosen this company is because they have a nice web UI and I already use them. Other than that, there's no reason you couldn't also use Linode, AWS, Google Cloud or Azure to do the exact same thing. They all provide Linux web servers.
+The first thing you need to do is create an account with [DigitalOcean](https://www.digitalocean.com/). The only reason I've chosen this company is because they have a nice web user interface and I already use them. Other than that, there's no reason you couldn't also use Linode, AWS, Google Cloud or Azure to do the exact same thing. They all provide Linux web servers for rent.
 
 Once you've created your account, you can follow this video for the rest of the setup.
 I'm not sure exactly when they're going to ask you to put your credit card details it, but have a credit card ready.

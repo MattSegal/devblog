@@ -1,67 +1,115 @@
-Title: Simple Django Deployments part six: domain setup
+Title: Simple django deployment part six: domain setup
 Description: Setup your Django app's domain name
 Slug: simple-django-deployment-6
 Date: 2020-04-19 18:00
 Category: Django
 
+We're very nearly done deploying our Django app. There's just one more thing we should take care of.
+Having a raw IP as our website address is kind of yucky, isn't it?
+You're not going to ask your friend, boss, or mum to visit 23.231.147.88 to check out your cool new Django app.
+You want a domain name like mycoolwebsite.xyz! Let's finish up our deployment by setting up a domain for our web app.
+
 Here we will learn how to:
 
 - Buy a domain name
 - Set up a Cloudflare reverse-proxy
-- Add our domain name to Django prod settings
+- Adding our domain name to Django prod settings
 - Test our setup
 
-We'd usually do this early \$EXPLAIN_WHY
+A quick note before we start - usually you would do this at the start of the process, right after you create your server,
+because setting domain name records can take a long time. The reason we're doing it last in this guide is to make sure that you're confident that your app is working before we start fiddling with DNS. If you've never heard of DNS before, I did a short [blog post](https://mattsegal.dev/dns-for-noobs.html) that explains the basics.
 
 ### Buy a domain name
 
-- motivate why we want one
-- link to DNS guide
-- present interface with diagram
-- suggest search "site:reddit.com best domain seller"
-- suggest namecheap
+If you already own a domain name for your app your can skip this step.
+To get a domain name we need to give someone some money.
+We're going to go to [Namecheap](https://www.namecheap.com/) and buy a domain name. Why Namecheap?
+Domain name registrars exist to sell domains and occasionally fuck you over by raising prices and trying to sell you crap that you don't need. They're generally a pain, so I did a Google search for "site:reddit.com best domain seller", and the good people of Reddit seemed to hate Namecheap the least.
+
 - suggest .xyz for cheapskates
-- ???
-- take stock
+- buy a domain
 
 ### Set up Cloudflare
 
-- motivate why we need cloudflare
-- link to Cloudflare review
-- explain why you want to do DNS stuff early
+We're going to use Cloudflare to set up our DNS records. I've written elsewhere on [why I like Cloudflare](https://mattsegal.dev/cloudflare-review.html). TLDR it's pretty easy to use and provides some nice bonus features like caching your static files, SSL encryption and analytics.
+
+All requests to our domain (mycoolwebsite.xyz) are going to pass through Cloudflare's servers, which are running NGINX under the hood. This kind of set up is called a "[reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy)", because we have a "proxy" (Cloudflare), routing all incoming traffic to our server. This is in contrast to a "forward proxy", which deals will outbound traffic.
+
+VIDEO ONE
+
+- show cloudflare setup for mattsegal.dev (DNS, SSL, caching)
 - get droplet IP and put it into cloudflare
 - ensure caching, compression
 - set A record with proxing via Cloudflare (NGINX)
-- test A record with dig or DNS checker
-- take stock
+- don't type your domain name in yet
+- test A record with DNS checker
 - wait a while...
 
-### Testing our setup
+VIDEO TWO
 
-- run http.server on server
-- check locally
-- check the IP address
-- check the domain name
-- start Django
+- try dns checker for A records again
+- explain cache, show purge cache
+- try hit address - error? wtf? - let's look at this next
+
+Once we're done, our setup will look like this:
+
+- diagram of DNS and stuff
+
+There's one problem though - our Django server doesn't like its new domain name,
+so we need to update ALLOWED_HOSTS.
+
+### Adding our domain name to Django prod settings
+
+For security reason Django will only allow requests that are addressed to a host that is
+listed in the ALLOWED_HOSTS setting, so we need to add our domain name(s) to that list
+to get this to work.
+
+- try hit address - error? wtf? - let's look at this
+- look at gunicorn access logs
+- update ALLOWED_HOSTS locally
+- deploy
+- try again
+
+Ok, our domain is all set up and working!
 
 # Next steps
 
-- Add logging
-- add error reporitng
-- start using git for deployments
-- Try out Celery or Django-Q for offline tasks
-- Try using Postgres
-- Try out using NGINX
-- Try put your gunicorn server / Django app inside of Docker with Docker Swarm
-- Try out media hosting in S3
-- Try out ???
-- Automate deployment with GitHub actions
-- Add automated unit tests
-- fail2ban
-- set up a firewall
-- database backups
+Alright! We're done! Congratulations, you've deployed a Django app. Just as a quick recap, you've learned how to:
 
-[xxxx]({filename}/file-logging-django.md)
-[xxxx]({filename}/intro-config-management.md)
-[xxxx]({filename}/simple-offline-tasks-django-q.md)
-[xxxx]({filename}/sentry-for-django-error-monitoring.md)
+- Use ssh, scp and create SSH keys
+- Create a cloud virtual machine
+- Set up your cloud VM
+- Configure your Django project for deployment
+- Deploy your Django project to the server
+- Run your web app using Gunicorn and Supervisor
+- Set up server logging
+- Automate the deployment, server setup and database backups
+- Set up your web app's domain name plus SSL and caching using Cloudflare
+
+Now I encourage you to take the things you've learned and write your own Django app and try deploying that.
+It will probably break at some point, it always does, but I hope you're able to use the skills that you've
+picked up in this guide to debug the problem and fix it.
+
+You've got the basics down, but there is a lot of stuff you can learn about deploying Django and web apps in general.
+Some things you might want to look into at some point:
+
+- [Setting up Django logging in production](https://mattsegal.dev/file-logging-django.html)
+- [Adding error monitoring](https://mattsegal.dev/sentry-for-django-error-monitoring.html)
+- [Adding offline tasks](https://mattsegal.dev/offline-tasks.html)
+- [Adding offline scheduled tasks](https://mattsegal.dev/simple-scheduled-tasks.html)
+- Start using Git for deployments
+- Try using Fabric for deployment scripting
+- Implement "continuous delivery" using GitHub actions
+- Try using PostgreSQL instead of SQLite
+- Try using NGINX instead of (or in addition to) Cloudflare
+- Try put your gunicorn server / Django app inside of Docker with Docker Swarm
+- Try out media hosting in AWS S3
+- Add automated unit tests to your deployment pipeline
+- Secure your server fail2ban and a firewall
+- Improve your server setup automation with Ansible
+- Try a different cloud hosting provider, like AWS or Google Cloud
+
+There's an endless list of stuff you can learn, and there's no need to do it all right now,
+but it's there if you're interested.
+
+If you have any feedback on this guide, or questions about the steps, you can email me at mattdsegal@gmail.com.

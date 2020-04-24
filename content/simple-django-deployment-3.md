@@ -1,10 +1,8 @@
-Title: Simple Django Deployments part three: deploy code
+Title: Simple django deployment part three: deploy code
 Description: How to get your Django code running on the server
 Slug: simple-django-deployment-3
 Date: 2020-04-19 15:00
 Category: Django
-
-# Deploy Django to server
 
 We've got our server set up, and our Django code is ready.
 Now we can actually deploy Django to our server.
@@ -18,14 +16,14 @@ In this section we'll cover:
 
 ### Windows line endings
 
-A quick aside before we start deploying: Windows line endings. The curse of every Django developer running Windows.
+A quick aside before we start deploying: Windows line endings. These are the curse of every Django developer running Windows.
 This is one of those technical details that you never want to know about, but they'll bite you in the ass if you ignore them.
 
 The TLDR is that in Linux and MacOS, lines end with the "\n" character.
 On Windows lines end with "\r\n", because fuck-you-that's-why.
 The problem is that your Windows Python files will fail on Linux because they have the wrong line endings.
 
-There are several ways to fix this, including writing our own custom bash or Python scripts, but for simplicity we'll just use an off-the-shelf tool called [dos2unix](https://linux.die.net/man/1/dos2unix), which I'll show you later.
+There are several ways to fix this, including writing our own custom bash or Python scripts to convert these line endings, but for simplicity we'll just use an off-the-shelf tool called [dos2unix](https://linux.die.net/man/1/dos2unix), which I'll show you later.
 
 You can help avoid this problem in VSCode by selecting the "LF" option for the "End of Line Sequence" setting, which is visible in the toolbar on the bottom right hand corner of your screen.
 
@@ -35,14 +33,18 @@ Let's upload our code to the server and set up our app so we can run it. There a
 
 When we upload our code, we're going to put it in the root user's home directory - /root/. It'll look like this:
 
-```text
+````text
 /root
 └── deploy                  All uploaded code
     ├── requirements.txt    Python requirements
     └── tute                Django project code
-```
+        ├── tute            Django app code
+        ├── counter         Django app code
+        ├── staticfiles     Collected static files
+        └── manage.py       Django management script
 
-Then we'll be creating a directory called /app/ and setting up our project like this:
+Then we'll be creating a directory called /app/, which will be the final resting place of our code,
+ and we will set up our project like this:
 
 ```text
 /app
@@ -54,7 +56,7 @@ Then we'll be creating a directory called /app/ and setting up our project like 
     ├── counter             Django app code
     ├── staticfiles         Collected static files
     └── manage.py           Django management script
-```
+````
 
 A key idea is that every time we re-deploy our code in the future, we want to delete and re-create the folder /app/tute,
 but we want to keep the database (db.sqlite3), or else we lose all our production data.

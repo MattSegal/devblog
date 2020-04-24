@@ -1,4 +1,4 @@
-Title: Simple Django deployments: a guide
+Title: Simple django deployment: a guide
 Description: How to deploy Django in many small steps
 Slug: simple-django-deployment
 Date: 2020-04-19 12:00
@@ -16,7 +16,7 @@ with
 
 > Why do I have to say Wingardium Levios*aaa* not Leviosa*rrr* to get my spell to work?
 
-It's not your fault. These guides throw a lot of unfamilliar tools and concepts at you without taking the time to teach you about them. The DigitalOcean guide above smacks you with:
+It's not your fault. These kinds of guide throw a lot of unfamilliar tools and concepts at you without taking the time to teach you about them. The DigitalOcean guide above smacks you with:
 
 - apt package manager
 - PostgreSQL installation
@@ -36,7 +36,7 @@ It also requires that you know:
 - How to set DNS records
 - How to get your Django code onto the server
 
-Some of these tools and skills are necessary, some of them are not. If you don't follow their instructions perfectly then you can get stuck and have no idea how to get unstuck. Then you get frustrated, discouraged and embarrassed. It's pretty common for new developers to struggle for days, even weeks to get their first web app deployed.
+Some of these tools and skills are necessary, some of them are not. If you don't follow their instructions perfectly then you can get stuck and have no idea how to get unstuck. Then you get frustrated, discouraged and embarrassed that you suck so much at deployment. It's pretty common for new developers to struggle for days, even weeks to get their first web app deployed.
 
 Hitting a wall when trying to deploy your Django app isn't inevitable. I used to work as a ski instructor (software pays better) and I was taught a saying:
 
@@ -60,7 +60,7 @@ Here are the new technologies that I propose we learn to use:
 - Whitenoise Python library to serve static files
 - Cloudflare SaaS tool for DNS, static file caching, SSL
 
-Here are some things we will not be using:
+That's still a lot of tools, despite trying to keep it small an simple. Here are some things we will not be using:
 
 - PostgreSQL database
 - NGINX reverse proxy

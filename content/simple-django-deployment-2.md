@@ -1,10 +1,8 @@
-Title: Simple Django Deployments part two: local setup
+Title: Simple django deployment part two: local setup
 Description: How to make sure Django is working before you deploy it
 Slug: simple-django-deployment-2
 Date: 2020-04-19 14:00
 Category: Django
-
-# Prepare and test Django locally
 
 We've got our server set up and ready to host our Django app, now let's focus on preparing our app for deployment.
 The goal of this section is to set up and test as much of the stuff that we'll be using in production.
@@ -188,6 +186,8 @@ SETTING UP SETTINGS VIDEO:
   - ALLOWED_HOSTS = ['localhost', '64.225.23.131']
   - SECRET_KEY = os.environ['SECRET_KEY']
 
+  - note that DJANGO_SECRET_KEY is a SECRET
+
 - we need to tell Django to use our new prod settings
 - export DJANGO_SECRET_KEY="dqwdqwd22089ru230r0932ir0923iksd239f0u8fj2wq"
 - try ./manage.py check --deploy AGAIN (some issues gone, some remain)
@@ -294,9 +294,9 @@ There's some trouble with running runserver in production though -the Django doc
 
 > DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through security audits or performance tests. (And that’s how it’s gonna stay. We’re in the business of making Web frameworks, not Web servers, so improving this server to be able to handle a production environment is outside the scope of Django.)
 
-Why _exactly_ is using runserver in prod a bad idea? Honestly I don't know, I've never tried. _Something something security + performance something something_. When the people writing the software tell you not to use it production, it's best to just listen to them, unless you're confident you understand the risks.
+Why _exactly_ is using runserver in prod a bad idea? Honestly I don't know, I've never tried. Something about security and performance... here's the thing: when the people writing the software tell you not to use it production (in all caps no less), it's best to just listen to them, unless you're confident that you understand the risks and benefits.
 
-So... what do we use to run our Django app instead? We're going to use [Gunicorn](https://gunicorn.org/), basically because it's popular and I'm familliar with it and it seems OK. Another popular contender is [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/).
+So... what do we use to run our Django app instead? We're going to use [Gunicorn](https://gunicorn.org/), basically because it's a popular WSGI server and I'm familliar with it and it seems OK. Another widely used contender is [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/).
 
 You might be wondering what "[WSGI](https://wsgi.readthedocs.io/en/latest/what.html)" ("Web Server Gateway Interface") means. WSGI is a type of "interface". I think it's much easier to explain with examples than get too theoretical.
 

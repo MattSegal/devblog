@@ -1,4 +1,4 @@
-Title: Simple django deployment part one: infrastructure
+Title: Simple Django deployment part one: infrastructure
 Description: How to set up all the non-Django crap that you need to deploy
 Slug: simple-django-deployment-1
 Date: 2020-04-26 13:00

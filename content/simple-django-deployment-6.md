@@ -1,4 +1,4 @@
-Title: Simple django deployment part six: domain setup
+Title: Simple Django deployment part six: domain setup
 Description: Setup your Django app's domain name
 Slug: simple-django-deployment-6
 Date: 2020-04-26 18:00

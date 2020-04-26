@@ -1,4 +1,4 @@
-Title: Simple django deployment part three: deploy code
+Title: Simple Django deployment part three: deploy code
 Description: How to get your Django code running on the server
 Slug: simple-django-deployment-3
 Date: 2020-04-26 15:00

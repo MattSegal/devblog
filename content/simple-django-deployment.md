@@ -1,4 +1,4 @@
-Title: Simple django deployment: a guide
+Title: Simple Django deployment: a guide
 Description: How to deploy Django in many small steps
 Slug: simple-django-deployment
 Date: 2020-04-26 12:00

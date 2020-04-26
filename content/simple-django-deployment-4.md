@@ -1,4 +1,4 @@
-Title: Simple django deployment part four: run a service
+Title: Simple Django deployment part four: run a service
 Description: How to get gunicorn to run in the background
 Slug: simple-django-deployment-4
 Date: 2020-04-26 16:00

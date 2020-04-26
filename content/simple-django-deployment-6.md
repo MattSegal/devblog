@@ -34,7 +34,7 @@ We're going to use Cloudflare to set up our DNS records. I've written elsewhere 
 
 All requests to our domain (mycoolwebsite.xyz) are going to pass through Cloudflare's servers, which are running NGINX under the hood. This kind of set up is called a "[reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy)", because we have a "proxy" (Cloudflare), routing all incoming traffic to our server. This is in contrast to a "forward proxy", which deals will outbound traffic.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/02e9681148af40afaa16647922954eb9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/c4d7ae886c8944299ac19a7fd286ee96" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ... 30 minutes later ...
 

@@ -8,7 +8,7 @@ You're learning web development with Django. You've followed the [official intro
 
 ### Stuck, frustrated, confused, embarrassed
 
-You've probably tried [tutorials like this](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04) which give you a bunch of steps to follow, commands to type, files to configure. This is how I learned to deploy Django: with online tutorials and a lot of Googling. When you follow these guides, you have no fucking idea what you're actually doing. Why do you use that tool? Why do you type that command? You may as well be [learning magic at Hogwarts](https://youtu.be/nAQBzjE-kvI?t=33). You could easily swap:
+You've probably tried [tutorials like this](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04) which give you a bunch of steps to follow, commands to type, files to configure. This is how I learned to deploy Python web apps: with online tutorials and a lot of Googling. When you follow these guides, you have no fucking idea what you're actually doing. Why do you use that tool? Why do you type that command? You may as well be [learning magic at Hogwarts](https://youtu.be/nAQBzjE-kvI?t=33). You could easily swap:
 
 > What is apt? Why am I using it to install postgresql-contrib and libpq-dev?
 

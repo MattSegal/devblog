@@ -1,7 +1,7 @@
 Title: Simple django deployment part four: run a service
 Description: How to get gunicorn to run in the background
 Slug: simple-django-deployment-4
-Date: 2020-04-19 16:00
+Date: 2020-04-26 16:00
 Category: Django
 
 So we've got a problem. Our Django app only runs when we're logged into the server via SSH and running Gunicorn.
@@ -66,91 +66,9 @@ It's coming to be a lot of stuff isn't it? When I said this would be a "simple" 
 
 Let's get started by setting up Supervisor to run our Django app using Gunicorn. Unfortunately we can't test this new setup completely on our Windows machine, so we're going to have to upload our files to the server to try this out.
 
-SUPERVISOR VIDEO
+You can find the scripts and config referenced in the video [here](https://github.com/MattSegal/django-deploy).
 
-- note that all changes should happen locally first
-- minimise changes on the server - reproducability, avoid pain (foreshadow automation)
-- add supervisor to requirements.txt
-- create config folder
-- add supervisord.conf
-- note that I figured this out from the docs and looking up examples online
-
-```
-[program:gunicorn]
-command=./scripts/run-gunicorn.sh
-directory=/app/
-autostart=true
-autorestart=true
-user=root
-```
-
-- write the run-gunicorn script - we want something that we can test locally
-- go over hasbang
-- go over set -e
-- go over chmod +x (like .exe)
-
-```
-#!/bin/bash
-set -e
-. env/bin/activate
-cd tute
-gunicorn tute.wsgi:application
-```
-
-- test the gunicorn script locally
-  export DJANGO_SETTINGS_MODULE="tute.settings.prod"
-  export DJANGO_SECRET_KEY="dqwdqwd22089ru230r0932ir0923iksd239f0u8fj2wq"
-  ./scripts/run-gunicorn.sh
-
-- upload changes to server
-- rm -rf deploy
-- mkdir deploy
-- cp requirements.txt deploy
-- cp -r config deploy
-- cp -r scripts deploy
-- export SERVER=64.225.23.131
-- ssh root@\$SERVER "rm -rf /root/deploy"
-- scp -r deploy root@\$SERVER:/root/
-- ssh root@\$SERVER
-- ls deploy
-- cd deploy
-- might need to dos2unix a this point?
-
-- copy files to our project dir
-- cp requirements.txt /app/
-- cp -r config /app/
-- cp -r scripts /app/
-- ls /app/
-- tree /app/
-
-- let's test our gunicorn script
-- ./scripts/run-gunicorn.sh
-- test IP address
-- stop
-
-- . env/bin/activate
-- don't install individual things, install everything
-- pip install -r requirements.txt
-- pip show supervisord
-- supervisord -c ./config/supervisord.conf
-
-- ps aux
-- ps aux | grep supervisord
-- cat supervisord.log
-
-- supervisorctl status all
-- supervisorctl status gunicorn
-
-- test IP address
-- supervisorctl stop gunicorn
-- supervisorctl status all
-- test IP address
-- supervisorctl start gunicorn
-- supervisorctl status all
-- test IP address
-
-- lets log out of our server and see if it still works
-- still works!
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/93c51bf33ff7432d91ebcf73ccc7d92b" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ### Adding Gunicorn config
 
@@ -168,10 +86,9 @@ But this will become unweildy when we configure more and more settings. It's kin
 
 ```python
 # gunicorn.conf.py
-import multiprocessing
 
 bind = "0.0.0.0:80"
-workers = multiprocessing.cpu_count() * 2 + 1
+workers = 3
 # Add more config here
 ```
 
@@ -183,23 +100,7 @@ gunicorn tute.wsgi:application -c config/gunicorn.conf.py
 
 Let's set up our Gunicorn config.
 
-GUNICORN CONFIG VIDEO:
-
-- add gunicorn config
-- update ./run-gunicorn.sh locally
-- test locally
-- copy config script to server
-- copy run script to server
-- copy config script to project dir
-- copy run script to project dir
-- status supervisorctl
-- check num gunicorn processes running with ps auxww
-- test IP address
-- stop supervisorctl
-- check num gunicorn processes running with ps auxww
-- start supervisorctl
-- check num gunicorn processes running with ps auxww
-- test IP address
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/3180065fee824c62af692298c6e3270a" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 Now that our Gunicorn config has been created, we can set up logging.
 
@@ -225,39 +126,7 @@ When we're done, our logs on the server will look like this:
     └── gunicorn.app.log    Gunicorn application logs
 ```
 
-LOGGING SETUP VIDEO
-
-- set supervisord.conf logging
-- setting up supervisord logging is pretty simple
-- I looked at supervisord documentation and found this
-- logfile=/app/logs/supervisord.log
-
-- set gunicorn logging
-- looked at gunicorn settings
-- accesslog = "/app/logs/gunicorn.access.log"
-- we're going to shove everything else into the errorlog stream
-- errorlog = "/app/logs/gunicorn.app.log"
-- this is what Python logging framework loglevel we need
-- loglevel = "info"
-- we want to shove Django output into the error stream
-- capture_output = True
-
-- we can't test supervisord locally but we can test gunicorn
-- mkdir -p /app/logs/
-- ./scripts/run-gunicorn.sh
-- make a localhost:8000 request
-- look at /app/logs/
-
-- delete old deploy dir
-- copy config files to deploy dir
-- delete /app/config
-- copy files to /app/config
-- create /app/logs/
-- supervisorctl reread
-- check for new log file
-- delete old log file
-- supervisor restart gunicorn
-- check for new log files
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/68de78cb9c294177b77605240fed3258" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 Ok we've got logging all set up, looking good! Later on, you might want to also add [error monitoring](https://mattsegal.dev/sentry-for-django-error-monitoring.html) to your app, which alerts you when errors happen.
 

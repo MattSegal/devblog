@@ -1,7 +1,7 @@
 Title: Simple django deployment part two: local setup
 Description: How to make sure Django is working before you deploy it
 Slug: simple-django-deployment-2
-Date: 2020-04-19 14:00
+Date: 2020-04-26 14:00
 Category: Django
 
 We've got our server set up and ready to host our Django app, now let's focus on preparing our app for deployment.
@@ -37,44 +37,7 @@ In general it's good practice to always use a virtualenv, for these reasons:
 
 Here's how to start our project with a virtualenv.
 
-VIRTUALENV VIDEO:
-
-- create project in ~/code/django-deploy
-- pip freeze to show Python packages
-- pip3 install virtualenv
-- which virtualenv
-- which pip3 / python3
-- virtualenv --python python3 env
-- ls env
-- ls env/bin
-- ./env/bin/python -V
-- cat ./env/bin/activate
-- . env/bin/activate
-- note (env)
-- which pip3 / python3
-- which pip / python
-- deactivate
-- which pip3 / python3
-- pip freeze
-- . env/bin/activate
-- pip freeze
-- powershell side show
-- get-command pip3
-- get-command python3
-- create virtualenv (using python3)
-- show how to activate virtualenv in powershell
-- get-command python3
-- get-command pip3
-- make sure virtualenv is active
-- which pip
-- create requirements.txt with django
-- pip install -r requirements.txt
-- pip show django
-- pip freeze
-- we can use freeze
-- discuss pros / cons of django==3.0 vs just django
-- check that it works with django-admin
-- which django-admin
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/5f825c2235634ca6a733d7237894db16" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ### Creating a basic Django app
 
@@ -84,47 +47,14 @@ In addition some of my code (ie. the views) is going to be a little half-assed, 
 
 I've put the [reference code for this guide onto GitHub](https://github.com/MattSegal/django-deploy), which you might want to look at while you're following along.
 
-DJANGO APP VIDEO
+This video will show you how we're going to set up our Django project, and importantly, it will show you how to implement the key features that we want to test later, namely:
 
-- create a Django app locally - link to github
-- activate virtualenv in git bash
-- start a project
-- django-admin startproject tute
-- look at created assets
-- delete asgi
-- cd tute
-- ./manage.py migrate
-- change settings DATABASES NAME to parent dir
-- PARENT_DIR = os.path.dirname(BASE_DIR)
-- delete database
-- ./manage.py migrate
-- check database outside of Django app
-- run migrations
-- view database that's been added (SQLite) (tool optional)
-- open in SQLite viewer
-- get it working with runserver - view default page
-- create superuser, login to admin
-- go into tute
-- ./manage.py startapp counter
-- look at created assets
-- add view returning HttpResponse ''
-- add to root urls
-- test
-- add HTML to counter/templates/counter/index.html
-- add render + context
-- test
-- add styles.css to counter/static/counter/styles.css
-- test
-- add Counter model
-- add app to INSTALLED APPS as 'counter.apps.CounterConfig'
-- create migrations, show migrations
-- run migrations - view changes to SQLite database
-- visit count page
-- view SQLite database
-- add model to admin, view admin
-- try django shell ./manage.py shell
-- from counter.models import Counter
-- Counter.objects.all()
+- A view which interacts with a database model
+- Some static files (eg. CSS, JS)
+- Our database setup
+- The admin panel
+
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/cea3b1cd605f457480ef52b8e40342cb" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 Now we've created our app and it's working locally. The next step is to get it ready for production. Here's a diagram of how we've been running our app and serving requests so far.
 
@@ -163,57 +93,7 @@ We need to make some changes to our Django settings to prepare our project for p
 - **SECRET_KEY**: needs to be set to something that's actually secret: you can't put it on GitHub
 - **ALLOWED_HOSTS**: needs to be set to a whitelist of the IP addresses / domain names that your app can use, to prevent cross site request forgery attacks... or something like that
 
-SETTING UP SETTINGS VIDEO:
-
-- add prod-specific settings file
-- add settings folder
-- move settings.py to settings/base.py
-- add an extra layer of dirname BASE_DIR
-- add dev.py (import \* from base)
-- add **init**.py
-- import \* from dev to **init**
-- set DEBUG = TRUE and secret key in dev (remove from base)
-
-- https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-- try ./manage.py check --deploy
-
-  - some issues with secret key, allowed hosts, debug
-  - other ones ??? not so sure
-
-- add prod.py (import \* from base)
-
-  - DEBUG = False
-  - ALLOWED_HOSTS = ['localhost', '64.225.23.131']
-  - SECRET_KEY = os.environ['SECRET_KEY']
-
-  - note that DJANGO_SECRET_KEY is a SECRET
-
-- we need to tell Django to use our new prod settings
-- export DJANGO_SECRET_KEY="dqwdqwd22089ru230r0932ir0923iksd239f0u8fj2wq"
-- try ./manage.py check --deploy AGAIN (some issues gone, some remain)
-
-TRY DEV SETTINGS
-
-- export DJANGO_SETTINGS_MODULE="tute.settings.dev"
-- runserver (note "using settings dev")
-- try 127.0.0.1:8000
-- try localhost:8000
-- show soft reload with runserver logs (click or f5)
-- explain 200 status vs 404 status (favicon.ico)
-- show hard reload (ctrl or shift click, ctrl or shift f5)
-
-TRY PROD settings
-
-- export DJANGO_SETTINGS_MODULE="tute.settings.prod"
-- runserver FAIIIIIL
-- export DJANGO_SECRET_KEY="dqwdqwd22089ru230r0932ir0923iksd239f0u8fj2wq"
-- runserver (note "using settings prod")
-- try 127.0.0.1:8000 -> FAIL 400 bad request (not in allowed hosts)
-
-- add to allowed hosts and try again
-- try localhost:8000
-- where did my CSS go? --> we'll cover this later
-- when DEBUG=False we need a new way to serve static files (CSS, JS, logos)
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/c43375d70f584c92bc1b3f82f40d6941" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 Our server seems to be _mostly_ working with our new production settings...
 other than our static files mysteriously breaking. Let's fix that next.
@@ -262,29 +142,7 @@ We also have to set STATIC_ROOT in our Django settings. STATIC_ROOT is a folder 
 
 Alright, let's set up Whitenoise and solve our static files problem.
 
-- follow guide to setup whitenoise
-- add whitenoise to requirements.txt
-- pip install -r requirements.txt
-- add middleware
-- explain middleware
-- we'll be using a CDN later (so we don't need compression)
-- use whitenoise.runserver_nostatic in installed apps
-- test static files again with prod
-- export DJANGO_SETTINGS_MODULE="tute.settings.dev"
-- run runserver
-- hard refreesh
-- export DJANGO_SETTINGS_MODULE="tute.settings.prod"
-- run runserver
-- should fail
-- why fail?
-- set static root
-- STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-- run collectstatic
-- inspect file
-- ls staticfiles
-- ls staticfiles/counter
-- explain why staticfiles - unified interface?
-- check
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/44c9b27f5b554244ac346f0cb1611df6" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ### Preparing our WSGI server
 
@@ -296,9 +154,9 @@ There's some trouble with running runserver in production though -the Django doc
 
 Why _exactly_ is using runserver in prod a bad idea? Honestly I don't know, I've never tried. Something about security and performance... here's the thing: when the people writing the software tell you not to use it production (in all caps no less), it's best to just listen to them, unless you're confident that you understand the risks and benefits.
 
-So... what do we use to run our Django app instead? We're going to use [Gunicorn](https://gunicorn.org/), basically because it's a popular WSGI server and I'm familliar with it and it seems OK. Another widely used contender is [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/).
+So... what do we use to run our Django app instead? We're going to use [Gunicorn](https://gunicorn.org/), basically because it's a popular WSGI server and I'm familliar with it and it seems OK. Another widely used contender is [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/). I've seen [Waitress](http://docs.pylonsproject.org/projects/waitress/en/stable/) recommended for running on Windows, but I've never tried it myself.
 
-You might be wondering what "[WSGI](https://wsgi.readthedocs.io/en/latest/what.html)" ("Web Server Gateway Interface") means. WSGI is a type of "interface". I think it's much easier to explain with examples than get too theoretical.
+You might be wondering what "[WSGI](https://wsgi.readthedocs.io/en/latest/what.html)" ("Web Server Gateway Interface") means. WSGI is a type of "interface". I think it's much easier to explain with examples than to get too theoretical.
 
 Here are some WSGI compatible web frameworks:
 
@@ -326,34 +184,13 @@ This is a good thing because it means that if you are using a particular web fra
 
 With that out of the way, let's get stuck into using Gunicorn instead of runserver to run our Django app.
 
-VIDEO
-
-- look at wsgi file, discuss purpose
-- install gunicorn
-- add gunicorn to requirements.txt
-- pip install -r requirements.txt
-- which gunicorn
-- gunicorn --help
-- ensure we have our envars set
-  export DJANGO_SECRET_KEY="dqwdqwd22089ru230r0932ir0923iksd239f0u8fj2wq"
-  export DJANGO_SETTINGS_MODULE="tute.settings.prod"
-- we need to run gunicorn and show it our wsgi file, since that's the entrypoint
-- gunicorn tute.wsgi:application from inside tute
-- it's running on port 8000 - works!
-- refresh static assets, check logs
-- localhost:80 no works
-- check help again
-- gunicorn --bind 0.0.0.0:3000 tute.wsgi:application
-- localhost:8000
-- localhost:3000
-- getting port 80 to work is too much of a pain on Windows
-- we have tested our prod settings with runserver
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/e3d387c9fc02445abe4ff6de715e8aae" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 So before we were doing this:
 
 ![runserver http]({attach}runserver-http.png)
 
-Now we're doing this:
+Now we're doing this (hypothetically if Gunicorn actually worked on Windows):
 
 ![gunicorn http]({attach}gunicorn-http.png)
 

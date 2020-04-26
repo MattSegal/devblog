@@ -1,7 +1,7 @@
 Title: Simple django deployment part six: domain setup
 Description: Setup your Django app's domain name
 Slug: simple-django-deployment-6
-Date: 2020-04-19 18:00
+Date: 2020-04-26 18:00
 Category: Django
 
 We're very nearly done deploying our Django app. There's just one more thing we should take care of.
@@ -26,8 +26,7 @@ To get a domain name we need to give someone some money.
 We're going to go to [Namecheap](https://www.namecheap.com/) and buy a domain name. Why Namecheap?
 Domain name registrars exist to sell domains and occasionally fuck you over by raising prices and trying to sell you crap that you don't need. They're generally a pain, so I did a Google search for "site:reddit.com best domain seller", and the good people of Reddit seemed to hate Namecheap the least.
 
-- suggest .xyz for cheapskates
-- buy a domain
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/ac966d91b0c543cebf076dc0bd6f53cb" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ### Set up Cloudflare
 
@@ -35,44 +34,13 @@ We're going to use Cloudflare to set up our DNS records. I've written elsewhere 
 
 All requests to our domain (mycoolwebsite.xyz) are going to pass through Cloudflare's servers, which are running NGINX under the hood. This kind of set up is called a "[reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy)", because we have a "proxy" (Cloudflare), routing all incoming traffic to our server. This is in contrast to a "forward proxy", which deals will outbound traffic.
 
-VIDEO ONE
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/02e9681148af40afaa16647922954eb9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
-- show cloudflare setup for mattsegal.dev (DNS, SSL, caching)
-- get droplet IP and put it into cloudflare
-- ensure caching, compression
-- set A record with proxing via Cloudflare (NGINX)
-- don't type your domain name in yet
-- test A record with DNS checker
-- wait a while...
+... 30 minutes later ...
 
-VIDEO TWO
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/c19353063130409799a53a008fb1efee" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
-- try dns checker for A records again
-- explain cache, show purge cache
-- try hit address - error? wtf? - let's look at this next
-
-Once we're done, our setup will look like this:
-
-- diagram of DNS and stuff
-
-There's one problem though - our Django server doesn't like its new domain name,
-so we need to update ALLOWED_HOSTS.
-
-### Adding our domain name to Django prod settings
-
-For security reason Django will only allow requests that are addressed to a host that is
-listed in the ALLOWED_HOSTS setting, so we need to add our domain name(s) to that list
-to get this to work.
-
-- try hit address - error? wtf? - let's look at this
-- look at gunicorn access logs
-- update ALLOWED_HOSTS locally
-- deploy
-- try again
-
-Ok, our domain is all set up and working!
-
-# Next steps
+### Next steps
 
 Alright! We're done! Congratulations, you've deployed a Django app. Just as a quick recap, you've learned how to:
 

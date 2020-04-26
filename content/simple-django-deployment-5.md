@@ -1,7 +1,7 @@
 Title: Simple django deployment part five: deployment automation
 Description: Script your Django deployment with bash
 Slug: simple-django-deployment-5
-Date: 2020-04-19 17:00
+Date: 2020-04-26 17:00
 Category: Django
 
 Deploying our Django app involved a lot of different commands, right? It would suck to have to do all that over again, wouldn't it?
@@ -40,28 +40,14 @@ Let's automate the upload first. The files that we need to copy over are:
 - scripts for our bash scripts
 - config for our Gunicorn and Supervisor config
 
-UPLOADING CODE VIDEO
-
-- emphasise that it's important to copy local code, not change code on the server
-- you want to make a promise to yourself, for your own sanity
-- how can you debug if the code is different
-- local code loses its meaning
-- create scripts/upload-code.sh
-- chmod +x ./scripts/\*.sh
-- note that script assumes you're in a particular dir
-- run repeatedly with each next step
-- run with changes to show that it works
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/aaa3e2038ada46e98705d223a82fa371" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ### Installing the new code
 
 Now we have automated the process of getting our code onto the server,
 let's script the bit where we install it in the project dir and run Gunicorn
 
-INSTALLING CODE VIDEO
-
-- create scripts/install-code.sh
-- chmod +x ./scripts/\*.sh
-- test our code by adding a new feature
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/3fb4a3e1cdd54fa19ac72478904cc49d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 So, you might have noticed that we stop Gunicorn at the start of the deployment and start it again it at the end. That means your site will be offline during the deployment and if something goes wrong, it'll stay down. You have to log in and manually fix the problem to get it running again.
 
@@ -71,14 +57,7 @@ This is fine for personal projects and low traffic websites - nobody will notice
 
 Alright we're basically done with this section, now all we need to do is combine our two scripts into a master deploy script.
 
-SINGLE DEPLOY SCRIPT VIDEO
-
-- create scripts/deploy.sh
-- chmod +x ./scripts/\*.sh
-- remove server from other scripts
-- add bit to check that server is present
-- change a feature + deploy (change text)
-- note that database is separate
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/c4a94c5a12a14084b6298d53a0cde9be" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 That's it, now we can deploy our code over and over in seconds.
 
@@ -88,11 +67,7 @@ This section is optional, it's nice to have, but not a core part of the guide. S
 Here I'll show you how to back up your database on the server.
 It's very, very simple to do with SQLite because the database is just a single file.
 
-- discuss need for backups
-- write script
-- add to start of deploy script
-- discuss potential hosting locations, or download onto laptop
-- too much file size?point out that many databases are small
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/a6f0a047674e46929a35cbdf27b6165e" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ### Automating the server setup
 
@@ -118,20 +93,7 @@ So, we want to be able to blow away our server and make a new one with minimal w
 
 Our goal in this section is to run a single script on a new DigitalOcean droplet and it all just works. In addition, we want this script to be "idempotent" - this means we want to be able to run it many times on the same server and get (mostly) the same result.
 
-WRITING SCRIPT VIDEO
-
-- discuss how this can be a slow process because some steps take a long time
-- test each command on a new server one at a time
-- write script in linear fashion, explaining steps
-- write /etc/environment in non idempotent fashion first
-- test deploy to new server
-
-TESTING SCRIPT VIDEO
-
-- blow away server
-- run scripts on new server
-- run deploy on new server
-- blow away new sever.
+<div class="loom-embed"><iframe src="https://www.loom.com/embed/75a0e1b6e68e4feb957dffa3534122a5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 This script can get kind of long and hairy, especially as your deployments get more complicated.
 At some point, you're going to want to use something other than a bash script to automate this process.

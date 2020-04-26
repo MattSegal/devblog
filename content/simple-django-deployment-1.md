@@ -1,7 +1,7 @@
 Title: Simple django deployment part one: infrastructure
 Description: How to set up all the non-Django crap that you need to deploy
 Slug: simple-django-deployment-1
-Date: 2020-04-19 13:00
+Date: 2020-04-26 13:00
 Category: Django
 
 In order to deploy our Django app, we need a somewhere to run it: we need a server.

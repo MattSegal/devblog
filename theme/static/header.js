@@ -16,12 +16,11 @@ class GameOfLife {
   // FIXME - handle resize
   constructor() {
     this.setupGame();
+    this.drawGame();
     // Update the game state and draw it periodically.
     this.intervalId = setInterval(() => this.runGame(), LOOP_DELAY);
     window.addEventListener("resize", () => {
-      clearInterval(this.intervalId);
       this.setupGame();
-      this.intervalId = setInterval(() => this.runGame(), LOOP_DELAY);
     });
   }
 
@@ -41,16 +40,20 @@ class GameOfLife {
       const row = [];
       this.grid.push(row);
       for (let j = 0; j < this.numCols; j++) {
-        const val = Math.round(Math.random());
+        const val = Math.random() > 0.75 ? 1 : 0;
         row.push(val);
       }
     }
   }
 
+  drawGame() {
+    this.renderGrid();
+    requestAnimationFrame(() => this.drawGame());
+  }
+
   runGame() {
     this.iters++;
     this.progressGame();
-    requestAnimationFrame(() => this.renderGrid());
     if (this.iters > MAX_ITERS) {
       // Stop running after a while because I'm a bad, naughty programmer
       // and there's probably a memory leak somewhere crashing tabs.

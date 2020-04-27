@@ -1,5 +1,5 @@
-Title: Run your Python unit tests via GitHub actions.
-Description: How to run your Python unit tests via GitHub actions.
+Title: Run your Python unit tests via GitHub actions
+Description: How to run your Python unit tests via GitHub actions
 Slug: pytest-on-github-actions
 Date: 2020-04-27 12:00
 Category: Programming
@@ -7,9 +7,12 @@ Category: Programming
 You've written some unit tests for your Python app. Good for you! There are dozens of us, dozens!
 You don't always remember to run your tests, or worse, your colleagues don't always remember to run them.
 
-Wouldn't it be nice to run unit tests on every commit to GitHub? What about on every pull request?
+Wouldn't it be nice to automatically run unit tests on every commit to GitHub? What about on every pull request?
+You can do this with [GitHub Actions](https://github.com/features/actions).
 You'd be able to hunt down commits that broke the build, and if you're feeling blamey, _who_ broke the build.
-Sounds complicated, but it's not. Let me show you.
+Sounds complicated, but it's not.
+Sounds like it might cost money, but the free version has ~30 hours of execution per month.
+Let me show you how to set this up.
 
 There is example code for this blog post [here](https://github.com/MattSegal/actions-python-tests).
 
@@ -56,7 +59,7 @@ pytest
 
 ### Set up your Action
 
-You'll need to create new a file in a new folder: `.github/ci.yml`.
+You'll need to create new a file in a new folder: `.github/workflows/ci.yml`.
 You can learn more about these config files [here](https://help.github.com/en/actions).
 Here's an example file:
 
@@ -124,3 +127,4 @@ to your README.md file:
 ### Next steps
 
 Write some tests, run them locally, and then let GitHub run them for you on every commit from now on.
+If you get stuck, check out [this minimal reference](https://github.com/MattSegal/actions-python-tests) or the [Actions docs](https://help.github.com/en/actions).

@@ -76,7 +76,15 @@ but we want to keep the database (db.sqlite3), or else we lose all our productio
 
 What I'm going to show you now is a very manual process, we will automate this later.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/de3cbdca8ec146dd80f3e5136636b3ea" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/Hm0Dz61_oQ8" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 So to recap, the testing we just did looks like this:
 

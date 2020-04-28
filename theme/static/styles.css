@@ -116,9 +116,32 @@ pre {
   font-weight: bold;
 }
 
+.yt-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  margin: 1rem 0;
+}
+
+.yt-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .loom-embed {
   position: relative;
   padding-bottom: 56.25%;
   height: 0;
   margin: 1rem 0;
+}
+
+.loom-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

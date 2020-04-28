@@ -68,7 +68,15 @@ Let's get started by setting up Supervisor to run our Django app using Gunicorn.
 
 You can find the scripts and config referenced in the video [here](https://github.com/MattSegal/django-deploy).
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/93c51bf33ff7432d91ebcf73ccc7d92b" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/ny2L15dOf4Q" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 ### Adding Gunicorn config
 
@@ -100,7 +108,15 @@ gunicorn tute.wsgi:application -c config/gunicorn.conf.py
 
 Let's set up our Gunicorn config.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/3180065fee824c62af692298c6e3270a" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/KsCJw3skJdQ" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 Now that our Gunicorn config has been created, we can set up logging.
 
@@ -126,7 +142,15 @@ When we're done, our logs on the server will look like this:
     └── gunicorn.app.log    Gunicorn application logs
 ```
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/68de78cb9c294177b77605240fed3258" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/ubR--JB5iQM" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 Ok we've got logging all set up, looking good! Later on, you might want to also add [error monitoring](https://mattsegal.dev/sentry-for-django-error-monitoring.html) to your app, which alerts you when errors happen.
 

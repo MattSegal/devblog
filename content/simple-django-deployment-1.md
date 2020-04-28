@@ -26,7 +26,15 @@ We need to install these tools on Windows and the fastest and easiest way I know
 We won't be using Git, just some of the tools that get installed with it. You can [learn Git](https://www.codecademy.com/learn/learn-git) some other time.
 If you're using a Mac or Linux you can skip this step and open up a terminal window.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/932bb0f277354db7aa9e2418b6969296" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/yizAaMHUC5w" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 ### Creating a SSH key
 
@@ -41,7 +49,15 @@ In this video, we'll be creating an SSH key using the "ssh-keygen" command in ba
 ssh-keygen -C "mattdsegal@gmail.com"
 ```
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/d5a9137a974a4e5da6fe36ec04429ad7" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/BIc1TWrVQcw" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 Now that we've created our key, we're ready to use it to log into web servers. To recap:
 the SSH key we just created has two parts, a public key (id_rsa.pub) and a private key (id_rsa).
@@ -114,7 +130,15 @@ I'm not sure exactly when they're going to ask you to put your credit card detai
 
 By the end of this video we'll have created our server and we'll have an IP address, which we can use to log into the server.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/7c5f9599218a48f5873572084222ce50" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/mdRTN-rzi94" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 ### Setting up the server
 
@@ -122,7 +146,15 @@ The main tools that we'll need to run our Django app on this server are Python 3
 You'll find that Python 3 is already installed on our Ubuntu server, but we need to install pip.
 We'll be using the [apt package manager](https://devconnected.com/apt-package-manager-on-linux-explained/) to download and install pip.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/16cfdb897c6a4e74ab0d16b777799ca3" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/wHbOsG1UV9Q" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 By the way, it turns out that "LTS" stands for [Long Term Support](https://en.wikipedia.org/wiki/Long-term_support) and refers to Ubuntu's policy of how they plan to provide patches in the future (not super relevant to this guide).
 
@@ -132,7 +164,15 @@ So now we know how to create a server, log in with ssh and install the software 
 Next I will show you how to upload files to the server with scp.
 In addition, I'll show you how to run a quick and easy HTTP web server, which can be useful for debugging later. You will need [Python 3 installed](https://realpython.com/installing-python/#windows) on your desktop for this step.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/3925e8a8ef45406eb5d25b623d4d5834" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/sQNNsetMZfg" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 If you want to take a 40 minute side-quest I recommend checking out Brian Will's "The Internet" videos to learn more about what HTTP, TCP, and ports are: [part 1](https://www.youtube.com/watch?v=DTQV7_HwF58), [part 2](https://www.youtube.com/watch?v=3fvUc2Dzr04&t=167s), [part 3](https://www.youtube.com/watch?v=_55PyDw0lGU), [part 4](https://www.youtube.com/watch?v=yz3lkSqioyU).
 

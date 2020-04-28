@@ -37,7 +37,15 @@ In general it's good practice to always use a virtualenv, for these reasons:
 
 Here's how to start our project with a virtualenv.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/5f825c2235634ca6a733d7237894db16" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/8ja20EjR7zs" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 ### Creating a basic Django app
 
@@ -54,7 +62,15 @@ This video will show you how we're going to set up our Django project, and impor
 - Our database setup
 - The admin panel
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/cea3b1cd605f457480ef52b8e40342cb" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/fOvQfz8GZeM" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 Now we've created our app and it's working locally. The next step is to get it ready for production. Here's a diagram of how we've been running our app and serving requests so far.
 
@@ -93,7 +109,15 @@ We need to make some changes to our Django settings to prepare our project for p
 - **SECRET_KEY**: needs to be set to something that's actually secret: you can't put it on GitHub
 - **ALLOWED_HOSTS**: needs to be set to a whitelist of the IP addresses / domain names that your app can use, to prevent cross site request forgery attacks... or something like that
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/c43375d70f584c92bc1b3f82f40d6941" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/nL6yJOKTzO0" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 Our server seems to be _mostly_ working with our new production settings...
 other than our static files mysteriously breaking. Let's fix that next.
@@ -142,7 +166,15 @@ We also have to set STATIC_ROOT in our Django settings. STATIC_ROOT is a folder 
 
 Alright, let's set up Whitenoise and solve our static files problem.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/44c9b27f5b554244ac346f0cb1611df6" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/97UQM-Cfhxs" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 ### Preparing our WSGI server
 
@@ -184,7 +216,15 @@ This is a good thing because it means that if you are using a particular web fra
 
 With that out of the way, let's get stuck into using Gunicorn instead of runserver to run our Django app.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/e3d387c9fc02445abe4ff6de715e8aae" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/wHmpB2AEmZY" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 So before we were doing this:
 

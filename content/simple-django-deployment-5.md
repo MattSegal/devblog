@@ -40,14 +40,30 @@ Let's automate the upload first. The files that we need to copy over are:
 - scripts for our bash scripts
 - config for our Gunicorn and Supervisor config
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/aaa3e2038ada46e98705d223a82fa371" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/OOYG4ZGOv80" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 ### Installing the new code
 
 Now we have automated the process of getting our code onto the server,
 let's script the bit where we install it in the project dir and run Gunicorn
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/3fb4a3e1cdd54fa19ac72478904cc49d" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/R1XDE-NoGAQ" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 So, you might have noticed that we stop Gunicorn at the start of the deployment and start it again it at the end. That means your site will be offline during the deployment and if something goes wrong, it'll stay down. You have to log in and manually fix the problem to get it running again.
 
@@ -57,7 +73,15 @@ This is fine for personal projects and low traffic websites - nobody will notice
 
 Alright we're basically done with this section, now all we need to do is combine our two scripts into a master deploy script.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/c4a94c5a12a14084b6298d53a0cde9be" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/FnM1fL3-I2E" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 That's it, now we can deploy our code over and over in seconds.
 
@@ -67,7 +91,15 @@ This section is optional, it's nice to have, but not a core part of the guide. S
 Here I'll show you how to back up your database on the server.
 It's very, very simple to do with SQLite because the database is just a single file.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/a6f0a047674e46929a35cbdf27b6165e" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/Pc6C68RTbfc" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 ### Automating the server setup
 
@@ -93,7 +125,15 @@ So, we want to be able to blow away our server and make a new one with minimal w
 
 Our goal in this section is to run a single script on a new DigitalOcean droplet and it all just works. In addition, we want this script to be "idempotent" - this means we want to be able to run it many times on the same server and get (mostly) the same result.
 
-<div class="loom-embed"><iframe src="https://www.loom.com/embed/75a0e1b6e68e4feb957dffa3534122a5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+<div class="yt-embed">
+    <iframe 
+        src="https://www.youtube.com/embed/I4XGu9MXkSE" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+    >
+    </iframe>
+</div>
 
 This script can get kind of long and hairy, especially as your deployments get more complicated.
 At some point, you're going to want to use something other than a bash script to automate this process.

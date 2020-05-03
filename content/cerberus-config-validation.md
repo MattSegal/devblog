@@ -62,7 +62,7 @@ Luckily Cerberus will validate your schema before applying it, so there is no en
 ### Schema as documenation
 
 I think that defining data schemas using Cerberus gets really useful when lots of different people need to use your config files.
-The schema that you've defined also serve as documentation on how to write a correct config file: add a few explanatory comments and you've got some quick-n-dirty docs.
+The schema that you've defined also serves as documentation on how to write a correct config file: add a few explanatory comments and you've got some quick-n-dirty docs.
 It's not a perfect strategy for writing docs but it has one fantasic property: the documentation cannot lie, because it _actually runs as code_.
 
 I was recently working on an in-house CLI tool for builds and deployment that was written in Python.

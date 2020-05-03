@@ -2,7 +2,7 @@ Title: Keeping your config files valid with Python
 Description: Using Ceberus in Python to keep data structured the way you want
 Slug: cerberus-config-validation
 Date: 2020-05-03 12:00
-Category: Django
+Category: Programming
 
 It's common to use a config file for your Python projects:
 some sort of JSON or YAML document that defines how you program behaves. Something like this:

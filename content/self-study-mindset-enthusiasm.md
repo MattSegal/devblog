@@ -16,24 +16,22 @@ Which framework is best? What should I learn to get myself a job?
 ### Follow your enthusiasm
 
 I recommend you dissolve this question by learning about things that interest you.
-Stuff that you're enthusiastic about. Stuff that _gets you going_.
+Stuff that you're enthusiastic about. Stuff that **gets you going**.
 You wanted to learn programming for a reason, right? Why was that -
-what seems cool to you? Work on that! If you don't know what's cool about programming,
-then you should explore the landscape: sample lots of things until you find something you like.
-Do lots of small projects.
-Try make a webpage in HTML, try some hacking challenges, learn about databases, try functional programming, etc.
-You could use [this "rabbit holes"](https://marginalrevolution.com/marginalrevolution/2019/08/reading-and-rabbit-holes.html)
-technique to pose some interesting questions for yourself.
+what about it seems cool to you? Work on that!
 
-That said, I still think you should have a goal.
-Something like "I want to be a backend web developer". I think you can work towards your goal while still
-learning things that interest you. For example, if you're keen on hacking, you can learn about hacking webservers.
+If you don't know what's cool about programming, then you should explore the landscape: sample lots of things until you find something you like. Try lots of small projects:
+make a webpage in HTML, do some hacking challenges, learn about databases, or functional programming, etc.
+You can use [this "rabbit holes" technique](https://marginalrevolution.com/marginalrevolution/2019/08/reading-and-rabbit-holes.html)
+to pose some interesting questions for yourself.
+
+You might have a goal like "I want to be a backend web developer". I think you can work towards this goal while still learning things that interest you. For example, if you're into hacking at the moment, you can learn about hacking webservers.
 
 ### It's all just practice anyway
 
 Here's the thing, it doesn't really matter what you learn next, at least not early on.
 As a beginner coder, you're going to fucking suck at everything you do, so you might as well have fun while you're sucking.
-Your first few months will just be learning to program, in general, and the most important thing to do is write a lot of code.
+Your first few months will just be learning to program, in general, and the most important thing to do is to write a lot of code.
 
 If you're interested in the content you're learning and the code you're writing then you will do so
 much more practice than if you're just grinding. Conversely, you'll burn out if you're forcing yourself to work on
@@ -58,7 +56,7 @@ Just to clarify: I'm not saying that you shouldn't learn Ruby on Rails in your f
 A note on "practice". I said that it's important for a beginner, and suggested that writing a lot of code is good practice.
 I think that's mostly true, but there are some things you can do to get better faster:
 
-- Deliberately try out new skills and techniques in your work: "in this project, I'm going to try the 'object oriented' style I just learned".
+- Deliberately try out new skills and techniques in your work: "in this project, I'm going to try the 'object oriented' style I just learned". In another project you might try the "functional style".
 - Re-visit your old projects and think about how/if you could make them better with your new skills. You'll learn a lot by trying to read the code you wrote a month ago.
 - Try to get some feedback on your code from more experienced developers.
 

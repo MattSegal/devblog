@@ -145,3 +145,23 @@ pre {
   width: 100%;
   height: 100%;
 }
+
+.subscribe button {
+  background-color: #e97dfd99 !important;
+  color: #fff !important;
+}
+
+.subscribe input {
+  background-color: #fff !important;
+  border: solid 2px #e97dfd66 !important;
+}
+.subscribe input::placeholder {
+  color: #333 !important;
+}
+
+.subscribe {
+  width: 70%;
+}
+.subscribe-cta {
+  font-weight: bold;
+}

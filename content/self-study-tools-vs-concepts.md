@@ -51,7 +51,7 @@ are going to be complete jibberish. Functional programming is infamous for this 
 > [A monad is just a monoid in the category of endofunctors, what's the problem?](https://stackoverflow.com/questions/3870088/a-monad-is-just-a-monoid-in-the-category-of-endofunctors-whats-the-problem)
 
 The authors of the Redux docs have the [curse of knowledge](https://en.wikipedia.org/wiki/Curse_of_knowledge). They either don't know that they need to explain these terms, or they don't care to.
-You might not have bothered to learn about functional programming, but the authors of Redux did.
+You might not have bothered to learn about functional programming, but they did.
 
 Similarly, you don't need to understand hash functions to use Git, but the string of crazy numbers and letters
 in your history is going to be quite disorienting: what the fuck is e2cbf1addc70652c4d63fdb5a81720024c9f2677 supposed to mean?

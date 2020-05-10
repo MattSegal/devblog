@@ -1,4 +1,4 @@
-Title: Studying programming: tools or concepts?
+Title: Studying programming: tools or theory?
 Description: Mindsets and strategies for choosing what to learn
 Slug: self-study-tools-vs-concepts
 Date: 2020-05-10 12:00
@@ -46,7 +46,11 @@ If you've learned a little bit of [functional programming](https://en.wikipedia.
 > The reducer is a pure function that takes the previous state and an action, and returns the next state.
 
 If you haven't been exposed to functional programming concepts, then words like "state", "pure function" and "immutability"
-are going to be complete jibberish. The authors of the docs have the [curse of knowledge](https://en.wikipedia.org/wiki/Curse_of_knowledge). They either don't know that they need to explain these terms, or they don't care to.
+are going to be complete jibberish. Functional programming is infamous for this kind of techno-babble:
+
+> [A monad is just a monoid in the category of endofunctors, what's the problem?](https://stackoverflow.com/questions/3870088/a-monad-is-just-a-monoid-in-the-category-of-endofunctors-whats-the-problem)
+
+The authors of the Redux docs have the [curse of knowledge](https://en.wikipedia.org/wiki/Curse_of_knowledge). They either don't know that they need to explain these terms, or they don't care to.
 You might not have bothered to learn about functional programming, but the authors of Redux did.
 
 Similarly, you don't need to understand hash functions to use Git, but the string of crazy numbers and letters
@@ -56,29 +60,37 @@ Even simple ideas like the idea of a "tree" data structure helps you work with t
 You might know that recursion is a good method for "walking" trees. Pattern-matching a programming problem
 to a data structure will help you come up with solutions much faster.
 
-You can't know beforehand which computer science concepts will be useful for your tools.
-As far as I can tell, functional programming got "cool" and baked into tools in the last five years or so when the JavaScript ecosystem
-started flourishing. I don't know what's next. You need to get a broad base of knowledge to navigate
-and demystify the programming landscape.
+You can't know beforehand which computer science concepts will be useful.
+As far as I can tell, functional programming got "cool" and baked into some frontend tools in the last five years or so. I don't know what's next. You need to get a broad base of knowledge to navigate and demystify the programming landscape.
 
 Ok, so you should:
 
 - isolate yourself in a log cabin for four years
 - study computer science
 - return to civilisation
-- learn React
+- learn Git
 - get money
 
-Right?
+...right?
 
 ### What to learn first?
 
-- you cannot and will not learn all the concepts or all the tools up front, sample and cycle
+You can't sit down and just learn all of computer science, downloading it all into your brain
+like Neo hooked into the Matrix.
+You'll also struggle to learn new tools and frameworks without some computer science fundamentals.
+So, what to do?
 
-you want to learn functional programming because you read the redux docs
+I think you should try a [spiral approach](https://en.wikipedia.org/wiki/Spiral_approach) to learning.
+You should learn a some theory, then explore some new tools, then try to build something practical.
+Repeat over and over.
+You won't necessarily learn everything in the "right order", but new ideas from one area will influence another.
+You might:
 
-- guitar teacher taught me upward spiral
-- rhythm, then melody, then harmony,
-- no guitar player goes into a cave for a month and practices nothing but rhythm
+- run into performance bottlenecks in your code and get interested in computational complexity
+- read about "pure functions" in the Redux docs and explore functional programming
+- complete a course on [compilers](https://mattsegal.dev/nand-to-tetris.html) and finally understand what all those pesky .class, .pyc and .dll files are doing on your computer
 
-* you will never understand security, but every time you will know a little more
+This might seem like a random and haphazard approach, and it kind of is, but I don't think learning
+programming should be viewed as a big list of "things you must do". I've written more about that [in this post](https://mattsegal.dev/self-study-mindset-enthusiasm.html).
+
+If you are learning programming and you have only focused on learning frameworks and tools, then I encourage you to mix in some theoretical online courses as well. If you're immersed in a univeristy-style curriculum and haven't tried any modern programming tools - start using them now!

@@ -16,12 +16,9 @@ class GameOfLife {
   // FIXME - handle resize
   constructor() {
     this.setupGame();
-    this.drawGame();
-    // Update the game state and draw it periodically.
-    this.intervalId = setInterval(() => this.runGame(), LOOP_DELAY);
-    window.addEventListener("resize", () => {
-      this.setupGame();
-    });
+    this.runRenderLoop();
+    window.addEventListener("resize", () => this.setupGame());
+    this.runGame();
   }
 
   setupGame() {
@@ -46,20 +43,20 @@ class GameOfLife {
     }
   }
 
-  drawGame() {
+  runRenderLoop() {
     this.renderGrid();
-    requestAnimationFrame(() => this.drawGame());
+    requestAnimationFrame(() => this.runRenderLoop());
   }
 
   runGame() {
-    this.iters++;
-    this.progressGame();
-    if (this.iters > MAX_ITERS) {
-      // Stop running after a while because I'm a bad, naughty programmer
-      // and there's probably a memory leak somewhere crashing tabs.
-      console.warn("Stopping execution of game of life coz Matt can't code.");
-      clearInterval(this.intervalId);
+    for (let i = 0; i < 10; i++) {
+      this.progressGame();
     }
+    window.addEventListener("mousemove", (e) => {
+      if (e.screenX % 2 === 0) {
+        this.progressGame();
+      }
+    });
   }
 
   progressGame() {

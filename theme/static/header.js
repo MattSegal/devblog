@@ -37,7 +37,7 @@ class GameOfLife {
       const row = [];
       this.grid.push(row);
       for (let j = 0; j < this.numCols; j++) {
-        const val = Math.random() > 0.75 ? 1 : 0;
+        const val = Math.random() > 0.8 ? 1 : 0;
         row.push(val);
       }
     }

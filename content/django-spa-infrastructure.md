@@ -23,7 +23,7 @@ When you deploy your code using this setup, you will need to:
 - Use [webpack](https://webpack.js.org), or something [similar](https://www.google.com/search?q=webpack+alternatives), to build your JavaScript and CSS assets and put them into a Django static files directory
 - Deploy Django like you usually would
 
-You will need to use something like [django-webpack-loader](https://github.com/owais/django-webpack-loader) to integrate Webpack's build assets with Django's staticfiles system and templates. Other than that, it's a vanilla Django deployment.
+You will need to use a setup like [this](https://pascalw.me/blog/2020/04/19/webpack-django.html) or [django-webpack-loader](https://github.com/owais/django-webpack-loader) to integrate Webpack's build assets with Django's staticfiles system and templates. Other than that, it's a vanilla Django deployment.
 
 The pros are:
 

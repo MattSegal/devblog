@@ -76,7 +76,7 @@ Now we've created our app and it's working locally. The next step is to get it r
 
 ![runserver http]({attach}runserver-http.png)
 
-### Is SQLite OK for production?
+<h3 id="sqlite">Is SQLite OK for production?</h3>
 
 Before we move on, I want to talk about SQLite quickly. You can skip this bit if you don't care. We'll be using SQLite as our database in development and in production. It'll be two separate databases - we're not going to copy our local SQLite file to the server. The main reason that I'm using SQLite instead of a more advanced database like PostgreSQL or MySQL is because I want to keep this guide as simple as I can.
 
@@ -176,7 +176,7 @@ Alright, let's set up Whitenoise and solve our static files problem.
     </iframe>
 </div>
 
-### Preparing our WSGI server
+<h3 id="wsgi">Preparing our WSGI server</h3>
 
 So far we've been using the "runserver" management command to run our Django code and serve HTTP requests.
 It works pretty well for development - the way it auto restarts when files change is pretty handy.

@@ -73,7 +73,7 @@ time, while SQLite can't.
 
 Why did we add NGINX to our setup? NGINX is a dedicated webserver which provides extra features and performance improvements
 over just using Gunicorn to serve web requests. For example we can use NGINX to directly serve our app's static and media files from the file system, rather than routing our requests through Python first, which is slower. NGINX can also be configured to use HTTPS, serve redirects, log access requests and route requests to different apps on the server.
-You could use Gunicorn/Django to do a lot of this stuff, but NGINX is a dedicated tool that is better at these tasks. I've said NGINX a lot in this section, but it's not the only webserver on earth, the is also the [Apache HTTP server](https://httpd.apache.org/) and others.
+You can use Gunicorn/Django to do a lot of this stuff, but NGINX is a tool that is specifically built for these tasks. I've said NGINX a lot in this section, but it's not the only webserver on earth, the is also the [Apache HTTP server](https://httpd.apache.org/) and others.
 
 It's important to note that everything here lives on a single server, which means that if the server goes away, so does all your data, unless you have backups.
 This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the MEDIA_ROOT folder, somewhere on your filesystem.
@@ -82,7 +82,7 @@ This data includes your Django tables, which are stored in Postgres, and files u
 
 Once you start using NGINX and PostgreSQL, there's no reason you can't run multiple Django apps on the same machine.
 NGINX is able to route requests to different apps based on the domain name, and Postgres can host multiple databases on a single machine.
-For example, I use a single server to host some of my personal Django projects: [Matt's Links](http://mattslinks.xyz/), [Memories Ninja](http://mattslinks.xyz/) and [Blog Reader](https://www.blogreader.com.au/)
+For example, I use a single server to host some of my personal Django projects: [Matt's Links](http://mattslinks.xyz/), [Memories Ninja](http://memories.ninja/) and [Blog Reader](https://www.blogreader.com.au/)
 
 ![multi-app server setup]({attach}django-prod-architecture/multi-app-server.png)
 
@@ -110,7 +110,9 @@ If you want to learn more about this stuff, I've written guides for getting star
 
 ### Single webserver with a cache
 
-words
+Sometimes you'll want to [use a cache](https://docs.djangoproject.com/en/3.0/topics/cache/) to store data for a short time. For example, caches are commonly used when you have some data that was expensive to pull from the database or an API and you want to re-use it for a little while. [Redis](https://redis.io/) and [Memcached](https://en.wikipedia.org/wiki/Memcached) are both popular cache services that are used in production with Django. It's not a very complicated setup.
+
+![cache on server setup]({attach}django-prod-architecture/cache-on-server.png)
 
 ### Single webserver with Docker
 

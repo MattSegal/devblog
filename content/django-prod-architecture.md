@@ -85,17 +85,17 @@ I've omitted the static files for simplicity. Note that having multiple apps on 
 
 Some web apps need to do things other than just [CRUD](https://www.codecademy.com/articles/what-is-crud). For example, my website [Blog Reader](https://www.blogreader.com.au/) needs to scrape [text](https://slatestarcodex.com/2020/04/24/employer-provided-health-insurance-delenda-est/) from a website and then send it to an Amazon API to be translated into [audio files](https://media.blogreader.com.au/media/043dcf9fe4c1df539468000cb97af1d7.mp3). Another common example is "thumbnailing", where you upload a huge 5MB image file to Facebook and they downsize it into a crappy 120kB JPEG. These kinds of tasks do not happen inside a Django view, because they take too long to run. Instead they have to happen "offline", in a separate worker process, using tools like [Celery](http://www.celeryproject.org/), [Huey](https://huey.readthedocs.io/en/latest/django.html), [Django-RQ](https://github.com/rq/django-rq) or [Django-Q](https://django-q.readthedocs.io/en/latest/). All these tools provide you with a way to run tasks outside of Django views and do more complicated things, like co-ordinate multiple tasks and run them on schedules.
 
-All of these tools follow a similar pattern: tasks are dispatched by Django and put in a queue where they wait to be executed. This queue is managed by a service called a "broker", which keeps track of all the tasks that need to be done. Common brokers for Django tasks are Redis and RabbitMQ. A worker process, which typically shares your Django app's code, pulls tasks out the broker and runs them.
+All of these tools follow a similar pattern: tasks are dispatched by Django and put in a queue where they wait to be executed. This queue is managed by a service called a "broker", which keeps track of all the tasks that need to be done. Common brokers for Django tasks are Redis and RabbitMQ. A worker process, which uses the same codebase as your Django app, pulls tasks out the broker and runs them.
 
 ![worker server setup]({attach}django-prod-architecture/worker-server.png)
 
 If you haven't worked with task queues before then it's not immediately obvious how this all works, so let me give an example. You want to upload a 2MB [photo of your breakfast](https://memories-ninja-prod.s3-ap-southeast-2.amazonaws.com/original/7e26334177b6ee7d5ab4c21f7149190e.jpeg) from your phone to a Django site. To optimise image loading performance, the Django site will turn that 2MB photo upload into a 70kB [display image](https://memories-ninja-prod.s3.amazonaws.com/display/7e26334177b6ee7d5ab4c21f7149190e.jpeg) and a smaller [thumbnail image](https://memories-ninja-prod.s3.amazonaws.com/thumbnail/7e26334177b6ee7d5ab4c21f7149190e.jpeg). So this is what happenes:
 
-- A user uploads a photo to a Django view, which saves the original photo to the filesystem and records the upload in the database
+- A user uploads a photo to a Django view, which saves the original photo to the filesystem and updates the database to show that the file has been received
 - The view also pushes a thumbnailing task to the task broker
 - The broker receives the task and puts it in a queue, where it waits to be executed
 - The worker asks the broker for the next task and the broker sends the thumbnailing tasks
-- The worker reads the task description and runs some Python function, which reads the original image from the filesystem, creates the smaller thumbnail images, saves them and then updates the database record to show that the thumbnailing is complete.
+- The worker reads the task description and runs some Python function, which reads the original image from the filesystem, creates the smaller thumbnail images, saves them and then updates the database to show that the thumbnailing is complete
 
 If you want to learn more about this stuff, I've written guides for getting started with [offline tasks](https://mattsegal.dev/offline-tasks.html) and [scheduled tasks](https://mattsegal.dev/simple-scheduled-tasks.html) with Django Q.
 

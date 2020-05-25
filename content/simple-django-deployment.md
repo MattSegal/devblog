@@ -4,7 +4,16 @@ Slug: simple-django-deployment
 Date: 2020-04-26 12:00
 Category: Django
 
-You're learning web development with Django. You've followed the [official introductory tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial01/) and you can get a Django app working on your local computer. Now you want to put your web app onto the internet. Maybe it's to show your friends, or you actually want to use it for something, or maybe you just want to learn how to deploy Django apps. I want to help you deploy your Django app, but first, let's go over why you're here.
+You're learning web development with Django. You've followed the [official introductory tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial01/) and you can get a Django app working on your local computer. Now you want to put your web app onto the internet. Maybe it's to show your friends, or you actually want to use it for something, or maybe you just want to learn how to deploy Django apps. This guide has five parts:
+
+1. [Server setup]({filename}/simple-django-deployment-1.md)
+2. [Prepare and test Django locally]({filename}/simple-django-deployment-2.md)
+3. [Deploy Django to the server]({filename}/simple-django-deployment-3.md)
+4. [Run Django in the background]({filename}/simple-django-deployment-4.md)
+5. [Automate the re-deployment]({filename}/simple-django-deployment-5.md)
+6. [Domain setup]({filename}/simple-django-deployment-6.md)
+
+You can start the guide with part 1 now. If you're interested, read on to learn more about what motivated me to write this.
 
 ### Stuck, frustrated, confused
 

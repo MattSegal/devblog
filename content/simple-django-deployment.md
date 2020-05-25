@@ -6,7 +6,7 @@ Category: Django
 
 You're learning web development with Django. You've followed the [official introductory tutorial](https://docs.djangoproject.com/en/3.0/intro/tutorial01/) and you can get a Django app working on your local computer. Now you want to put your web app onto the internet. Maybe it's to show your friends, or you actually want to use it for something, or maybe you just want to learn how to deploy Django apps. I want to help you deploy your Django app, but first, let's go over why you're here.
 
-### Stuck, frustrated, confused, embarrassed
+### Stuck, frustrated, confused
 
 You've probably tried [tutorials like this](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04) which give you a bunch of steps to follow, commands to type, files to configure. This is how I learned to deploy Python web apps: with online tutorials and a lot of Googling. When you follow these guides, you have no fucking idea what you're actually doing. Why do you use that tool? Why do you type that command? You may as well be [learning magic at Hogwarts](https://youtu.be/nAQBzjE-kvI?t=33). You could easily swap:
 

@@ -4,20 +4,18 @@ Slug: django-prod-architectures
 Date: 2020-05-25 12:00
 Category: Django
 
-If you haven't deployed a lot of Django apps, then you might be wonder:
+If you haven't deployed a lot of Django apps, then you might wonder:
 how do professionals put Django apps on the internet? What does Django typically look like when it's running in production?
 You might even be thinking _what the hell is [production](https://www.techopedia.com/definition/8989/production-environment)?_
 
 Before I started working a developer there was just a fuzzy cloud in my head where the knowledge of production infrastructure should be.
-If there's a fuzzy cloud in your head, let's fix it. This post will take you on a tour of some common Django server setups,
-from the most simple and basic to the more complex and powerful.
+If there's a fuzzy cloud in your head, let's fix it.
+There are many ways to extend a Django server setup to achieve better performance, cost-effectiveness and reliability.
+This post will take you on a tour of some common Django server setups, from the most simple and basic to the more complex and powerful.
 
 The focus of this post will be on building up your mental model of how Django is hosted in production,
-rather than the details on any particular service.
-I'll cover your local machine, some single webserver setups and then
-get into external services, multiple services, autoscaling and containers.
-I'm not going to spend a lot of time talking about services like [Heroku](https://www.heroku.com/)
-or [pythonanywhere](https://www.pythonanywhere.com/) or do-it-yourself platforms like [Dokku](http://dokku.viewdocs.io/dokku/).
+rather than the details of any particular product or vendor, so I'm not going to spend a lot of time talking about services like [Heroku](https://www.heroku.com/)
+or [pythonanywhere](https://www.pythonanywhere.com/) or do-it-yourself PaaS tools like [Dokku](http://dokku.viewdocs.io/dokku/).
 
 ### Your local machine
 
@@ -46,7 +44,7 @@ Instead of using runserver, you should use a WSGI server like [Gunicorn](https:/
 I go into more detail on why you shouldn't use runserver in production, and explain WSGI [here](https://mattsegal.dev/simple-django-deployment-2.html#wsgi).
 Otherwise, not that much is different from your local machine: you can still use SQLite as the database ([more here](https://mattsegal.dev/simple-django-deployment-2.html#sqlite)).
 
-There are a few other details that I didn't mention here like [setting up DNS](https://mattsegal.dev/dns-for-noobs.html), virtual environments, babysitting Gunicorn with a supervisord like [Supervisord](https://mattsegal.dev/simple-django-deployment-4.html) or how to serve static files with [Whitenoise](http://whitenoise.evans.io/en/stable/), but this is bones of the basic setup. If you're interested in a more complete guide on how to set up a simple server like this, I wrote [a guide](https://mattsegal.dev/simple-django-deployment.html) that explains how to deploy Django.
+There are a few other details that I didn't mention here like [setting up DNS](https://mattsegal.dev/dns-for-noobs.html), virtual environments, babysitting Gunicorn with a process supervisor like [Supervisord](https://mattsegal.dev/simple-django-deployment-4.html) or how to serve static files with [Whitenoise](http://whitenoise.evans.io/en/stable/), but this is bones of the basic setup. If you're interested in a more complete guide on how to set up a simple server like this, I wrote [a guide](https://mattsegal.dev/simple-django-deployment.html) that explains how to deploy Django.
 
 Most professional Django devs don't use a basic setup like this for their production environments, so let's move on towards something more typical.
 

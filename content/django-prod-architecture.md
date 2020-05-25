@@ -205,7 +205,7 @@ You could potentially swap our your self-managed broker (Redis or RabbitMQ) for 
 
 ### External services - final form
 
-If you went totally all-out, your Django app could run be set up like this:
+If you went totally all-out, your Django app could be set up like this:
 
 ![fully external setup]({attach}django-prod-architecture/full-external.png)
 

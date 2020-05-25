@@ -4,22 +4,20 @@ Slug: django-prod-architectures
 Date: 2020-05-20 12:00
 Category: Django
 
-If you haven't worked as a web developer yet, you might be wondering:
-_how do professionals deploy Django to the internet? What does it look like when it's running in production?_
+If you haven't deployed a lot of Django apps, then you might be wonder:
+how do professionals put Django apps on the internet? What does Django typically look like when it's running in production?
 You might even be thinking _what the hell is [production](https://www.techopedia.com/definition/8989/production-environment)?_
 
 Before I started working a developer there was just a fuzzy cloud in my head where the knowledge of production infrastructure should be.
-There are a bunch of natural questions like _how many servers do people use?_, _where does the database go?_ and _why does everyone tell me to use NGINX_?
 If there's a fuzzy cloud in your head, let's fix it. This post will take you on a tour of some common Django server setups,
-from the most simple and basic to the more complex.
+from the most simple and basic to the more complex and powerful.
 
-In this post I'll cover your local machine, some single webserver setups and then
-get into external services, multiple services, autoscaling and containers.
-
-I'm not going to spend a lot of time talking about services like [Heroku](https://www.heroku.com/)
-or [pythonanywhere](https://www.pythonanywhere.com/) or do-it-yourself platforms like [Dokku](http://dokku.viewdocs.io/dokku/).
 The focus of this post will be on building up your mental model of how Django is hosted in production,
 rather than the details on any particular service.
+I'll cover your local machine, some single webserver setups and then
+get into external services, multiple services, autoscaling and containers.
+I'm not going to spend a lot of time talking about services like [Heroku](https://www.heroku.com/)
+or [pythonanywhere](https://www.pythonanywhere.com/) or do-it-yourself platforms like [Dokku](http://dokku.viewdocs.io/dokku/).
 
 ### Your local machine
 
@@ -37,19 +35,18 @@ Pretty simple right? Next let's look at the closest analogue in production.
 
 ### Simplest possible webserver
 
-The simplest Django web server you can setup is very similar to your local dev environment. Now your setup looks like this:
+The simplest Django web server you can setup is very similar to your local dev environment. It looks like this:
 
 ![simple server setup]({attach}django-prod-architecture/simple-server.png)
 
 Typically people run Django on a Linux virtual machine, often using the Ubuntu distribution.
 The virtual machine is hosted by a cloud provider like [Amazon](https://aws.amazon.com/), [Google](https://cloud.google.com/gcp/), [Azure](https://azure.microsoft.com/en-au/), [DigitalOcean](https://www.digitalocean.com/) or [Linode](https://www.linode.com/).
 
-Instead of using runserver, you would use a WSGI server like [Gunicorn](https://gunicorn.org/) to run your Django app.
+Instead of using runserver, you should use a WSGI server like [Gunicorn](https://gunicorn.org/) to run your Django app.
 I go into more detail on why you shouldn't use runserver in production, and explain WSGI [here](https://mattsegal.dev/simple-django-deployment-2.html#wsgi).
-Gunicorn is not the only possible WSGI option, there's also uWSGI, Waitress and others, I'm just using it for these examples.
 Otherwise, not that much is different from your local machine: you can still use SQLite as the database ([more here](https://mattsegal.dev/simple-django-deployment-2.html#sqlite)).
 
-There are a few other details that I didn't mention here like [setting up DNS](https://mattsegal.dev/dns-for-noobs.html), virtual environments, babysitting Gunicorn with a supervisord like [Supervisord](https://mattsegal.dev/simple-django-deployment-4.html) or how to serve static files with [Whitenoise](http://whitenoise.evans.io/en/stable/), but this is bones of the basic setup. If you're interested in a more complete guide on how to set up a simple server like this, I wrote [a guide](https://mattsegal.dev/simple-django-deployment.html) that explains how to deploy Django to a server like this.
+There are a few other details that I didn't mention here like [setting up DNS](https://mattsegal.dev/dns-for-noobs.html), virtual environments, babysitting Gunicorn with a supervisord like [Supervisord](https://mattsegal.dev/simple-django-deployment-4.html) or how to serve static files with [Whitenoise](http://whitenoise.evans.io/en/stable/), but this is bones of the basic setup. If you're interested in a more complete guide on how to set up a simple server like this, I wrote [a guide](https://mattsegal.dev/simple-django-deployment.html) that explains how to deploy Django.
 
 Most professional Django devs don't use a basic setup like this for their production environments, so let's move on towards something more typical.
 
@@ -60,7 +57,7 @@ It's not the exact setup that everyone will always use, but the structure is ver
 
 ![typical server setup]({attach}django-prod-architecture/typical-server.png)
 
-Some things same as the simple setup above: it's still a Linux virtual machine with Django being run by Gunicorn.
+Some things are the same as the simple setup above: it's still a Linux virtual machine with Django being run by Gunicorn.
 There are three main differences:
 
 - SQLite has been replaced by a different database, [PostgreSQL](https://www.postgresql.org/)
@@ -71,11 +68,11 @@ Why did we swap SQLite for PostgreSQL? In general Postgres is a litte more advan
 time, while SQLite can't.
 
 Why did we add NGINX to our setup? NGINX is a dedicated webserver which provides extra features and performance improvements
-over just using Gunicorn to serve web requests. For example we can use NGINX to directly serve our app's static and media files from the file system, rather than routing our requests through Python first, which is slower. NGINX can also be configured to use HTTPS, serve redirects, log access requests and route requests to different apps on the server.
+over just using Gunicorn to serve web requests. For example we can use NGINX to directly serve our app's static and media files from the file system, rather than routing our requests through Django first, which is slower. NGINX can also be configured to use HTTPS, serve redirects, log access requests and route requests to different apps on the server.
 You can use Gunicorn/Django to do a lot of this stuff, but NGINX is a tool that is specifically built for these tasks. There are alternatives to NGINX like the [Apache HTTP server](https://httpd.apache.org/) and [Traefik](https://docs.traefik.io/), but NGINX is the most widely used with Django.
 
 It's important to note that everything here lives on a single server, which means that if the server goes away, so does all your data, unless you have backups.
-This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the MEDIA_ROOT folder, somewhere on your filesystem. Having only one server also means that if you server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
+This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the [MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#media-root) folder, somewhere on your filesystem. Having only one server also means that if you server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
 
 ### Single webserver with multiple apps
 
@@ -91,15 +88,14 @@ I've omitted the static files for simplicity. Note that having multiple apps on 
 
 Some web apps need to do things other than just [CRUD](https://www.codecademy.com/articles/what-is-crud). For example, my website [Blog Reader](https://www.blogreader.com.au/) needs to scrape [text](https://slatestarcodex.com/2020/04/24/employer-provided-health-insurance-delenda-est/) from a website and then send it to an Amazon API to be translated into [audio files](https://media.blogreader.com.au/media/043dcf9fe4c1df539468000cb97af1d7.mp3). Another common example is "thumbnailing", where you upload a huge 5MB image file to Facebook and they downsize it into a crappy 120kB JPEG. These kinds of tasks do not happen inside a Django view, because they take too long to run. Instead they have to happen "offline", in a separate worker process, using tools like [Celery](http://www.celeryproject.org/), [Huey](https://huey.readthedocs.io/en/latest/django.html), [Django-RQ](https://github.com/rq/django-rq) or [Django-Q](https://django-q.readthedocs.io/en/latest/). All these tools provide you with a way to run tasks outside of Django views and do more complicated things, like co-ordinate multiple tasks and run them on schedules.
 
-All of these tools follow a similar pattern: tasks are dispatched by Django and put in a queue where they wait to be executed. This queue is managed by a service called a "broker", which keeps track of all the tasks that need to be done. Common brokers for Django tasks are Redis and RabbitMQ. A worker process, which typically shares you Django app's code, pulls tasks out the broker and runs them.
+All of these tools follow a similar pattern: tasks are dispatched by Django and put in a queue where they wait to be executed. This queue is managed by a service called a "broker", which keeps track of all the tasks that need to be done. Common brokers for Django tasks are Redis and RabbitMQ. A worker process, which typically shares your Django app's code, pulls tasks out the broker and runs them.
 
 ![worker server setup]({attach}django-prod-architecture/worker-server.png)
 
 If you haven't worked with task queues before then it's not immediately obvious how this all works, so let me give an example. You want to upload a 2MB [photo of your breakfast](https://memories-ninja-prod.s3-ap-southeast-2.amazonaws.com/original/7e26334177b6ee7d5ab4c21f7149190e.jpeg) from your phone to a Django site. To optimise image loading performance, the Django site will turn that 2MB photo upload into a 70kB [display image](https://memories-ninja-prod.s3.amazonaws.com/display/7e26334177b6ee7d5ab4c21f7149190e.jpeg) and a smaller [thumbnail image](https://memories-ninja-prod.s3.amazonaws.com/thumbnail/7e26334177b6ee7d5ab4c21f7149190e.jpeg). So this is what happenes:
 
-- A user uploads a photo to the Django site, which sends the image data to NGINX and through to Django, which runs some view code
-- The Django view saves the original photo to the filesystem and records the upload in the database
-- The Django view also pushes a thumbnailing task to the task broker
+- A user uploads a photo to a Django view, which saves the original photo to the filesystem and records the upload in the database
+- The view also pushes a thumbnailing task to the task broker
 - The broker receives the task and puts it in a queue, where it waits to be executed
 - The worker asks the broker for the next task and the broker sends the thumbnailing tasks
 - The worker reads the task description and runs some Python function, which reads the original image from the filesystem, creates the smaller thumbnail images, saves them and then updates the database record to show that the thumbnailing is complete.
@@ -160,7 +156,7 @@ There are a couple of reasons that you'd want to put the database on its own ser
 - _mumble muble security mumble_
 
 Using an off-the-shelf option like AWS RDS is attractive because it reduces the amount of admin work that you need to run your database server.
-If you're a backend web develop with a lot of work to do and more money than time then this is a good move.
+If you're a backend web developer with a lot of work to do and more money than time then this is a good move.
 
 ### External services - object storage
 
@@ -175,7 +171,7 @@ There are a few reasons why this is a good idea
 - You don't need to worry about any filesystem admin, like running out of disk space
 - Multiple servers can easily share the same set of files
 
-Hopefully you see a theme here, we're taking shit we don't care about and making it someone elses problem.
+Hopefully you see a theme here, we're taking shit we don't care about and making it someone else's problem.
 Paying someone else to do the work of managing our files and database leaves us more free time to work on more important things.
 
 ### External services - web server
@@ -190,7 +186,7 @@ This seems kind of pointless though, why would you bother? Well, for one, you mi
 
 You could also replace NGINX with an off-the-shelf load balancer like an AWS Elastic Load Balancer or something similar.
 
-Note how putting our services on their own servers allows us to scale them out over multiple services. We couldn't run our Django app on three servers at the same time if we also had three copies of our filesystem and three databases.
+Note how putting our services on their own servers allows us to scale them out over multiple virtual machines. We couldn't run our Django app on three servers at the same time if we also had three copies of our filesystem and three databases.
 
 ### External services - task queue
 
@@ -198,59 +194,83 @@ You can also push your "offline task" services onto their own servers. Typically
 
 ![worker external setup]({attach}django-prod-architecture/worker-1-external.png)
 
-This is really useful
+Splitting your worker onto its own server is useful because:
 
-- broker on own server
-- worker on own server
+- You can protect your Django web app from "noisy neighbours": workers which are hogging all the RAM and CPU
+- You can give the worker server extra resources that it needs: CPU, RAM, or access to a GPU
+- You can now make changes to the worker server without risking damage to the task queue or the web server
+
+Now that you've split things up, you can also scale out your workers to run more tasks in parallel:
+
+![worker external setup 2]({attach}django-prod-architecture/worker-2-external.png)
 
 You could potentially swap our your self-managed broker (Redis or RabbitMQ) for a managed queue like [Amazon SQS](https://aws.amazon.com/sqs/).
 
-### External services - cache
+### External services - final form
 
-- redis on own server
+If you went totally all-out, your Django app could run be set up like this:
 
-### External services - web server
+![fully external setup]({attach}django-prod-architecture/full-external.png)
 
-- django app own server
-- you don't need to do this! this is an extreme example
-- show incrementally
+As you can see, you can go pretty crazy splitting up all the parts of your Django app and spreading across multiple servers.
+There are many upsides to this, but the downside is that you now have mutiple servers to provision, update, monitor and maintain.
+Sometimes the extra complexity is well worth or and sometimes it's a waste of your time. That said, there are many benefits to this setup:
 
-why?
+- Your web and worker servers are completely replaceable, you can destroy, create and update them without affecting uptime at all
+- You can now do [blue-green deployments](https://martinfowler.com/bliki/BlueGreenDeployment.html) with zero web app downtime
+- Your files and database are easily shared between multiple servers and applications
+- You can provision different sized servers for their different workloads
+- You can swap out your self-managed servers for managed infrastructure, like moving your task broker to AWS SQS, or your database to AWS RDS
+- You can now autoscale your servers (more on this later)
 
-- you want to be able to make the web server transient
-- provision different sized services for different workloads
-- forces you to untangle your infrastructure
-- allows you to use external services to do tasks that you don't want to
-  - AWS S3
-  - external database
-  - container runtimes
-  - load balancers
-  - externally hosted redis, queue broker
-  - app server to Heroku, Dokku, AWS ECS, AWS fargate etc
-- allows for autoscaling later
+When you have complicated infrastructure like this you need to start automating your infrastructure setup and server config.
+It's just not feasible to manage this stuff manually once your setup has this many moving parts. I recorded a talk
+on [configuration management](https://mattsegal.dev/intro-config-management.html) that introduces these concepts.
+You'll need to start looking into tools like [Ansible](https://www.ansible.com/) and [Packer](https://www.packer.io/) to configure your virtual machines,
+and tools like [Terraform](https://www.terraform.io/) or [CloudFormation](https://aws.amazon.com/cloudformation/) to configure your cloud services.
 
-complicated infrastructure needs more automation - Terraform, Packer, Cloudformation
+### Auto scaling groups
 
-### Scaling groups
+You've already seen how you can have multiple web servers running the same app, or multiple worker servers all pulling tasks from a queue.
+These servers cost money, dollars per hour, and it can get very expensive to run more servers than you need.
 
-- you can have multiple servers doing the same job
-- why not just make one server bigger?
-- some redundancy if something goes wrong like a botched deployment
-- scaling dynamically to save money
-- blue/green deployments
+This is where [autoscaling](https://aws.amazon.com/autoscaling/) comes in. You can setup your cloud services to use some sort of trigger, such as virtual machine CPU usage,
+to automatically create new virtual machines from an image and add them to an autoscaling group.
+
+Let's use our task worker servers as an example. If you have a thumbnailing service that turns [big uploaded photos](https://memories-ninja-prod.s3-ap-southeast-2.amazonaws.com/original/7e26334177b6ee7d5ab4c21f7149190e.jpeg) into [smaller photos](https://memories-ninja-prod.s3.amazonaws.com/thumbnail/7e26334177b6ee7d5ab4c21f7149190e.jpeg) then one server should be able to handle
+dozens of file uploads per second. What if during some periods of the day, like around 6pm after work, you saw file uploads spike from dozens per second to _thousands_ per second? Then you'd need more servers!
+With an autoscaling setup, the CPU usage on your worker servers would spike, triggering the creation of more and more worker servers, until you had enough to handle all the uploads.
+When the rate of file uploads drops, the extra servers would be automatically destroyed, so you aren't always paying for them.
 
 ### Container clusterfuck
 
-- you can decouple your virtual machines from your applications
-- use kubernets to define pods
-- good for big companies that want to provide an infrastructure platform
-- not good for a single developer
+There is a whole world of container fuckery that I haven't covered in much detail, because:
 
-krazam microservices
+- I don't know it very well
+- It's a little complicated for the targed audience of this post; and
+- I don't think that most people need it
 
-### Next steps
+For completeness I'll quickly go over some of the cool, crazy things you can do with containers. You can use tools like [Kubernetes](https://kubernetes.io/) and [Docker Swarm](https://www.sumologic.com/glossary/docker-swarm/) with a set of config files to define all your services as Docker containers and how they should all talk to each other. All your containers run somewhere in your Kubernetes/Swarm cluster, but as a
+developer, you don't really care what server they're on. You just build your Docker containers, write your config file, and push it up to your infrastructure.
 
-pass
+![maybe kubernetes]({attach}django-prod-architecture/kubernetes-maybe.png)
+
+Using these "container orchestration" tools allows you to decouple your containers from their underlying infrastructure.
+Multiple teams can deploy their apps to the same set of servers without any conflict between their apps.
+This is the kind of infrastructure that enables teams to deploy [microservices](https://www.youtube.com/watch?v=y8OnoxKotPQ).
+Big enterprises like Target will have specialised teams dedicated to setting up and maintaining these container orchestration systems, while other teams can use them without having
+to think about the underlying servers. These teams are essentially supplying a "platform as a service" (PaaS) to the rest of the organisation.
+
+As you might have noticed, there is probably too much complexity in these container orchestration tools for them to be worth your while as a solo developer or even as a small team.
+If you're interested in this sort of thing you might like [Dokku](http://dokku.viewdocs.io/dokku/), which claims to be "the smallest PaaS implementation you've ever seen".
+
+### End of tour
+
+That's basically everything that I know that I know about how Django can be set up in production.
+If you're interested in building up your infrastructure skills, then I recommend you try out one of the setups or tools that I've mentioned in this post.
+Hopefully I've built up your mental models of how Django gets deployed so that the next time someone mentions "task broker" or "autoscaling", you have some idea of what they're talking about.
+
+If you enjoyed reading this you might also like other things I've written about [deploying Django as simply as possible](https://mattsegal.dev/simple-django-deployment.html),
+how to [get started with offline tasks](https://mattsegal.dev/offline-tasks.html), how to start [logging to files](https://mattsegal.dev/file-logging-django.html) and [tracking errors](https://mattsegal.dev/sentry-for-django-error-monitoring.html) in prod and my [introduction to configuration management](https://mattsegal.dev/intro-config-management.html).
 
 If you liked the box diagrams in this post check out [Exalidraw](https://excalidraw.com/).
-link to configuration management talk

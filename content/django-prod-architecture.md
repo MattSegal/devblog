@@ -12,15 +12,12 @@ Before I started working a developer there was just a fuzzy cloud in my head whe
 If there's a fuzzy cloud in your head, let's fix it.
 There are many ways to extend a Django server setup to achieve better performance, cost-effectiveness and reliability.
 This post will take you on a tour of some common Django server setups, from the most simple and basic to the more complex and powerful.
-
-The focus of this post will be on building up your mental model of how Django is hosted in production,
-rather than the details of any particular product or vendor, so I'm not going to spend a lot of time talking about services like [Heroku](https://www.heroku.com/)
-or [pythonanywhere](https://www.pythonanywhere.com/) or do-it-yourself PaaS tools like [Dokku](http://dokku.viewdocs.io/dokku/).
+I hope it will build up your mental model of how Django is hosted in production, piece-by-piece.
 
 ### Your local machine
 
-Let's start with the simplest infrastructure - your local machine.
-This will be a useful reference for later sections.
+Let's start by reviewing a Django setup that you are alreay familiar with: your local machine.
+Going over this will be a warm-up for later sections.
 When you run Django locally, you have:
 
 - Your web browser (Chrome, Safari, Firefox, etc)
@@ -29,11 +26,13 @@ When you run Django locally, you have:
 
 ![local server setup]({attach}django-prod-architecture/local-server.png)
 
-Pretty simple right? Next let's look at the closest analogue in production.
+Pretty simple right? Next let's look at something similar, but deployed to a web server.
 
 ### Simplest possible webserver
 
-The simplest Django web server you can setup is very similar to your local dev environment. It looks like this:
+The simplest Django web server you can setup is very similar to your local dev environment.
+Most professional Django devs don't use a basic setup like this for their production environments. It works perfectly fine, but it has some limitations that we'll discuss later.
+It looks like this:
 
 ![simple server setup]({attach}django-prod-architecture/simple-server.png)
 
@@ -44,13 +43,11 @@ Instead of using runserver, you should use a WSGI server like [Gunicorn](https:/
 I go into more detail on why you shouldn't use runserver in production, and explain WSGI [here](https://mattsegal.dev/simple-django-deployment-2.html#wsgi).
 Otherwise, not that much is different from your local machine: you can still use SQLite as the database ([more here](https://mattsegal.dev/simple-django-deployment-2.html#sqlite)).
 
-There are a few other details that I didn't mention here like [setting up DNS](https://mattsegal.dev/dns-for-noobs.html), virtual environments, babysitting Gunicorn with a process supervisor like [Supervisord](https://mattsegal.dev/simple-django-deployment-4.html) or how to serve static files with [Whitenoise](http://whitenoise.evans.io/en/stable/), but this is bones of the basic setup. If you're interested in a more complete guide on how to set up a simple server like this, I wrote [a guide](https://mattsegal.dev/simple-django-deployment.html) that explains how to deploy Django.
-
-Most professional Django devs don't use a basic setup like this for their production environments, so let's move on towards something more typical.
+This is the bare bones of the setup. There are a few other details that you'll need to manage like [setting up DNS](https://mattsegal.dev/dns-for-noobs.html), virtual environments, babysitting Gunicorn with a process supervisor like [Supervisord](https://mattsegal.dev/simple-django-deployment-4.html) or how to serve static files with [Whitenoise](http://whitenoise.evans.io/en/stable/). If you're interested in a more complete guide on how to set up a simple server like this, I wrote [a guide](https://mattsegal.dev/simple-django-deployment.html) that explains how to deploy Django.
 
 ### Typical standalone webserver
 
-Let's go over a simple environment that a professional Django dev might set up in production when using a single server.
+Let's go over an environment that a professional Django dev might set up in production when using a single server.
 It's not the exact setup that everyone will always use, but the structure is very common.
 
 ![typical server setup]({attach}django-prod-architecture/typical-server.png)
@@ -66,15 +63,17 @@ Why did we swap SQLite for PostgreSQL? In general Postgres is a litte more advan
 time, while SQLite can't.
 
 Why did we add NGINX to our setup? NGINX is a dedicated webserver which provides extra features and performance improvements
-over just using Gunicorn to serve web requests. For example we can use NGINX to directly serve our app's static and media files from the file system, rather than routing our requests through Django first, which is slower. NGINX can also be configured to use HTTPS, serve redirects, log access requests and route requests to different apps on the server.
-You can use Gunicorn/Django to do a lot of this stuff, but NGINX is a tool that is specifically built for these tasks. There are alternatives to NGINX like the [Apache HTTP server](https://httpd.apache.org/) and [Traefik](https://docs.traefik.io/), but NGINX is the most widely used with Django.
+over just using Gunicorn to serve web requests. For example we can use NGINX to directly serve our app's static and media files more efficiently. NGINX can also be configured to a lot of other useful things, like encrypt your web traffic using HTTPS and compress your files to make your site faster. NGINX is the web server that is most commonly combined with Django, but there are also alternatives like the [Apache HTTP server](https://httpd.apache.org/) and [Traefik](https://docs.traefik.io/).
 
 It's important to note that everything here lives on a single server, which means that if the server goes away, so does all your data, unless you have backups.
 This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the [MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#media-root) folder, somewhere on your filesystem. Having only one server also means that if you server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
 
 ### Single webserver with multiple apps
 
-Once you start using NGINX and PostgreSQL, there's no reason you can't run multiple Django apps on the same machine.
+Once you start using NGINX and PostgreSQL, you can run multiple Django apps on the same machine.
+You can save money on hosting fees by packing multiple apps onto a single server rather than paying for a separate server for each app. This setup also allows you to re-use some of the services
+and configurations that you've already set up.
+
 NGINX is able to route incomping HTTP requests to different apps based on the domain name, and Postgres can host multiple databases on a single machine.
 For example, I use a single server to host some of my personal Django projects: [Matt's Links](http://mattslinks.xyz/), [Memories Ninja](http://memories.ninja/) and [Blog Reader](https://www.blogreader.com.au/)
 

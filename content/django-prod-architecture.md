@@ -1,7 +1,7 @@
 Title: A tour of Django server setups
 Description: A review of many different ways to deploy Django
 Slug: django-prod-architectures
-Date: 2020-05-20 12:00
+Date: 2020-05-25 12:00
 Category: Django
 
 If you haven't deployed a lot of Django apps, then you might be wonder:

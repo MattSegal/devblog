@@ -66,7 +66,7 @@ Why did we add NGINX to our setup? NGINX is a dedicated webserver which provides
 over just using Gunicorn to serve web requests. For example we can use NGINX to directly serve our app's static and media files more efficiently. NGINX can also be configured to a lot of other useful things, like encrypt your web traffic using HTTPS and compress your files to make your site faster. NGINX is the web server that is most commonly combined with Django, but there are also alternatives like the [Apache HTTP server](https://httpd.apache.org/) and [Traefik](https://docs.traefik.io/).
 
 It's important to note that everything here lives on a single server, which means that if the server goes away, so does all your data, unless you have backups.
-This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the [MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#media-root) folder, somewhere on your filesystem. Having only one server also means that if you server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
+This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the [MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#media-root) folder, somewhere on your filesystem. Having only one server also means that if your server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
 
 ### Single webserver with multiple apps
 
@@ -74,7 +74,7 @@ Once you start using NGINX and PostgreSQL, you can run multiple Django apps on t
 You can save money on hosting fees by packing multiple apps onto a single server rather than paying for a separate server for each app. This setup also allows you to re-use some of the services
 and configurations that you've already set up.
 
-NGINX is able to route incomping HTTP requests to different apps based on the domain name, and Postgres can host multiple databases on a single machine.
+NGINX is able to route incoming HTTP requests to different apps based on the domain name, and Postgres can host multiple databases on a single machine.
 For example, I use a single server to host some of my personal Django projects: [Matt's Links](http://mattslinks.xyz/), [Memories Ninja](http://memories.ninja/) and [Blog Reader](https://www.blogreader.com.au/)
 
 ![multi-app server setup]({attach}django-prod-architecture/multi-app-server.png)
@@ -159,7 +159,7 @@ If you're a backend web developer with a lot of work to do and more money than t
 
 It is common to push file storage off the web server into "object storage", which is basically a filesystem behind a nice API. This is often done using [django-storages](https://django-storages.readthedocs.io/en/latest/), which I enjoy using. Object storage is usually used for user-uploaded "media" such as documents, photos and videos. I use AWS S3 (Simple Storage Service) for this, but every big cloud hosting provider has some sort of "object storage" offering.
 
-![AWS S3 setup]({attach}django-prod-architecture/files-external.png)
+![AWS S3 setup]({attach}django-prod-architecture/files-external-revised.png)
 
 There are a few reasons why this is a good idea
 

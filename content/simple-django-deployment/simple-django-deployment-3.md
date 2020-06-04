@@ -96,4 +96,4 @@ There's just a bit more to go before it's fully deployed.
 ### Next steps
 
 To really say that our app is "deployed", we need it to run even when we're not around.
-In the next section, we'll learn how to [run Django in the background]({filename}/simple-django-deployment-4.md)
+In the next section, we'll learn how to [run Django in the background]({filename}/simple-django-deployment/simple-django-deployment-4.md)

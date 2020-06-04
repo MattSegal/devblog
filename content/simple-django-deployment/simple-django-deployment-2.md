@@ -238,4 +238,4 @@ Nothing too crazy.
 
 ### Next steps
 
-Now that we've done our local setup, we're ready to [deploy Django to the server]({filename}/simple-django-deployment-3.md)
+Now that we've done our local setup, we're ready to [deploy Django to the server]({filename}/simple-django-deployment/simple-django-deployment-3.md)

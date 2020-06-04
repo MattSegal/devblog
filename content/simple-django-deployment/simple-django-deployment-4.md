@@ -186,4 +186,4 @@ other security measures.
 
 ### Next steps
 
-Now that we've got our Django app up-and-running, all on its own, we can look forward to [automating the deployment]({filename}/simple-django-deployment-5.md), so we can deploy our code again and again, quickly and easily.
+Now that we've got our Django app up-and-running, all on its own, we can look forward to [automating the deployment]({filename}/simple-django-deployment/simple-django-deployment-5.md), so we can deploy our code again and again, quickly and easily.

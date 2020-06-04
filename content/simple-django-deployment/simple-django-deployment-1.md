@@ -199,4 +199,4 @@ This style of troubleshooting will become useful when we start setting up our Dj
 ### Next steps
 
 Now our server is ready to serve Django and we know how to troubleshoot HTTP connections.
-Next we will [prepare and test Django locally]({filename}/simple-django-deployment-2.md).
+Next we will [prepare and test Django locally]({filename}/simple-django-deployment/simple-django-deployment-2.md).

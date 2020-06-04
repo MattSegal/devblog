@@ -144,4 +144,4 @@ which is a great tool for writing scripts to automatically setting up servers.
 
 ### Next steps
 
-There's one last thing to do before our website is _really_ deployed - [give our app a domain name]({filename}/simple-django-deployment-6.md).
+There's one last thing to do before our website is _really_ deployed - [give our app a domain name]({filename}/simple-django-deployment/simple-django-deployment-6.md).

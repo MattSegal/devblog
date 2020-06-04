@@ -1,5 +1,5 @@
 Title: How to backup and restore a Postgres database
-Description: postgres-backup-and-restore
+Description: Losing your Django app's data is somewhere between annoying and catastropic. Here's how to take backups and restore from them in PostgreSQL.
 Slug: postgres-backup-and-restore
 Date: 2020-6-4 12:00
 Category: Django

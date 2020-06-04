@@ -4,8 +4,7 @@ const HUE_CUTOFF = 6;
 const SAT = 0.7;
 const VAL = 1;
 
-const MAX_ITERS = 200;
-const LOOP_DELAY = 80; // ms
+const STEP_MODULUS = 4; // mouse move steps per update
 const CELL_LENGTH = 3; // px
 const canvas = document.getElementById("banner-animation");
 const banner = document.getElementById("banner");
@@ -52,10 +51,12 @@ class GameOfLife {
     for (let i = 0; i < 10; i++) {
       this.progressGame();
     }
+    let counter = 0;
     window.addEventListener("mousemove", (e) => {
-      if (e.screenX % 2 === 0) {
+      if (counter % STEP_MODULUS == 0) {
         this.progressGame();
       }
+      counter++;
     });
   }
 

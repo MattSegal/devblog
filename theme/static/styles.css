@@ -33,7 +33,7 @@ header h1 {
   height: 50px;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 /* Semantic CSS override */
@@ -160,7 +160,7 @@ pre {
 }
 
 .subscribe {
-  width: 70%;
+  min-width: 70%;
 }
 .subscribe-cta {
   font-weight: bold;

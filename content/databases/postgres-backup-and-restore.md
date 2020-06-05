@@ -2,7 +2,7 @@ Title: How to backup and restore a Postgres database
 Description: Losing your Django app's data is somewhere between annoying and catastropic. Here's how to take backups and restore from them in PostgreSQL.
 Slug: postgres-backup-and-restore
 Date: 2020-6-4 12:00
-Category: Django
+Category: DevOps
 
 You've deployed your Django app to to the internet. Grats! Now you have a fun new problem: your app's database is full of precious "live" data, and if you lose that data, it's gone forever. If your database gets blown away or corrupted, then you will need backups to restore your data. This post will go over how to backup and restore PostgreSQL, which is the database most commonly deployed with Django.
 

@@ -12,6 +12,8 @@ from pelicanconf import *
 SITEURL = os.environ["PELICAN_HOSTURL"]
 RELATIVE_URLS = False
 
+FEED_RSS = 'feeds/rss.xml'
+CATEGORY_FEED_RSS = 'feeds/{slug}.rss.xml'
 FEED_ALL_ATOM = "feeds/all.atom.xml"
 CATEGORY_FEED_ATOM = "feeds/{slug}.atom.xml"
 

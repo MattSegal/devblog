@@ -2,7 +2,7 @@ Title: 9 commands for debugging Django in Docker containers
 Description: A list of handy Docker commands
 Slug: docker-container-debugging
 Date: 2020-04-8 12:00
-Category: Docker
+Category: DevOps
 
 You want to get started "Dockerizing" your Django environment and you do a tutorial which shows you how to set it all up with docker-compose. You follow the listed commands and everything is working. Cool!
 

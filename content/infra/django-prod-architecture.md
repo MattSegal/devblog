@@ -65,7 +65,7 @@ time, while SQLite can't.
 Why did we add NGINX to our setup? NGINX is a dedicated webserver which provides extra features and performance improvements
 over just using Gunicorn to serve web requests. For example we can use NGINX to directly serve our app's static and media files more efficiently. NGINX can also be configured to a lot of other useful things, like encrypt your web traffic using HTTPS and compress your files to make your site faster. NGINX is the web server that is most commonly combined with Django, but there are also alternatives like the [Apache HTTP server](https://httpd.apache.org/) and [Traefik](https://docs.traefik.io/).
 
-It's important to note that everything here lives on a single server, which means that if the server goes away, so does all your data, unless you have backups.
+It's important to note that everything here lives on a single server, which means that if the server goes away, so does all your data, [unless you have backups](https://mattsegal.dev/postgres-backup-and-restore.html).
 This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the [MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#media-root) folder, somewhere on your filesystem. Having only one server also means that if your server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
 
 ### Single webserver with multiple apps

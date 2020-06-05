@@ -26,7 +26,7 @@ Install the Python package
 pip install sentry-sdk
 ```
 
-Set an envrionment variable
+Set an environment variable
 
 ```bash
 export SENTRY_DSN="https://xxx@sentry.io/yyy"

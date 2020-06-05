@@ -4,7 +4,7 @@ Slug: postgres-backup-and-restore
 Date: 2020-6-4 12:00
 Category: DevOps
 
-You've deployed your Django app to to the internet. Grats! Now you have a fun new problem: your app's database is full of precious "live" data, and if you lose that data, it's gone forever. If your database gets blown away or corrupted, then you will need backups to restore your data. This post will go over how to backup and restore PostgreSQL, which is the database most commonly deployed with Django.
+You've deployed your Django web app to to the internet. Grats! Now you have a fun new problem: your app's database is full of precious "live" data, and if you lose that data, it's gone forever. If your database gets blown away or corrupted, then you will need backups to restore your data. This post will go over how to backup and restore PostgreSQL, which is the database most commonly deployed with Django.
 
 Not everyone needs backups. If your Django app is just a hobby project then losing all your data might not be such a big deal. That said, if your app is a critical part of a business, then losing your app's data could literally mean the end of the business - people losing their jobs and going bankrupt. So, at least some of time, you don't want to lose all your data.
 
@@ -217,4 +217,4 @@ I use this method quite often to pull non-sensitive data down from production en
 
 I hope you now have the tools you need to backups and restore your Django app's Postgres database. If you want to read more the [Postgres docs](https://www.postgresql.org/docs/12/index.html) have a good section on [database backups](https://www.postgresql.org/docs/12/backup-dump.html).
 
-Once you've got your head around database backups, you should automate the process to make it more reliable. I will write more on this soon.
+Once you've got your head around database backups, you should automate the process to make it more reliable. I will show you how to do this in [this follow-up post]({filename}/databases/postgres-backup-automate.md).

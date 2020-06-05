@@ -30,7 +30,7 @@ It's not your fault. These kinds of guide throw a lot of unfamilliar tools and c
 - apt package manager
 - PostgreSQL installation
 - PostgreSQL database admin
-- Python virtual envrionments
+- Python virtual environments
 - Prod Django settings
 - Running a gunicorn WSGI server
 - Firewall configurations
@@ -63,7 +63,7 @@ Here are the new technologies that I propose we learn to use:
 - A Linux virtual machine in the cloud for hosting (DigitalOcean)
 - SSH and SCP for accesing the server
 - git-bash shell scripting
-- Python virtual envrionments
+- Python virtual environments
 - Gunicorn WSGI server for running your app
 - Supervisor for keeping Gunicorn running
 - Whitenoise Python library to serve static files

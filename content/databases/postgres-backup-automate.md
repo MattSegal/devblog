@@ -77,67 +77,106 @@ echo "Latest S3 backup: $BACKUP_RESULT"
 
 Once you're confident that your backup script works, let's move on to getting it to run every day.
 
-### Running the backup script daily
+### Running cron jobs
 
 Next we need to get our server to run this script every day, even when we're not around. The simplest way to do this is on a Linux server is with [cron](https://en.wikipedia.org/wiki/Cron). Cron can automatically run scripts for us on a schedule. We'll be using the `crontab` tool to set up our backup job.
 
-Before we start, I must admit: I fucking hate cron. I believe it's the right thing for the job in this case, but I still hate it.
 You can read more about how to use crontab [here](https://linuxize.com/post/scheduling-cron-jobs-with-crontab/). If you find that you're having issues setting up cron, you might also find this [StackOverflow post](https://serverfault.com/questions/449651/why-is-my-crontab-not-working-and-how-can-i-troubleshoot-it) useful.
 
-Before we set up our daily database backup job, I suggest trying out a test script to make sure that your cron setup is working. For example, this script logs the current time to a file every time it is run:
+Before we set up our daily database backup job, I suggest trying out a test script to make sure that your cron setup is working. For example, this script prints the current time when is run:
 
 ```bash
 #!/bin/bash
-# Logs the current time to time.log
-touch ~/time.log
-date >> ~/time.log
+echo $(date)
 ```
 
-You can create this script and make it executable as follows:
+Write this script wih `nano`, save it, then make it executable as follows:
 
 ```bash
-tee ~/test.sh <<EOF
-#!/bin/bash
-# Logs the current time to time.log
-touch ~/time.log
-date >> ~/time.log
-EOF
 chmod +x ~/test.sh
 ```
 
-Alternatively you could `nano` or a similar text editor to write the script.
-Then you can test it out a little by running it a couple of times to check that it is logging the time:
+Then you can test it out a little by running it a couple of times to check that it is printing the time:
 
 ```bash
 ~/test.sh
-~/test.sh
-~/test.sh
-cat ~/time.log
-
-# Output
 # Sat Jun  6 08:05:14 UTC 2020
+~/test.sh
 # Sat Jun  6 08:05:14 UTC 2020
+~/test.sh
 # Sat Jun  6 08:05:14 UTC 2020
 ```
 
-Once you're confident that your test script works, you can create a cron job to run it every second.
-Next, let's setup cron to automatically run our test script every second.
-
+Once you're confident that your test script works, you can create a cron job to run it every minute.
 Cron uses a special syntax to specifiy how often a job runs. These "cron expressions" are a pain to write by hand, so I use
-[this tool](https://www.freeformatter.com/cron-expression-generator-quartz.html) to generate them.
-The cron expression for "every second" is the inscrutable string "`* * * * * ? *`".
-
-On Ubuntu you can see the cron daemon running as follows:
+[this tool](https://crontab.cronhub.io/) to generate them.
+The cron expression for "every minute" is the inscrutable string "`* * * * *`". This is the crontab entry that we're going to use:
 
 ```bash
-sudo service cron status
+# Test crontab entry
+SHELL=/bin/bash
+* * * * * ~/test.sh &>> ~/time.log
 ```
 
-every day
-`0 0 0 ? * * *`
+- The `SHELL` setting tells crontab to use bash to execute our command
+- The "`* * * * *`" entry tells cron to execute our command every minute
+- The command `~/test.sh &>> ~/time.log` runs our test script and appends all output to a log file
+
+Enter the text above into your user's crontab file using the crontab editor:
 
 ```bash
-sudo service cron restart
+crontab -e
 ```
 
-tail -f /var/log/syslog | grep --line-buffered cron
+Once you've saved your entry, you should then be able to view your crontab entry using the list command:
+
+```bash
+crontab -l
+# SHELL=/bin/bash
+# * * * * * ~/test.sh &>> ~/time.log
+```
+
+You can check that cron is actually trying to run your script by watching the system log:
+
+```bash
+tail -f /var/log/syslog | grep CRON
+# Jun  6 11:17:01 swarm CRON[6908]: (root) CMD (~/test.sh &>> ~/time.log)
+# Jun  6 11:17:01 swarm CRON[6908]: (root) CMD (~/test.sh &>> ~/time.log)
+```
+
+You can also watch your logfile to see that time is being written every minute:
+
+```bash
+tail -f time.log
+# Sat Jun 6 11:34:01 UTC 2020
+# Sat Jun 6 11:35:01 UTC 2020
+# Sat Jun 6 11:36:01 UTC 2020
+# Sat Jun 6 11:37:01 UTC 2020
+```
+
+Once you're happy that you can run a test script every minute with cron, we can move
+on to running your database backup script daily.
+
+### Running our backup script daily
+
+Now we're nearly ready to run our backup script using a cron job. There are a few changes that we'll
+need to make to our existing setup. First we need to write our database backup script to `~/backup.sh` and make sure it is executable:
+
+```bash
+chmod +x ~/backup.sh
+```
+
+Then we need to crontab entry to run every day, which will be "[`0 0 * * *`](https://crontab.cronhub.io/)",
+and update our cron command to run our backup script. Our new crontab entry should be:
+
+```bash
+# Database backup crontab entry
+SHELL=/bin/bash
+0 0 * * * ~/backup.sh &>> ~/backup.log
+```
+
+Update your crontab with `crontab -e`. Now we wait! This script should run every night at midnight (server time) to
+take your database backups and upload them to AWS S3. If this isn't working, then change your cron expression
+so that it runs the script every minute, and use the steps I showed above to try and debug the problem.
+
+Hopefully it all runs OK and you will have plenty of daily database backups to roll back to if anything ever goes wrong.

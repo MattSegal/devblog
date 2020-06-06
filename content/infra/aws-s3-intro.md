@@ -1,5 +1,5 @@
-Title: An intro to cloud file storage
-Description: A gentle introduction use AWS S3 to host all your files
+Title: An introduction to cloud file storage
+Description: A gentle introduction using AWS S3 to host all your files
 Slug: aws-s3-intro
 Date: 2020-6-5 11:00
 Category: DevOps

@@ -27,4 +27,14 @@ I like using S3 simply because I'm quite familiar with it, so that's what we're 
     </iframe>
 </div>
 
-One great use for object storage like AWS S3 is hosting your [database backups]({filename}/databases/postgres-backup-automate.md).
+As an update to this video: AWS also ships a self-contained CLI tool that doesn't need to be installed in a virtual environment, which you can read about [here](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html). Eg:
+
+```bash
+URL="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+curl $URL -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+```
+
+One great use-case for object storage like AWS S3 is hosting your [database backups]({filename}/databases/postgres-backup-automate.md).

@@ -166,3 +166,8 @@ pre {
 .subscribe-cta {
   font-weight: bold;
 }
+
+li > code,
+p > code {
+  color: #bb60d5;
+}

@@ -25,3 +25,5 @@ AUTHOR_FEED_RSS = None
 LINKS = []
 SOCIAL = []
 DEFAULT_PAGINATION = 10
+
+IGNORE_FILES = ["*.draft.*"]

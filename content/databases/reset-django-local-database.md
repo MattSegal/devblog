@@ -107,6 +107,13 @@ u.save()
 echo -e "\n>>> Database restore finished."
 ```
 
+### Other methods
+
+It's good to note that what I'm proposing is the "nuclear option": purge everything and restart from scratch. There are also some more precise methods available for managing your local database:
+
+- If you just want to reverse some particular migrations, then you can use the `migrate` command [as documented here](https://docs.djangoproject.com/en/3.0/topics/migrations/#reversing-migrations).
+- If you just want to delete all your data and you don't care about re-applying the migrations, then the `flush` management command, [documented here](https://docs.djangoproject.com/en/3.0/ref/django-admin/#flush) will take care of that.
+
 ### Docker environments
 
 If you're running your local Django app in a Docker container via `docker-compose`, then this process is a little bit more tricky, but it's not too much more complicated. You just need to add two commands to your script.

@@ -59,7 +59,7 @@ class Club(models.Model):
     member = models.ManyToManyField(User)
 ```
 
-### Build your data with Factory Boy
+### Building data with Factory Boy
 
 We'll be using [Factory Boy](https://factoryboy.readthedocs.io/en/latest/) to generate all our dummy data. It's a library that's built for automated testing, but it also works well for this use-case. Factory Boy can easily be configured to generate random but realistic data like names, emails and paragraphs by internally using the [Faker](https://faker.readthedocs.io/en/master/) library.
 
@@ -116,7 +116,7 @@ t.creator.name  # Michelle
 
 The ability to automatically generate related models and fake data makes Factory Boy quite powerful. It's worth taking a quick look at the [other suggested patterns](https://factoryboy.readthedocs.io/en/latest/recipes.html) if you decide to try it out.
 
-# Management command
+### Adding a management command
 
 Once you've defined all the models that you want to generate with Factory Boy, you can write a [management command](https://simpleisbetterthancomplex.com/tutorial/2018/08/27/how-to-create-custom-django-management-commands.html) to automatically populate your database. This is a pretty crude script that doesn't take advantage of all of Factory Boy's features, like sub-factories, but I didn't want to spend too much time getting fancy:
 
@@ -182,13 +182,13 @@ class Command(BaseCommand):
 
 Using the `transaction.atomic` decorator makes a big difference in the runtime of this script, since it bundles up 100s of queries and submits them in one go.
 
-# Images
+### Images
 
 If you need dummy images for your website as well then there are a lot of great free tools online to help. I use [adorable.io](https://api.adorable.io) for dummy profile pics and [Picsum](https://picsum.photos/) or [Unsplash](https://unsplash.com/developers) for larger pictures like this one: [https://picsum.photos/700/500](https://picsum.photos/700/500).
 
 ![picsum-example](https://picsum.photos/700/500)
 
-# Next steps
+### Next steps
 
 Hopefully this post helps you spin up a lot of fake data for your Django app very quickly.
 If you enjoy using Factory Boy to generate your dummy data, then you also might like incorporating it into your unit tests.

@@ -1,5 +1,5 @@
 Title: How to generate lots of dummy data for your Django app
-Description: How to quickly and repeatedly populate your Django app
+Description: How to quickly and repeatably populate your Django app with fake data
 Slug: django-factoryboy-dummy-data
 Date: 2020-6-14 12:00
 Category: Django

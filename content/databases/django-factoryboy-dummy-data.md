@@ -114,7 +114,7 @@ t.creator  # <User: Michelle>
 t.creator.name  # Michelle
 ```
 
-The ability to automatic generate related models and fake data makes Factory Boy quite powerful. It's worth taking a quick look at the [other suggested patterns](https://factoryboy.readthedocs.io/en/latest/recipes.html) if you decide to try it out.
+The ability to automatically generate related models and fake data makes Factory Boy quite powerful. It's worth taking a quick look at the [other suggested patterns](https://factoryboy.readthedocs.io/en/latest/recipes.html) if you decide to try it out.
 
 # Management command
 
@@ -152,11 +152,13 @@ class Command(BaseCommand):
             m.objects.all().delete()
 
         self.stdout.write("Creating new data...")
+        # Create all the users
         people = []
         for _ in range(NUM_USERS):
             person = UserFactory()
             people.append(person)
 
+        # Add some users to clubs
         for _ in range(NUM_CLUBS):
             club = ClubFactory()
             members = random.choices(
@@ -165,9 +167,11 @@ class Command(BaseCommand):
             )
             club.user.add(*members)
 
+        # Create all the threads
         for _ in range(NUM_THREADS):
             creator = random.choice(people)
             thread = ThreadFactory(creator=creator)
+            # Create comments for each thread
             for _ in range(COMMENTS_PER_THREAD):
                 commentor = random.choice(people)
                 CommentFactory(

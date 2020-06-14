@@ -4,7 +4,7 @@ Slug: reset-django-local-database
 Date: 2020-6-13 12:00
 Category: Django
 
-Sometimes when you're working on a Django app you want a fresh start. You want to nuke all of the data in your local database and start again from scratch. Maybe you ran some migrations that you don't want to keep, or perhaps there's some test data that you want to get rid of. This doesn't happen very often, but when it does it's _super_ annoying to do it manually over and over.
+Sometimes when you're working on a Django app you want a fresh start. You want to nuke all of the data in your local database and start again from scratch. Maybe you ran some migrations that you don't want to keep, or perhaps there's some test data that you want to get rid of. This kind of problem doesn't crop up very often, but when it does it's _super_ annoying to do it manually over and over.
 
 In this post I'll show you small script that you can use to reset your local Django database. It completely automates deleting the old data, running migrations and setting up new users. I've written the script in `bash` but most of it will also work in `powershell` or `cmd` with only minor changes.
 

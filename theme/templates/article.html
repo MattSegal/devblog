@@ -1,5 +1,14 @@
 {% extends "base.html" %} {% block html_lang %}{{ article.lang }}{% endblock %}
-{% block title %}{{ article.title }}{% endblock %} {% block social %}
+{% block title %}{{ article.title }}{% endblock %} {% block social_card %}
+<meta
+  property="og:image"
+  content="{{ SITEURL }}/theme/social-cards/{{ article.slug }}.png"
+/>
+<meta
+  name="twitter:image"
+  content="{{ SITEURL }}/theme/social-cards/{{ article.slug }}.png"
+/>
+{% endblock %} {% block social %}
 <meta name="description" content="{{ article.description }}" />
 <meta property="og:description" content="{{ article.description }}" />
 <meta name="twitter:description" content="{{ article.description }}" />

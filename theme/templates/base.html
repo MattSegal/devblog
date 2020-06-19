@@ -86,15 +86,15 @@
     <!-- Social media meta stuff -->
     <meta property="og:site_name" content="Matt Segal Dev" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="{{ SITEURL }}/theme/social-card.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:site" content="https://twitter.com/MattDSegal" />
     <meta name="twitter:creator" content="https://twitter.com/MattDSegal" />
     <meta name="twitter:card" content="summary_large_image" />
+    {% block social_card %}
+    <meta property="og:image" content="{{ SITEURL }}/theme/social-card.png" />
     <meta name="twitter:image" content="{{ SITEURL }}/theme/social-card.png" />
-
-    {% block social %}
+    {% endblock %} {% block social %}
     <meta name="description" content="Matt's blog on backend web development" />
     <meta
       property="og:description"

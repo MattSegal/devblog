@@ -2,3 +2,4 @@ markdown
 pelican
 pygments-lexer-babylon
 watchdog[watchmedo]
+Pillow

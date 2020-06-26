@@ -171,3 +171,8 @@ li > code,
 p > code {
   color: #bb60d5;
 }
+
+.paginator {
+  display: flex;
+  justify-content: space-between;
+}

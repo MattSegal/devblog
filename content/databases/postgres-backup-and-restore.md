@@ -67,8 +67,7 @@ pg_dump | head
 # SET client_encoding = 'UTF8';
 ```
 
-The SQL statements produced by `pg_dump` are instructions on how to re-create your database.
-You can turn this output into a backup by writing all this SQL text into a file:
+The SQL statements produced by `pg_dump` are instructions on how to re-create your database. You can turn this output into a backup by writing all this SQL text into a file:
 
 ```bash
 pg_dump > mybackup.sql
@@ -104,8 +103,7 @@ BACKUP_FILE="postgres_${PGDATABASE}_${TIME}.pgdump"
 pg_dump --format=custom > $BACKUP_FILE
 ```
 
-Now you can run these commands every month, week, or day to get a snapshot of your data.
-If you wanted, you could write this whole thing into a `bash` script called `backup.sh`:
+Now you can run these commands every month, week, or day to get a snapshot of your data. If you wanted, you could write this whole thing into a `bash` script called `backup.sh`:
 
 ```bash
 #!/bin/bash
@@ -126,8 +124,7 @@ You should avoid hardcoding passwords like I just did above, it's better to pass
 
 ### Restoring your database from backups
 
-It's pointless creating backups if you don't know how to use them to restore your data.
-There are three scenarios that I can think of where you want to run a restore:
+It's pointless creating backups if you don't know how to use them to restore your data. There are three scenarios that I can think of where you want to run a restore:
 
 - You need to set up your database from scratch
 - You want to rollback your exiting database to a previous time
@@ -217,4 +214,4 @@ I use this method quite often to pull non-sensitive data down from production en
 
 I hope you now have the tools you need to backups and restore your Django app's Postgres database. If you want to read more the [Postgres docs](https://www.postgresql.org/docs/12/index.html) have a good section on [database backups](https://www.postgresql.org/docs/12/backup-dump.html).
 
-Once you've got your head around database backups, you should automate the process to make it more reliable. I will show you how to do this in [this follow-up post]({filename}/databases/postgres-backup-automate.md).
+Once you've got your head around database backups, you should automate the process to make it more reliable. I will show you how to do this in [this follow-up post](https://mattsegal.dev/postgres-backup-automate.html).

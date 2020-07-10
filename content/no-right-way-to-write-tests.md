@@ -8,7 +8,7 @@ Today I read a Reddit thread that burned my eyes and hurt my head. A beginner wa
 
 > I'm now writing some unit tests ... I know that the correct way would be to write tests first and then the code, but unfortunately it had to be done this way.
 
-This is depressing... what kind of culture causes newbies to feel the need to _ask for forgiveness_ when writing tests? You can tell the poster has either previously copped some snark or has seen someone else lectured online for not doing things the "correct way".
+This is depressing... what causes newbies to feel the need to _ask for forgiveness_ when writing tests? You can tell the poster has either previously copped some snark or has seen someone else lectured online for not doing things the "correct way".
 
 Of all things in software development, the idea that there is a "correct way" to write tests is particularly puzzling to me. There are so many different use-cases for automated tests that there cannot be one right way to do it.
 
@@ -46,11 +46,11 @@ This is a perfect fit when you're writing code to deterministically transform da
 
 ## When unit tests don't make sense
 
-The main problem with unit tests is that you often can't always break your code up into pretty little pure functions.
+The main problem with unit tests is that you can't always break your code up into pretty little pure functions.
 
 When you start working on an existing legacy codebase there's no guarantee that the code is well-structured enough to allow for unit tests. I've encountered a fair few 2000+ line classes where reasoning about the effect of any one function is basically impossible because of all the shared state. You can't test a function if you don't know what it's supposed to do. These codebases cannot be rigourly unit tested straight away and need to be [gently massaged into a better shape over time](https://understandlegacycode.com/), which is a whole other can of worms.
 
-Another, very common, case where unit tests don't make much sense is when a lot of the heavy lifting is being done by a framework. This happens to me all the time when I'm writing code with the [Django](https://www.djangoproject.com/) web framework. In Django's REST Framework, we use a "serializer" class to validate data and translate Python objects into a JSON string and vice versa. For example:
+Another, very common, case where unit tests don't make much sense is when a lot of the heavy lifting is being done by a framework. This happens to me all the time when I'm writing web apps with the [Django](https://www.djangoproject.com/) framework. In Django's REST Framework, we use a "serializer" class to validate data and translate Python objects into a JSON string and vice versa. For example:
 
 ```python
 from django.db import models
@@ -68,13 +68,10 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = ["name", "email"]
 
-# Example usage of Person + PersonSerializer.
-# Make a data object
+# Example usage.
 p = Person(name="Matt", email="mattdsegal@gmail.com")
-# Read in the object and validate the data
 ps = PersonSerializer(p)
 ps.is_valid() # True
-# Turn the data into a JSON string
 JSONRenderer().render(ps.data)
 # '{"name":"Matt","email":"mattdsegal@gmail.com"}'
 ```
@@ -82,14 +79,13 @@ JSONRenderer().render(ps.data)
 In this case, there's barely anything for you to actually test.
 Don't get me wrong, you _could_ write unit tests for this code, but anything you write is just a re-hash of the definitions of the `Person` and `PersonSerializer`. All the interesting stuff is handled by the framework. Any "unit test" of this code is really just a test of the 3rd party code, which [already has heaps of tests](https://github.com/encode/django-rest-framework/tree/master/tests). In this case, writing unit tests is just adding extra boilerplate to your codebase, when the whole point of using a framework was to save you time.
 
-So if "unit tests" don't always make sense, what else can you do? There's a bunch of approaches you can take, and I'll highlight my two favourites, which I'll refer to as **smoke tests** and **integration tests**.
+So if "unit tests" don't always make sense, what else can you do? There are other styles of testing that you can use. I'll highlight my two favourites: **smoke tests** and **integration tests**.
 
 ## Quick 'n dirty smoke tests
 
-Some of the value of an automated test is checking that the code runs at all. A smoke test is a test that runs some code and checks that it doesn't crash.
-Smoke tests are really, really easy to write and maintain and they catch 50% of bugs (made up number). These kinds of tests are great for when:
+Some of the value of an automated test is checking that the code runs at all. A smoke test runs some code and checks that it doesn't crash. Smoke tests are really, really easy to write and maintain and they catch 50% of bugs (made up number). These kinds of tests are great for when:
 
-- your app has many potential code-paths, and only some of them will result in a crash
+- your app has many potential code-paths
 - you are using interpreted languages like JavaScript or Python which often crash at runtime
 - you don't know or can't predict what the output of your code will be
 
@@ -122,7 +118,7 @@ This crude style of testing is both fine and good. Don't let people shame you fo
 
 ## High level integration tests
 
-To me, integration tests are when you test a whole feature, end-to-end. You are testing a system of components (functions, classes, modules, libraries) and the _integrations_ between them. I think this style of testing often provides more bang-for-buck than a set of unit tests, because the integration tests cover a lot of different components with less code, and they check for behaviours that you actually care about.
+To me, integration tests are when you test a whole feature, end-to-end. You are testing a system of components (functions, classes, modules, libraries) and the _integrations_ between them. I think this style of testing can provide more bang-for-buck than a set of unit tests, because the integration tests cover a lot of different components with less code, and they check for behaviours that you actually care about. This is more "top down" approach to testing, compared to the "bottom up" style of unit tests.
 
 Calling back to my earlier Django example, an integration test wouldn't test any independent behaviour of the the `Person` or `PersonSerializer` classes. Instead, we would test them by exercising a code path where they are used in combination. For example, we would want to make sure that a GET request asking for a specific Person by their id returns the correct data. Here's the API code to be tested:
 
@@ -138,18 +134,18 @@ class PersonSerializer(serializers.ModelSerializer):
         model = Person
         fields = ["name", "email"]
 
-# create API endpoint for Person
+# API endpoint for Person
 class PersonViewSet(viewsets.RetrieveAPIView):
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
 
-# register API endpoint to a URL path
+# Attach API endpoint to a URL path
 router = routers.SimpleRouter()
 router.register("person", PersonViewSet)
 urlpatterns = [path("api", include(router.urls))]
 ```
 
-And here's a short integration test for the code above:
+And here's a short integration test for the code above. It used Django's [test client](https://docs.djangoproject.com/en/3.0/topics/testing/tools/#the-test-client) to simulate a HTTP GET request to our view and validate the data that is returned:
 
 ```python
 @pytest.mark.django_db
@@ -177,20 +173,17 @@ The level of pedantry displayed over how to name different kinds of tests irks m
 
 It's nice to have different names for different things, but I generally find that people focus too much whether they're doing this kind of that kind of testing, rather than focusing on _why_ they're testing their code.
 
-why are you writing this test?
+There are a variety of reasons people test their code:
 
-basically I think that
+- for developers to get quick feedback whether the logic of their new code works
+- to catch regressions in the logic of working code during development
+- to catch stupid mistakes and runtime errors
+- minimise the risk of shipping bugs to production
 
-names names names
-unit tests - then we argue about definitions
-
-smoke tests
-
-integration tests
-
-unit tests
-
-what are you testing?
+aaaaaabbb
+aaaaaabbb
+aaaaaabbb
+aaaaaabbb
 
 ## Write tests before you code
 

@@ -48,9 +48,9 @@ This is a perfect fit when you're writing code to deterministically transform da
 
 The main problem with unit tests is that you can't always break your code up into pretty little pure functions.
 
-When you start working on an existing legacy codebase there's no guarantee that the code is well-structured enough to allow for unit tests. I've encountered a fair few 2000+ line classes where reasoning about the effect of any one function is basically impossible because of all the shared state. You can't test a function if you don't know what it's supposed to do. These codebases cannot be rigourly unit tested straight away and need to be [gently massaged into a better shape over time](https://understandlegacycode.com/), which is a whole other can of worms.
+When you start working on an existing legacy codebase there's no guarantee that the code is well-structured enough to allow for unit tests. Most commercial code that you'll encounter is legacy code, and a lot of legacy code is untested. I've encountered a fair few 2000+ line classes where reasoning about the effect of any one function is basically impossible because of all the shared state. You can't test a function if you don't know what it's supposed to do. These codebases cannot be rigourly unit tested straight away and need to be [gently massaged into a better shape over time](https://understandlegacycode.com/), which is a whole other can of worms.
 
-Another, very common, case where unit tests don't make much sense is when a lot of the heavy lifting is being done by a framework. This happens to me all the time when I'm writing web apps with the [Django](https://www.djangoproject.com/) framework. In Django's REST Framework, we use a "serializer" class to validate data and translate Python objects into a JSON string and vice versa. For example:
+Another, very common, case where unit tests don't make much sense is when a lot of the heavy lifting is being done by a framework. This happens to me all the time when I'm writing web apps with the [Django](https://www.djangoproject.com/) framework. In Django's REST Framework, we use a "serializer" class to validate Python objects and translate them into a JSON string. For example:
 
 ```python
 from django.db import models
@@ -99,7 +99,7 @@ def test_processes_noise():
     assert outputs.shape == (1, 1, 80, 256)
 ```
 
-Typically when training a neural net it might take minutes of runtime before your code crashes because of all the data loading and processing that needs to happen. With smoke tests like this, you can check for stupid errors in seconds instead of minutes.
+This is valuable because runtime errors due to stupid mistakes are very common when building a neural net. A mismatch in array dimensions somewhere in the network is common stumbling block. Typically it might take minutes of runtime before your code crashes due to all the data loading and processing that needs to happen before the broken code is executed. With smoke tests like this, you can check for stupid errors in seconds instead of minutes.
 
 In a more web-development focused example, here's a Django smoke test that loops over a bunch of urls and checks that they all respond to GET requests with happy "200" HTTP status codes, without validating any of the data that is returned:
 
@@ -112,7 +112,7 @@ def test_urls_work(client):
         assert response.status_code == 200
 ```
 
-Maybe you don't have time to write detailed tests for all your web app's endpoints, but a smoke test like this will at least exercise your code and check for stupid errors.
+Maybe you don't have time to write detailed tests for all your web app's endpoints, but a quick smoke test like this will at least exercise your code and check for stupid errors.
 
 This crude style of testing is both fine and good. Don't let people shame you for writing smoke tests. If you do nothing but write smoke tests for your app, you'll still be getting a sizeable benefit from your test suite.
 
@@ -171,19 +171,32 @@ The level of pedantry displayed over how to name different kinds of tests irks m
 
 > Those are integration tests not unit tests
 
-It's nice to have different names for different things, but I generally find that people focus too much whether they're doing this kind of that kind of testing, rather than focusing on _why_ they're testing their code.
+It's nice to have different names for different things, but I generally find that people focus too much whether they're doing this kind or that kind of testing, rather than focusing on _why_ they're testing their code. There are lots of reasons why people test their code:
 
-There are a variety of reasons people test their code:
-
-- for developers to get quick feedback whether the logic of their new code works
-- to catch regressions in the logic of working code during development
 - to catch stupid mistakes and runtime errors
-- minimise the risk of shipping bugs to production
+- to catch violations of business logic
+- to check that new code works the way you think it should
+- to make sure you don't break code that was previously working
+- for developers to get quick feedback on their work
+- to minimise the risk of shipping bugs to production
 
-aaaaaabbb
-aaaaaabbb
-aaaaaabbb
-aaaaaabbb
+The way you write tests depends on the risk profile of application and its failure modes.
+
+Let's say you're working on a scientific model that runs computational simulations.
+
+Failures are often tiny numerical errors.
+Crashes are cheap in development but expensive if they happen in a long-running computation.
+It can be impossible to predict the output of the whole model.
+
+For an e-commerce website, the biggest risks are extended downtime and fraud.
+Shipping features fast.
+Features are simple and failures are usually runtime errors or violations of business logic.
+If you have manual acceptance testing.
+Development time is expensive.
+
+For a space rocket control system.
+Any type of failures are really really expensive.
+Development time is expensive, but the rocket blowing up is way mote expensive.
 
 ## Write tests before you code
 

@@ -46,7 +46,7 @@ First, you should describe what your project does at a high level: what problem 
 
 A key point to remember is that the employer or recruiter reading your GitHub is both lazy and time-poor. They might not read past the first few sentences... they might not even read the code! They may well assume that your project works without checking anything. Before you rush to pack your README with features that don't exist, you scallywag, note that they may ask you more about your project in a job interview. So, uh... don't lie about anything.
 
-Beyong a basic overview of your project, it's also good to outline the high-level architecture of your code - how it's structured. For example, in a Django web app, you could explain the different apps that you've implemented and their responsibilities.
+Beyond a basic overview of your project, it's also good to outline the high-level architecture of your code - how it's structured. For example, in a Django web app, you could explain the different apps that you've implemented and their responsibilities.
 
 If your project is a website, then you can also talk about the production infrastructure that your website runs on. For example:
 

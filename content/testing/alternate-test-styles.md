@@ -167,8 +167,8 @@ A valid criticism of this style of testing is that if the integration test fails
 
 ## Next steps
 
-Testing code is an art that requires you to apply judgement to your specific situation. I think you can cultivate this judgement by trying out different techniques. If you haven't already, try a new style of testing on your codebase and see if you like it.
+Testing code is an art that requires you to apply judgement to your specific situation. There's a bunch of styles and methodologies for testing your code and your choice depends on your codebase, your app's risk profile and your time constraints. I think you can cultivate this judgement by trying out different techniques. If you haven't already, try a new style of testing on your codebase and see if you like it.
 
-There's a bunch of styles and methodologies for testing your code and your choice depends on your codebase, your app's risk profile and your time constraints. I've enjoyed poking around the [Undertand Legacy Code](https://understandlegacycode.com/changing-untested-code) blog, which suggests quite a few novel testing methods that I've never heard of. I've got my eye on the "[approval test](https://understandlegacycode.com/approval-tests/)" for a codebase I'm currently working on.
+I've enjoyed poking around the [Undertand Legacy Code](https://understandlegacycode.com/changing-untested-code) blog, which suggests quite a few novel testing methods that I've never heard of. I've got my eye on the "[approval test](https://understandlegacycode.com/approval-tests/)" for a codebase I'm currently working on.
 
 If you're interested in reading more about automated testing with Python, then you might enjoy this post I wrote on how to [automatically run your tests on every commit with GitHub Actions](https://mattsegal.dev/pytest-on-github-actions.html).

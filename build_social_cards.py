@@ -24,6 +24,9 @@ def main():
     create_social_card("theme/static/social-card.png", TITLE_TEXT, subtitle_text)
 
     for path in glob.glob("content/**/*.md", recursive=True):
+        if ".draft." in path:
+            continue
+
         with open(path, "r") as f:
             lines = f.readlines()
 

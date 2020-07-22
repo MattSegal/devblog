@@ -6,14 +6,14 @@ Category: Django
 
 Does Django have "bad performance"?
 The framework is now is 15 years old, is it out of date?
-I mean, [look at these benchmarks](https://medium.com/@mihaigeorge.c/web-rest-api-benchmark-on-a-real-life-application-ebb743a5d7a3): the NodeJS-based Express framework is consistently getting better numbers than Django. Does that mean that Django is obsolete? Web apps written in Go have way better performance than those written in Python, so why bother learning Python?
+I mean, [look at these benchmarks](https://medium.com/@mihaigeorge.c/web-rest-api-benchmark-on-a-real-life-application-ebb743a5d7a3): the NodeJS-based Express framework is consistently getting better numbers than Django. It's not just NodeJS. Web apps written in Go have way better performance than those written in Python, so why bother learning Python?
 
 If you are learning Django in 2020 you might be worried that you're wasting time learning about an inferior technology.
 In this post I'll explore web application performance and try to convince you that Django's performance is perfectly fine.
 
 ## Benchmarks
 
-Let's start by digging into these ad-hoc web app performance benchmarks that you'll see pop up on Medium from time to time. To produce a graph like the one below, the author of [this article](https://medium.com/@mihaigeorge.c/web-rest-api-benchmark-on-a-real-life-application-ebb743a5d7a3) sets up a server for each of the frameworks tested and spams them with a bunch of HTTP requests. The benchmarking tool counts number of requests served per second by each framework.
+Let's start by digging into the ad-hoc web app performance benchmarks that you'll see pop up on Medium from time to time. To produce a graph like the one below, the author of [this article](https://medium.com/@mihaigeorge.c/web-rest-api-benchmark-on-a-real-life-application-ebb743a5d7a3) sets up a server for each of the frameworks tested and spams them with a bunch of HTTP requests. The benchmarking tool counts number of requests served per second by each framework.
 
 ![benchmark]({attach}img/benchmark.png)
 
@@ -23,6 +23,7 @@ So what kind of performance metrics should you pay attention to when working on 
 
 ## So, what is "performance" exactly?
 
+When you ask whether a framework or language is "slow", you have to ask "slow at what?" and "why do you care?".
 Fundamentally I think there are really only two performance goals you care about: a good user experience and low hosting cost. How much money does running this website cost me, and do people enjoy using my website? For user experience I'm going to talk about two factors:
 
 - Concurrency: how many people can use your website at the same time
@@ -32,43 +33,58 @@ Cost, on the other hand, is typically proportional to compute resources: how man
 
 ## Response time in Django
 
-Users don't like to wait.
+Users don't like waiting for their page to load, so the less time they have to wait, the better. There are a few different
+metrics that you could use to measure page load speed, such as [time to first byte](https://web.dev/time-to-first-byte/) or [first contentful paint](https://web.dev/first-contentful-paint/), both of which you can check with [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/).
 
-- latency in Django
-- push long running tasks offline
+Faster responses don't benefit your user linearly though, not every 5x speedup is equally beneficial:
 
-middleware!!!
+- A user getting a response in 5s compared to 25s transforms the app from "broken" to "barely useable"
+- 1s compared to 5s is a huge improvement
+- 200ms instead of 1s is great
+- 50ms instead of 200ms is nice, I guess, but many people wouldn't notice
+- 10ms instead of 50ms is imperceptible, no one can tell the difference
 
-When you ask whether a framework or language is "slow", you have to ask "slow at what?" and "why do you care?".
-You really need to apply a utlity function to all of these "performance" improvements.
-A user getting a response in 5s compared to 25s transforms the app from "broken" to "barely useable"
-1s compared to 5s is a huge improvement
-200ms instead of 1s is good
-50ms instead of 200ms is nice, I guess, but many people wouldn't notice
-10ms instead of 50ms is just wank, no one can tell the difference
 So if someone says "this framework is 5x faster than that framework blah blah blah" it really doesn't mean anything without more context.
 
-The sub-10ms page load times is useful for throughput -- latency can improve concurrency
+# FIXME
+The sub-10ms page load times is useful for throughput -- latency can improve concurrency.
 
-- how to test your Django app's performance
 
-  - newrelic
-  - Django debug Toolbar
+So, what makes a page load slowly in Django?
+
+### Too many database queries
+
+  - N+1 queries - fix
+  - too many database queries
+  - write regression tests to count number of database calls
+  - cache expensive queries
+
+### External API calls
+
+- 3rd party API calls in views
+- cache results
+- push long running tasks offline
+
+### What else?
+
+  - fetching too much data (pagination)
+  - images + static slow to load (CDN)
+  - too many cache hits (they add up!)
+  - slow processing in memory (It's usually never python... but)
+
+
+### How to test your Django app's performance
+
+  - newrelic, datadog
+  - Django Debug Toolbar
   - database query logging
   - https://developers.google.com/web/tools/lighthouse
   - just try it out
 
-- the most common things that will make your Django app slow
-  - N+1 queries - fix
-  - too many database queries
-  - 3rd party API calls in views
-  - too many cache hits
-  - CDN
-
-
 ## Concurrency in Django
 
 As we saw in the benchmark above, Django web apps can handle multiple requests at the same time. This is important if your application has many users on your website at the same time. Multiple concurrent requests are handled by the WSGI server which runs the Django app in production. If too many users try to use your site at the same time, then it will eventually become overwhelmed, and users will receiving errors or timeouts. I'm going to use [Gunicorn](https://gunicorn.org/), a commonly used WGSI server, as a reference. Gunicorn can provide two kinds of concurrency: multiple workers or multiple threads.
+
 
 A Gunicorn server runs a master process with multiple child "worker" processes. Each child process has its own thread(s) of execution. So a Gunicorn WSGI app can run, for example, five workers, which can together process at least 5 requests using your Django code at the same time. Each worker will passively eat up some RAM and will require access to a CPU core when serving requests.
 

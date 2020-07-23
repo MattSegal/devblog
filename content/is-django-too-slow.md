@@ -6,7 +6,7 @@ Category: Django
 
 Does Django have "bad performance"?
 The framework is now 15 years old. Is it out of date?
-In general, I think that there's no need to worry. Django's performance is perfectly fine for most use-cases
+Mostly, no. I think that Django's performance is perfectly fine for most use-cases.
 In this post I'll review different aspects of Django's "performance" as a web framework and discuss how you can decide whether it's a good fit for your web app.
 
 ## Benchmarks

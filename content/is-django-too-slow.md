@@ -120,7 +120,7 @@ Cost savings on infrastructure might be a waste if the change makes you less pro
 
 Choosing languages, frameworks and optimisations is an engineering decision, and in all engineering decisions there are competing tradeoffs to be considered, at least at the [Pareto frontier](https://en.wikipedia.org/wiki/Pareto_efficiency).
 
-If raw performance was all we cared about, we'd just write all our web apps in raw assembly.
+If raw performance was all we cared about, then we'd just write all our web apps in assembly.
 
 ![web development in assembly]({attach}/img/assembly.webp)
 

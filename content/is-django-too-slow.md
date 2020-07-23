@@ -1,7 +1,7 @@
 Title: Is Django too slow?
 Description: A discussion of Django's performance
 Slug: is-django-too-slow
-Date: 2020-7-17 12:00
+Date: 2020-7-24 12:00
 Category: Django
 
 Does Django have "bad performance"?

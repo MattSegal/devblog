@@ -1,0 +1,23 @@
+As we saw in the benchmark above, Django web apps can handle multiple requests at the same time. This is important if your application has many users on your website at the same time. Multiple concurrent requests are handled by the WSGI server which runs the Django app in production. If too many users try to use your site at the same time, then it will eventually become overwhelmed, and users will receiving errors or timeouts. I'm going to use [Gunicorn](https://gunicorn.org/), a commonly used WGSI server, as a reference. Gunicorn can provide two kinds of concurrency: multiple workers or multiple threads.
+
+A Gunicorn server runs a master process with multiple child "worker" processes. Each child process has its own thread(s) of execution. So a Gunicorn WSGI app can run, for example, five workers, which can together process at least 5 requests using your Django code at the same time. Each worker will passively eat up some RAM and will require access to a CPU core when serving requests.
+
+Each worker process can also have multiple threads, meaning one worker can handle multiple requests the same time. Eg. 5 workers with 2 threads each could process up to 10 requests at the same time. The key thing to know is that Gunicorn threads are "[green threads](https://en.wikipedia.org/wiki/Green_threads)", meaning that all the threads on a single worker have to share access to one CPU core. This means
+
+But then what happens if a new request comes in and all the worker threads are busy? I'm a little fuzzy on this, but I believe these extra requests get put in a queue, which is managed by Gunicorn. It appears that the [default length](https://docs.gunicorn.org/en/stable/settings.html#backlog) of this queue is 2048 requests. So if the workers get overwhelmed, then the extra requests get put on the queue so that the workers can (hopefully) process them later. Typically NGINX will timeout any connections that have not received a response in 60s or less, so if a request gets put in the queue and does't get responded to in 60s, then the user will get a HTTP 504 "Gateway Timeout" error. If the queue gets full, then Gunicorn will start sending back errors for any overflowing requests.
+
+You may be wondering: how do you know how many workers and threads to run? The answer to this will depend on:
+
+- How much RAM your machine has
+- How many CPU cores are available
+- Are your requests CPU or IO bound?
+
+First of all, each new worker process eats up some more RAM, so at some point your machine's RAM will limit the number of workers. You can save a little RAM using [preload](https://docs.gunicorn.org/en/latest/settings.html#preload-app). Next there's the number of CPUs. If you have 100 worker processes and only one CPU core, then they will spend all of their time fighting to execute code on the CPU, which is wasteful overhead. You need to scale the number of workers to the number of CPU cores to avoid this overhead. The [Gunicorn docs](https://docs.gunicorn.org/en/latest/design.html#how-many-workers) recommend using the rule of thumb `(2 x $num_cores) + 1`.
+
+Next you'll need to decide how many threads per worker you're going to use. Because we're using "green threads", the number of threads you decide to use depends on what your web app is doing. If your app is primarly doing a lot of CPU-intensive work like manipulating strings and crunching numbers then your code will be "CPU bound", meaning more threads aren't going to improve performace. On the other hand, if your app is spending most of its time waiting for the results of database queries, API requests and reading files, then it is "I/O bound" and would benefit from more threads per worker. Generally I think most Django apps are I/O bound - they spend most of their time waiting for database queries, and a little bit of time building HTML templates and JSON strings. So why not have 10000 threads per worker? Well, running too many threads (or workers) can result in the "[thundering herd problem](https://docs.gunicorn.org/en/latest/faq.html#does-gunicorn-suffer-from-the-thundering-herd-problem)", which is described in great detail [here](https://rachelbythebay.com/w/2020/03/07/costly/).
+
+Finally, you should test out your app with locust.
+
+You can read more on how to configure Gunicorn to use more workers/threads [here](https://medium.com/building-the-system/gunicorn-3-means-of-concurrency-efbb547674b7), and an interesting case study on optimising Gunicorn for [arxiv-vanity.com](https://www.arxiv-vanity.com/) [here](https://medium.com/@bfirsh/squeezing-every-drop-of-performance-out-of-a-django-app-on-heroku-4b5b1e5a3d44).
+
+AUTOSCALING

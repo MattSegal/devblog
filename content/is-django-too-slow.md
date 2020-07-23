@@ -6,10 +6,8 @@ Category: Django
 
 Does Django have "bad performance"?
 The framework is now 15 years old. Is it out of date?
-I mean, [look at these benchmarks](https://medium.com/@mihaigeorge.c/web-rest-api-benchmark-on-a-real-life-application-ebb743a5d7a3): NodeJS/Express is consistently getting better numbers than Django.
-
-If you are learning Django in 2020 then you might be worried that you're wasting time with an inferior technology.
-In this post I'll explore web application performance and try to convince you that Django's performance is perfectly fine for most use-cases.
+In general, I think that there's no need to worry. Django's performance is perfectly fine for most use-cases
+In this post I'll review different aspects of Django's "performance" as a web framework and discuss how you can decide whether it's a good fit for your web app.
 
 ## Benchmarks
 
@@ -17,7 +15,14 @@ Let's start by digging into the ad-hoc web app performance benchmarks that you'l
 
 ![benchmark]({attach}img/benchmark.png)
 
-These results are interesting in the same way that it's interesting that a man once ate [73 hotdogs in 10 minutes](https://nathansfamous.com/the-stand/hdec-fun-facts/). "Huh, cool... I guess" sums up my reaction. Why do I find these numbers so underwhelming? It's because they're irrelevant to practical web development. PHP Laravel, the worst performing framework on this chart still served **76 requests per second** on a $5/month webserver. With baseline numbers like that, what does it matter if NodeJS served 3000 requests per second? It's like saying some guy ate 200 hotdogs in 10 minutes instead of 73. Yeah, I get it, it's a lot of hotdogs: _who cares_? Given that this kind of test is a little silly, what kind of performance metrics should you pay attention to when working on your Django app?
+I think these kind of measurements are irrelevant to practical web development. There are a few factors to consider:
+
+- Is the metric being measured actually of interest? What's a good baseline? Is 100 requests per seconds good, or pathetic? Is 3000 requests/s practically better than 600 requests/s?
+- Is the test representative of an actual web app workload? In this case, how often do we just send a static "hello world" JSON to users?
+- Are we comparing apples to apples? For example, ExpressJS has 3 layers of relatively simple middleware enabled by default, wheras Django provides a larger stack of middleware features, "out of the box"
+- Has each technology been set up correctly? Was Gunicorn, for example, run with an optimal number of workers?
+
+This kind of naive comparsison is a little misleading and it's hard to use it to make practical decisions. So, what kind of performance metrics should you pay attention to when working on your Django app?
 
 ## What do you mean by "performance"?
 

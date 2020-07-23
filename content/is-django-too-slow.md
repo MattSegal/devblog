@@ -5,7 +5,7 @@ Date: 2020-7-24 12:00
 Category: Django
 
 Does Django have "bad performance"?
-The framework is now is 15 years old. Is it out of date?
+The framework is now 15 years old. Is it out of date?
 I mean, [look at these benchmarks](https://medium.com/@mihaigeorge.c/web-rest-api-benchmark-on-a-real-life-application-ebb743a5d7a3): NodeJS/Express is consistently getting better numbers than Django.
 
 If you are learning Django in 2020 then you might be worried that you're wasting time with an inferior technology.

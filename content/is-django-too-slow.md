@@ -65,8 +65,7 @@ You will always have to wait for Django when it is:
 
 All this stuff run really fast on modern computers, but it is still overhead.
 Most humans don't mind waiting roughly a second for their web page to load, but machines can be more impatient.
-If you are using Django to serve an API, where it is primarily computer programs talking to other computer programs, then it _may_ not be fast enough.
-Some applications where you would consider ditching Django to shave off some latency are:
+If you are using Django to serve an API, where it is primarily computer programs talking to other computer programs, then it _may_ not be fast enough for very high performance workloads. Some applications where you would consider ditching Django to shave off some latency are:
 
 - a stock trading marketplace
 - an global online advertisement serving network

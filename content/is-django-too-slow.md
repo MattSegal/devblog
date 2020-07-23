@@ -75,7 +75,7 @@ As we saw in the benchmark above, Django web apps can handle multiple requests a
 
 A Django app's [WSGI server](https://mattsegal.dev/simple-django-deployment-2.html#wsgi) is the thing that handles multiple concurrent requests. I'm going to use [Gunicorn](https://gunicorn.org/), the WGSI server I know best, as a reference. Gunicorn can provide two kinds of concurrency: multiple child worker processes and multiple green threads per worker. If you don't know what a "process" or a "green thread" is then, whatever, suffice to say that you can set Gunicorn up to handle multiple requests at the same time. 
 
-What happens if a new request comes in and all the workers/threads are busy? I'm a little fuzzy on this, but I believe these extra requests get put in a queue, which is managed by Gunicorn. It appears that the [default length](https://docs.gunicorn.org/en/stable/settings.html#backlog) of this queue is 2048 requests. So if the workers get overwhelmed, then the extra requests get put on the queue so that the workers can (hopefully) process them later. Typically NGINX will timeout any connections that have not received a response in 60s or less, so if a request gets put in the queue and does't get responded to in 60s, then the user will get a HTTP 504 "Gateway Timeout" error. If the queue gets full, then Gunicorn will start sending back errors for any overflowing requests.
+What happens if a new request comes in and all the workers/threads are busy? I'm a little fuzzy on this, but I believe these extra requests get put in a queue, which is managed by Gunicorn. It appears that the [default length](https://docs.gunicorn.org/en/stable/settings.html#backlog) of this queue is 2048 requests. So if the workers get overwhelmed, then the extra requests get put on the queue so that the workers can (hopefully) process them later. Typically NGINX will timeout any connections that have not received a response in 60s or less, so if a request gets put in the queue and doesn't get responded to in 60s, then the user will get a HTTP 504 "Gateway Timeout" error. If the queue gets full, then Gunicorn will start sending back errors for any overflowing requests.
 
 It's interesting to note the relationship between request throughput and response time. If your WSGI server has 10 workers
 and each request takes 1000ms to complete, then you can only serve ~10 requests per second. If you optimise your Django code so that each request only takes
@@ -109,13 +109,13 @@ If you're interested, you can read more on Gunicorn [worker selection](https://d
 ## When is Django's concurrency not enough?
 
 You will have hit the wall when you run out of money, or you can't move your app to a bigger server, or distribute it across more servers.
-If you've twiddled all the available setings and still can't get your app to handle all the incoming requests without sending back errors or 
-burning through giant piles of cash, then maybe Django isn't the right backend framework for your applciation.
+If you've twiddled all the available settings and still can't get your app to handle all the incoming requests without sending back errors or 
+burning through giant piles of cash, then maybe Django isn't the right backend framework for your application.
 
 ## The other kind of "performance"
 
 There's one more aspect of performance to consider: your performance as a developer. Call it your [takt time](https://en.wikipedia.org/wiki/Takt_time), if you like metrics. Your ability to quickly and easily fix bugs and ship new features is valuable to both you and your users.
-Improvements to the speed or thoroughput of your web app that also makes your code harder to work with may not be worth it.
+Improvements to the speed or throughput of your web app that also makes your code harder to work with may not be worth it.
 Cost savings on infrastructure might be a waste if the change makes you less productive and costs you your time.
 
 Choosing languages, frameworks and optimisations is an engineering decision, and in all engineering decisions there are competing tradeoffs to be considered, at least at the [Pareto frontier](https://en.wikipedia.org/wiki/Pareto_efficiency).

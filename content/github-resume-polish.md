@@ -31,7 +31,7 @@ You can achieve a similar result in Windows PowerShell, but it'll be a little mo
 
 Sometimes you do need to keep some media files, documents or even small databases in your source control. This is okay to do as long as it's an essential part of running, testing or documenting the code, as opposed to random clutter that you forgot to remove or gitignore. A good example of non-code files that you should keep in source control is website static files, like favicons and fonts.
 
-### Write a README
+<h3 id="readme">Write a README</h3>
 
 Your project _must_ have a README file. This is a file in the root of your project's repository called `README.md`. It's a text file written in [Markdown](https://github.com/adam-p/markdown-here/wiki/markdown-cheatsheet) that gives a quick overview of what your project is and what it does. Not having a README makes your project seem crappy, and many people, including me, may close the browser window without checking any code if there isn't one present.
 

@@ -1,4 +1,5 @@
 ### Too many database queries
+https://www.reddit.com/r/django/comments/hv5yrj/how_well_can_django_scale/
 
 
 - N+1 queries - fix

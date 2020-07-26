@@ -137,9 +137,23 @@ gunicorn myapp.wsgi:application -c /some/folder/gunicorn.conf.py
 
 ### Django logging
 
+Django logging refers to the output of your Django application. The kind of messages you see printed by `runserver` in development. Stuff like this:
+
+```text
+Sending Thing<b5d1854b-7efc-4c67-9e9b-a956c10e5b86]> to Google API
+Google API called failed: {'error_description': 'You failed hahaha'}
+Traceback (most recent call last):
+  File "/app/google/api/base.py", line 102, in _handle_json_response
+    resp.raise_for_status()
+  File "/usr/local/lib/python3.6/dist-packages/requests/models.py"
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error
+Setting expired tokens to inactive: []
+```
+
 I discuss Django logging in more detail in [this guide](https://mattsegal.dev/file-logging-django.html), but I will give you a brief summary here.
 Django uses the same conventions as Python's standard library [logging](https://docs.python.org/3/library/logging.html) module, which is kind of a pain to learn, but valuable to know.
-The Django docs provide a nice overview of their logging config [here](https://docs.djangoproject.com/en/3.0/topics/logging/).
+The Django docs provide a nice overview of logging config [here](https://docs.djangoproject.com/en/3.0/topics/logging/).
 
 I think you have two viable options for your Django logging:
 

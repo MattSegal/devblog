@@ -81,7 +81,7 @@ For example, I use a single server to host some of my personal Django projects: 
 
 I've omitted the static files for simplicity. Note that having multiple apps on one server saves you hosting costs, but there are downsides: restarting the server restarts all of your apps.
 
-### Single webserver with a worker
+<h3 id="worker">Single webserver with a worker</h3>
 
 Some web apps need to do things other than just [CRUD](https://www.codecademy.com/articles/what-is-crud). For example, my website [Blog Reader](https://www.blogreader.com.au/) needs to scrape [text](https://slatestarcodex.com/2020/04/24/employer-provided-health-insurance-delenda-est/) from a website and then send it to an Amazon API to be translated into [audio files](https://media.blogreader.com.au/media/043dcf9fe4c1df539468000cb97af1d7.mp3). Another common example is "thumbnailing", where you upload a huge 5MB image file to Facebook and they downsize it into a crappy 120kB JPEG. These kinds of tasks do not happen inside a Django view, because they take too long to run. Instead they have to happen "offline", in a separate worker process, using tools like [Celery](http://www.celeryproject.org/), [Huey](https://huey.readthedocs.io/en/latest/django.html), [Django-RQ](https://github.com/rq/django-rq) or [Django-Q](https://django-q.readthedocs.io/en/latest/). All these tools provide you with a way to run tasks outside of Django views and do more complicated things, like co-ordinate multiple tasks and run them on schedules.
 

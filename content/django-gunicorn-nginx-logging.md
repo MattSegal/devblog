@@ -57,7 +57,7 @@ You can quickly view these logs using `tail`:
 ```bash
 # View last 5 log lines
 tail -n 5 /var/log/nginx/access.log
-# View last 10 log lines and watch for new ones
+# View last 5 log lines and watch for new ones
 tail -n 5 -f /var/log/nginx/access.log
 ```
 

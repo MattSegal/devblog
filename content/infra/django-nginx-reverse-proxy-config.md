@@ -20,7 +20,6 @@ server {
     server_name www.example.com;
     location / {
         proxy_pass http://127.0.0.1:8000;
-        proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
@@ -127,7 +126,7 @@ curl localhost/some/path/on/website
 # Hello World
 ``` 
 
-With the HTTP request: 
+With `curl` sending this HTTP request: 
 
 ```http
 GET /some/path/on/website HTTP/1.1
@@ -136,7 +135,7 @@ User-Agent: curl/7.58.0
 Accept: */*
 ```
 
-and the same response as before:
+and we get back the same response as before:
 
 ```http
 HTTP/1.1 200 OK
@@ -239,11 +238,27 @@ server {
 }
 ```
 
+Under this configuration, any request that doesn't match `/forbidden` will return a 403 Forbidden status code, and everything else will return _Cool!_ Let's try it out:
 
+```bash
+curl localhost
+# Cool!
+curl localhost/blah/blah/blah
+# Cool!
+curl localhost/forbidden
+# <html>
+# <head><title>403 Forbidden</title></head>
+# ...
+# </html>
 
+curl localhost/forbidden/blah/blah/blah
+# <html>
+# <head><title>403 Forbidden</title></head>
+# ...
+# </html>
+```
 
-
-Now that we've covered `server` and `location` blocks it should be easier to make sense of this config:
+Now that we've covered `server` and `location` blocks it should be easier to make sense of some of the config that I showed you at the start of this post:
 
 ```nginx
 server {
@@ -262,45 +277,131 @@ Next we'll dig into the connection between NGINX and our WSGI server.
 
 ## Reverse proxy location
 
+As mentioned earlier, NGINX acts as a [reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy#:~:text=In%20computer%20networks%2C%20a%20reverse,from%20the%20proxy%20server%20itself.) for Django:
+
+![nginx proxy]({attach}/img/nginx-proxy.png)
+
+
+This reverse proxy setup is configured within this location block:
+
+```nginx
 location / {
     proxy_pass http://127.0.0.1:8000;
-    proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_redirect http://127.0.0.1:8000 http://www.example.com;
 }
+```
 
+In the next few sections I will break down the directives in this block so that you understand what is going on. 
+You might also find the NGINX documentation on [reverse proxies](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) helpful for understanding this config.
 
 ## Proxy pass
 
-proxy_pass http://127.0.0.1:8000;
-proxy_pass http://unix:/home/sammy/myproject/myproject.sock;
+The `proxy_pass` directive tells NGINX to send all requests for that location to the specified address.
+For example, if your WSGI server was running on 127.0.0.1 / localhost, port 8000, then you would use this config:
+
+```nginx
+server {
+    listen 80;
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+    }
+}
+```
+
+You can also point proxy pass at a [Unix domain socket](https://en.wikipedia.org/wiki/Unix_domain_socket#:~:text=A%20Unix%20domain%20socket%20or,the%20same%20host%20operating%20system.), with Gunicorn listening on that socket, which is very similar to using localhost except it doesn't use up a port number and it's a bit faster:
+
+```nginx
+server {
+    listen 80;
+    location / {
+        proxy_pass http://unix:/home/user/my-socket-file.sock;
+    }
+}
+```
+
+Seems simple enough - you just point NGINX at your WSGI server, so... what was all that other crap? Why do you set `proxy_set_header` and `proxy_redirect`? That's what we'll discuss next.
 
 ## Setting the Host header
 
-proxy_set_header Host $host;
+Django would like to know the value of the Host header so that various bits of the framework, like [ALLOWED_HOSTS](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts) or [HttpRequest.get_host](https://docs.djangoproject.com/en/3.0/ref/request-response/#django.http.HttpRequest.get_host) can function. The problem is that NGINX does not pass the Host header to proxied servers by default.
 
+For example, when I'm using `proxy_pass` like I did in the previous section, and I send a request with the `Host` header like this:
+
+```bash
+curl localhost --header "Host: foo.com"
+```
+
+Then NGINX receives the request, which looks like this:
+
+```http
+GET / HTTP/1.1
+Host: foo.com
+User-Agent: curl/7.58.0
+Accept: */*
+```
+
+and then NGINX sends a request to your WSGI server, like this:
+
+```http
+GET / HTTP/1.0
+Host: 127.0.0.1:8000
+Connection: close
+User-Agent: curl/7.58.0
+Accept: */*
+```
+
+Notice something? That rat-fuck-excuse-for-a-webserver sent different headers to our WSGI server! What the fuck? Right?
+I'm sure there is a good reason for this behaviour, but it's not what we want because it breaks some Django functionality.
+We can fix this by using the `proxy_set_header` as follows:
+
+
+```nginx
+server {
+    listen 80;
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        # Ensure original Host header is forwarded to our Django app.
+        proxy_set_header Host $host;
+    }
+}
+```
+
+Now NGINX will send the desired headers to Django:
+
+```http
+GET / HTTP/1.0
+Host: foo.com
+Connection: close
+User-Agent: curl/7.58.0
+Accept: */*
+```
 
 ## Setting the X-Forwarded-For header
 
+```nginx
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
+```
 ## Setting the X-Forwarded-Proto header
 
+```nginx
 proxy_set_header X-Forwarded-Proto $scheme;
-
+```
 ## Proxy redirect
 
+```nginx
 proxy_redirect http://127.0.0.1:8000 http://www.example.com;
-
+```
 
 ## Static block
 
+```nginx
 location /static/ {
     root /home/myuser/myproject;
 }
-
+```
 ## Next steps
 
 weirdly hard to navigate and google search

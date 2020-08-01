@@ -555,14 +555,32 @@ I guess this directive might be useful in some situations? I'm not really sure.
 
 ## Static block
 
+Earlier I mentioned that NGINX can serve static files directly from the filesystem.
+
+![nginx proxy with static files]({attach}/img/nginx-static-proxy.png)
+
+This is a good idea because NGINX is much more efficient at doing this than your WSGI server will be.
+It means that your server will be able to respond faster to static file request and handle more load.
+You can use [this technique](https://docs.djangoproject.com/en/3.0/howto/static-files/deployment/#serving-static-files-in-production) to put all of your
+Django app's static files into a folder like this:
+
+```text
+/home/myuser/myproject 
+└─ static               Your static files
+    ├─ styles.css       CSS file
+    ├─ main.js          JavaScript file
+    └─ cat.png          A picture of a cat
+```
+
+Then you can set the `/static/` location to serve files from this folder: 
+
 ```nginx
 location /static/ {
     root /home/myuser/myproject;
 }
 ```
-![nginx proxy with static files]({attach}/img/nginx-static-proxy.png)
 
-
+Now a request to `http://localhost/static/cat.png` will cause NGINX to read directly from `/home/myuser/myproject/static/cat.png`, without sending a request to the WSGI server.
 
 ## Next steps
 

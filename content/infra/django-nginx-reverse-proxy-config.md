@@ -17,13 +17,13 @@ You will have to copy-paste some weird gobbledygook into a file, which looks lik
 # NGINX site config file at /etc/nginx/sites-available/myproject
 server {
     listen 80;
-    server_name www.example.com;
+    server_name foo.com;
     location / {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_redirect http://127.0.0.1:8000 http://www.example.com;
+        proxy_redirect http://127.0.0.1:8000 http://foo.com;
     }
     location /static/ {
         root /home/myuser/myproject;
@@ -39,7 +39,6 @@ and so you don't need to rely on guides in the future.
 In this post I'll break down the elements of this NGINX config and how it ties in with Django,
 so that you can confidently debug, update and extend it in the future.
 
-If you have specific questions that aren't covered by this post, I recommend looking at the official NGINX documentation [here](https://docs.nginx.com/nginx/admin-guide/web-server/web-server/).
 
 ## What is this file supposed to achieve?
 
@@ -47,13 +46,13 @@ This scary-looking config file sets up NGINX so that it acts as the entrypoint t
 Explaining _why_ you might choose to use NGINX is a topic too expansive for this post, so I'm just going to stick to explaining
 how it works.
 
-First, I'd like to establish that NGINX is completely separate program to your Django app.
-NGINX is running inside its own process, while Django is running inside a WSGI server process, such as Gunicorn.
+NGINX is completely separate program to your Django app.
+It is running inside its own process, while Django is running inside a WSGI server process, such as Gunicorn.
 In this post I will sometimes refer to Gunicorn and Django interchangeably.
 
 ![nginx as a separate process]({attach}/img/nginx-separate-process.png)
 
-All requests that hit your Django app have to go through NGINX first.
+All HTTP requests that hit your Django app have to go through NGINX first.
 
 
 ![nginx proxy]({attach}/img/nginx-proxy.png)
@@ -116,7 +115,7 @@ Content-Length: 11
 Hello World
 ```
 
-We can also request some random path inside this virtual server and we get the same result:
+We can also request some random path and we get the same result:
 
 ```bash
 curl localhost/some/path/on/website
@@ -176,7 +175,7 @@ curl localhost
 # </html>
 ```
 
-We got the default server because the `Host` header we sent didn't match `foo.com`:
+This is the request that gets sent:
 
 ```http
 GET / HTTP/1.1
@@ -184,14 +183,14 @@ Host: localhost
 User-Agent: curl/7.58.0
 ```
 
-Let's try setting the `Host` header to `foo.com`:
+Our request was matched to the default server because the `Host` header we sent didn't match `foo.com`. Let's try setting the `Host` header to `foo.com`:
 
 ```bash
 curl localhost --header "Host: foo.com"
 # Welcome to foo.com!
 ```
 
-We were directed to the `foo.com` virtual server because we sent the correct `Host` header in our request:
+This is the request that gets sent:
 
 ```http
 GET / HTTP/1.1
@@ -199,6 +198,7 @@ Host: foo.com
 User-Agent: curl/7.58.0
 ```
 
+Now are directed to the `foo.com` virtual server because we sent the correct `Host` header in our request.
 Finally, we can see that setting a random `Host` header sends us to the default server:
 
 ```bash
@@ -214,7 +214,7 @@ but what we've covered so far should be enough for you to understand their typic
 
 ## Location blocks
 
-Within a virtual server you can route the request based on the requested path.
+Within a virtual server you can route the request based on the path.
 
 ```nginx
 server {
@@ -255,7 +255,7 @@ Now that we've covered `server` and `location` blocks it should be easier to mak
 ```nginx
 server {
     listen 80;
-    server_name www.example.com;
+    server_name foo.com;
     location / {
         # Do something...
     }
@@ -282,7 +282,7 @@ location / {
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_redirect http://127.0.0.1:8000 http://www.example.com;
+    proxy_redirect http://127.0.0.1:8000 http://foo.com;
 }
 ```
 
@@ -560,7 +560,7 @@ Earlier I mentioned that NGINX can serve static files directly from the filesyst
 ![nginx proxy with static files]({attach}/img/nginx-static-proxy.png)
 
 This is a good idea because NGINX is much more efficient at doing this than your WSGI server will be.
-It means that your server will be able to respond faster to static file request and handle more load.
+It means that your server will be able to respond faster to static file request and handle more traffic.
 You can use [this technique](https://docs.djangoproject.com/en/3.0/howto/static-files/deployment/#serving-static-files-in-production) to put all of your
 Django app's static files into a folder like this:
 
@@ -572,7 +572,7 @@ Django app's static files into a folder like this:
     └─ cat.png          A picture of a cat
 ```
 
-Then you can set the `/static/` location to serve files from this folder: 
+Then you can set the `/static/` location to serve files directly from this folder: 
 
 ```nginx
 location /static/ {
@@ -580,15 +580,22 @@ location /static/ {
 }
 ```
 
-Now a request to `http://localhost/static/cat.png` will cause NGINX to read directly from `/home/myuser/myproject/static/cat.png`, without sending a request to the WSGI server.
+Now a request to `http://localhost/static/cat.png` will cause NGINX to read from `/home/myuser/myproject/static/cat.png`, without sending a request to the WSGI server.
 
 ## Next steps
 
-weirdly hard to navigate and google search
-https://docs.nginx.com/nginx/admin-guide/web-server/web-server/
+Now you know what every line of your Django app's NGINX config is doing.
+Hopefully you will be able to use this knowledge to debug issues faster and customise your existing setup.
+If you have specific questions that weren't covered by this post, I recommend looking at the official NGINX documentation [here](https://docs.nginx.com/nginx/admin-guide/web-server/web-server/).
 
-simple django deployment
-nginx logs article
+If you liked this post then you might also like reading some other stuff I've written:
 
+- [A simple guide to deploying a Django app](https://mattsegal.dev/simple-django-deployment.html)
+- [An overview of Django server setups](https://mattsegal.dev/django-prod-architectures.html)
+- [How to manage logs with Django, Gunicorn and NGINX](https://mattsegal.dev/django-gunicorn-nginx-logging.html)
+- A mini rant on Django performance: [Is Django too slow?](https://mattsegal.dev/is-django-too-slow.html)
+- A little series on Postgres database backups [1](https://mattsegal.dev/postgres-backup-and-restore.html), [2](https://mattsegal.dev/postgres-backup-automate.html), [3](https://mattsegal.dev/restore-django-local-database.html)
 
-If you want to take a 40 minute side-quest I recommend checking out Brian Will's "The Internet" videos to learn more about what HTTP, TCP, and ports are: [part 1](https://www.youtube.com/watch?v=DTQV7_HwF58), [part 2](https://www.youtube.com/watch?v=3fvUc2Dzr04&t=167s), [part 3](https://www.youtube.com/watch?v=_55PyDw0lGU), [part 4](https://www.youtube.com/watch?v=yz3lkSqioyU).
+If you found some of the stuff about HTTP in this post confusing, I heartily recommend checking out Brian Will's "The Internet" videos to learn more about what HTTP, TCP, and ports are: [part 1](https://www.youtube.com/watch?v=DTQV7_HwF58), [part 2](https://www.youtube.com/watch?v=3fvUc2Dzr04&t=167s), [part 3](https://www.youtube.com/watch?v=_55PyDw0lGU), [part 4](https://www.youtube.com/watch?v=yz3lkSqioyU).
+
+And, of course, if you want to get updates on any new posts I write, you can subscribe to my blog's mailing list below.

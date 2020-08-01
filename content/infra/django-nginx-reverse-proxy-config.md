@@ -66,7 +66,7 @@ When a new request comes in:
 - Your WSGI server will send the response back to NGINX; and then
 -  NGINX will send the response back out to the original requesting client
 
-You can also configure it to serve static files, like images, directly from the filesystem, so that requests for these assets don't need to go through Django
+You can also configure NGINX to serve static files, like images, directly from the filesystem, so that requests for these assets don't need to go through Django
 
 ![nginx proxy with static files]({attach}/img/nginx-static-proxy.png)
 
@@ -80,7 +80,7 @@ Now that you have a general idea of what NGINX is supposed to do, let's go over 
 
 The top level block in the NGINX config file is the [virtual server](https://docs.nginx.com/nginx/admin-guide/web-server/web-server/#setting-up-virtual-servers).
 The main utility of virtual servers is that they allow you to sort incoming requests based on the port and hostname. 
-Let's start by looking at the most basic server block possible:
+Let's start by looking at a basic server block:
 
 ```nginx
 server {
@@ -198,7 +198,7 @@ curl localhost --header "Host: foo.com"
 # Welcome to foo.com!
 ```
 
-No we were directed to the `foo.com` virtual server because we sent the correct `Host` header in our request:
+We were directed to the `foo.com` virtual server because we sent the correct `Host` header in our request:
 
 ```http
 GET / HTTP/1.1
@@ -324,6 +324,35 @@ server {
 
 Seems simple enough - you just point NGINX at your WSGI server, so... what was all that other crap? Why do you set `proxy_set_header` and `proxy_redirect`? That's what we'll discuss next.
 
+## NGINX is lying to you
+
+As a reverse proxy, NGINX will receive HTTP requests from clients and then send those requests to our Gunicorn WSGI server.
+The problem is that NGINX hides information from our WSGI server. The HTTP request that Gunicorn receives is not the same as the one that NGINX received from the client.
+
+![nginx hiding info]({attach}/img/nginx-hide-info.png)
+
+Let me give you an example, which is illustrated above. You, the client, have an IP of `12.34.56.78` and you go to `https://foo.com` in your web browser and try to load the page. The request hits the server on port 443 and is read by NGINX. At this stage, NGINX knows that:
+
+- the protocol is [HTTPS](https://www.cloudflare.com/learning/ssl/what-is-https/)
+- the client has an IP address of `12.34.56.78`
+- the request is for the host `foo.com`
+
+NGINX then sends the request onwards to Gunicorn. When Gunicorn receives this request, it thinks:
+
+- the protocol is HTTP, not HTTPS, because the connection between NGINX and Gunicorn is not encrypted
+- the client has the IP address `127.0.0.1`, because that's the address NGINX is using
+- the host is `127.0.0.1:8000` because NGINX said so
+
+Some of this lost information is useful, and we want to force NGINX to send it to our WSGI server. That's what these lines are for:
+
+```nginx
+proxy_set_header Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+```
+
+Next, I will explain each line in more detail.
+
 ## Setting the Host header
 
 Django would like to know the value of the `Host` header so that various bits of the framework, like [ALLOWED_HOSTS](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts) or [HttpRequest.get_host](https://docs.djangoproject.com/en/3.0/ref/request-response/#django.http.HttpRequest.get_host) can work. The problem is that NGINX does not pass the `Host` header to proxied servers by default.
@@ -353,7 +382,7 @@ User-Agent: curl/7.58.0
 Accept: */*
 ```
 
-Notice something? That rat-fuck-excuse-for-a-webserver sent different headers to our WSGI server! What the fuck? Right?
+Notice something? That rat-fuck-excuse-for-a-webserver sent different headers to our WSGI server!
 I'm sure there is a good reason for this behaviour, but it's not what we want because it breaks some Django functionality.
 We can fix this by using the `proxy_set_header` as follows:
 
@@ -383,7 +412,6 @@ Gunicorn will read this `Host` header and provide it to you in your Django views
 
 ```python
 # views.py
-
 def my_view(request):
     host = request.META['HTTP_HOST']
     print(host)  # Eg. "foo.com"
@@ -393,84 +421,69 @@ def my_view(request):
 
 ## Setting the X-Forwarded-Whatever headers
 
+The `Host` header isn't the only useful information that NGINX does not pass to Gunicorn. We would also like the protocol and source IP address of the client request
+to be passed to our WSGI server. We achieve this with these two lines:
 
-Problems
+```nginx
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+```
 
-- http / vs https
-- client IP
-- 
+I just want to point out that these header names are completely arbitrary. You can send any header you want with the format `X-Insert-Words-Here` to Gunicorn and it will parse it and send it onwards to Django. For example, you could set the header to be `X-Matt-Is-Cool` as follows:
 
+```nginx
+proxy_set_header X-Matt-Is-Cool 'it is true';
+```
 
+Now NGINX will include this header with every request it sends to Gunicorn. When Gunicorn parses the HTTP request it reads **any** header with the format `X-Insert-Words-Here` into a Python dictionary, which ends up in the `HttpRequest` object that Django passes to your view. So in this case, `X-Matt-Is-Cool` gets turned into the key `HTTP_X_MATT_IS_COOL` in your request object. For example:
 
+```python
+# views.py
+def my_view(request):
+    # Prints value of X-Matt-Is-Cool header included by NGINX
+    print(request.META["HTTP_X_MATT_IS_COOL"])  # it is true
+    return HttpResponse("Hello World")
+```
+
+This means you can add in whatever custom headers you like to your NGINX config, but for now let's focus on getting the protocol and client IP address to your Django app.
 
 ## Setting the X-Forwarded-Proto header
+
+Django sometimes needs to know whether the incoming request is secure (HTTPS) or not (HTTP). For example, some features of the [SecurityMiddleware](https://docs.djangoproject.com/en/3.0/ref/middleware/#http-strict-transport-security) class checks for HTTPS. The problem is, of course, that NGINX is _always_ telling Django that the client's request to the sever is not secure, even when it is.  This problem always crops up for me when I'm implementing pagination, and the "next" URL has `http://` instead of `https://` like it should.  
+
+Our fix for this is to put the client request protocol into a header called `X-Forwarded-Proto`:
 
 ```nginx
 proxy_set_header X-Forwarded-Proto $scheme;
 ```
 
-HTTP_X_FORWARDED_PROTO
-https://docs.djangoproject.com/en/3.0/ref/settings/#secure-proxy-ssl-header
+Then you need to set up the [SECURE_PROXY_SSL_HEADER](https://docs.djangoproject.com/en/3.0/ref/settings/#secure-proxy-ssl-header) setting to read this header in your `settings.py` file:
 
+```python
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+```
 
-HttpRequest.is_secure()
-https://docs.djangoproject.com/en/3.0/ref/request-response/#django.http.HttpRequest.is_secure
+Now Django can tell the difference between incoming HTTP requests and HTTPS requests. 
 
-
-SecurityMiddleware
-https://docs.djangoproject.com/en/3.0/ref/middleware/#http-strict-transport-security
-
-pagination with Django REST framework
-https://
-
-SECURE_PROXY_SSL_HEADER = None
-
- 'wsgi.url_scheme': 'http',
-
-
-scheme
-HTTP_REQUEST.scheme
-defaults to http
-https://github.com/django/django/blob/7fc317ae736e8fda1aaf4d4ede84d95fffaf5281/django/http/request.py#L244
 
 ## Setting the X-Forwarded-For header
 
-Now let's talk about this line in the reverse proxy config:
+Now let's talk about determining the client's IP address. As mentioned before, NGINX will always lie to you and say that the client IP address is `127.0.0.1`.
+If you don't care about client IP addresses, then you don't care about this header. You don't need to set it if you don't want to. Knowing the client IP might be useful sometimes. For example, if you want to guess at where they are located, or if you are building one of those [_What's My IP?_](https://www.expressvpn.com/what-is-my-ip) websites:
+
+![some website knows my ip address]({attach}/img/my-ip.png)
+
+
+You can set the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) header to tell Gunicorn the original IP address of the client: 
 
 ```nginx
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 ```
 
-You set the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) header so that you can know the original IP address of the client that contacted NGINX. If you don't care about client IP addresses, then you don't care about this header. You don't need to set it if you don't want to. Knowing the client IP might be useful sometimes, for example, if you want to guess at where they are located, or if you are building one of those [_what's my IP?_](https://www.expressvpn.com/what-is-my-ip) websites:
-
-![some website knows my ip address]({attach}/img/my-ip.png)
-
-Here's a breif overview of how this works. Some client with an IP of `12.34.56.78` sends a HTTP request to NGINX, which looks like this:
-
-```http
-GET / HTTP/1.1
-Host: foo.com
-User-Agent: curl/7.58.0
-Accept: */*
-```
-
-NGINX figures out the IP address of the client from the TCP part of the request, slaps the client IP into a `X-Forwarded-For` header and sends this to Gunicorn:
-
-```http
-GET / HTTP/1.0
-Host: foo.com
-X-Forwarded-For: 12.34.56.78
-Connection: close
-User-Agent: curl/7.58.0
-Accept: */*
-```
-
-The TCP packet that NGINX sends to Gunicorn has `127.0.0.1` as the source address, so Gunicorn can't figure out the original IP address is, so we have to get this information from a HTTP header. When Gunicorn parses the HTTP request it reads **any** header with the format `X-Insert-Words-Here` into a Python dictionary, which ends up in the `HttpRequest` object that Django passes to your view. So in this case, `X-Forwarded-For` gets turned into the key `HTTP_X_FORWARDED_FOR` in your request object. For example:
-
+As described earlier, the header `X-Forwarded-For` gets turned into the key `HTTP_X_FORWARDED_FOR` in your request object. For example:
 
 ```python
 # views.py
-
 def my_view(request):
     # Prints client IP address: "12.34.56.78"
     print(request.META["HTTP_X_FORWARDED_FOR"])

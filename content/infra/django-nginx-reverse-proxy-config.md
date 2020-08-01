@@ -1,5 +1,5 @@
 Title: A breakdown of how NGINX is typically configured with Django 
-Description: xxxxxxxxxxxxxxxxxxxxxxxx
+Description: A detailed review of all the NGINX configurations that are typically used with Django
 Slug: nginx-django-reverse-proxy-config
 Date: 2020-07-31 12:00
 Category: DevOps
@@ -9,7 +9,7 @@ You have never done this before, so you follow a guide like [this one](https://w
 The guide gives you many instructions, which includes installing and configuring an "NGINX reverse proxy".
 At some point you mutter to yourself:
 
-> What-the-fuck is an NGINX? Eh, whatever, let's keep reading.
+> What-the-hell is an NGINX? Eh, whatever, let's keep reading.
 
 You will have to copy-paste some weird gobbledygook into a file, which looks like this:
 
@@ -49,6 +49,7 @@ how it works.
 
 First, I'd like to establish that NGINX is completely separate program to your Django app.
 NGINX is running inside its own process, while Django is running inside a WSGI server process, such as Gunicorn.
+In this post I will sometimes refer to Gunicorn and Django interchangeably.
 
 ![nginx as a separate process]({attach}/img/nginx-separate-process.png)
 
@@ -327,7 +328,7 @@ Seems simple enough - you just point NGINX at your WSGI server, so... what was a
 
 Django would like to know the value of the `Host` header so that various bits of the framework, like [ALLOWED_HOSTS](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts) or [HttpRequest.get_host](https://docs.djangoproject.com/en/3.0/ref/request-response/#django.http.HttpRequest.get_host) can work. The problem is that NGINX does not pass the `Host` header to proxied servers by default.
 
-For example, when I'm using `proxy_pass` like I did in the previous section, and I send a request with the `Host` header like this:
+For example, when I'm using `proxy_pass` like I did in the previous section, and I send a request with the `Host` header to NGINX like this:
 
 ```bash
 curl localhost --header "Host: foo.com"
@@ -378,17 +379,112 @@ User-Agent: curl/7.58.0
 Accept: */*
 ```
 
-## Setting the X-Forwarded-For header
+Gunicorn will read this `Host` header and provide it to you in your Django views via the `request.META` object:
 
-```nginx
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+```python
+# views.py
+
+def my_view(request):
+    host = request.META['HTTP_HOST']
+    print(host)  # Eg. "foo.com"
+    return HttpResponse(f"Got host {host}")
+
 ```
+
+## Setting the X-Forwarded-Whatever headers
+
+
+Problems
+
+- http / vs https
+- client IP
+- 
+
+
+
+
 ## Setting the X-Forwarded-Proto header
 
 ```nginx
 proxy_set_header X-Forwarded-Proto $scheme;
 ```
+
+HTTP_X_FORWARDED_PROTO
+https://docs.djangoproject.com/en/3.0/ref/settings/#secure-proxy-ssl-header
+
+
+HttpRequest.is_secure()
+https://docs.djangoproject.com/en/3.0/ref/request-response/#django.http.HttpRequest.is_secure
+
+
+SecurityMiddleware
+https://docs.djangoproject.com/en/3.0/ref/middleware/#http-strict-transport-security
+
+pagination with Django REST framework
+https://
+
+SECURE_PROXY_SSL_HEADER = None
+
+ 'wsgi.url_scheme': 'http',
+
+
+scheme
+HTTP_REQUEST.scheme
+defaults to http
+https://github.com/django/django/blob/7fc317ae736e8fda1aaf4d4ede84d95fffaf5281/django/http/request.py#L244
+
+## Setting the X-Forwarded-For header
+
+Now let's talk about this line in the reverse proxy config:
+
+```nginx
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+```
+
+You set the [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) header so that you can know the original IP address of the client that contacted NGINX. If you don't care about client IP addresses, then you don't care about this header. You don't need to set it if you don't want to. Knowing the client IP might be useful sometimes, for example, if you want to guess at where they are located, or if you are building one of those [_what's my IP?_](https://www.expressvpn.com/what-is-my-ip) websites:
+
+![some website knows my ip address]({attach}/img/my-ip.png)
+
+Here's a breif overview of how this works. Some client with an IP of `12.34.56.78` sends a HTTP request to NGINX, which looks like this:
+
+```http
+GET / HTTP/1.1
+Host: foo.com
+User-Agent: curl/7.58.0
+Accept: */*
+```
+
+NGINX figures out the IP address of the client from the TCP part of the request, slaps the client IP into a `X-Forwarded-For` header and sends this to Gunicorn:
+
+```http
+GET / HTTP/1.0
+Host: foo.com
+X-Forwarded-For: 12.34.56.78
+Connection: close
+User-Agent: curl/7.58.0
+Accept: */*
+```
+
+The TCP packet that NGINX sends to Gunicorn has `127.0.0.1` as the source address, so Gunicorn can't figure out the original IP address is, so we have to get this information from a HTTP header. When Gunicorn parses the HTTP request it reads **any** header with the format `X-Insert-Words-Here` into a Python dictionary, which ends up in the `HttpRequest` object that Django passes to your view. So in this case, `X-Forwarded-For` gets turned into the key `HTTP_X_FORWARDED_FOR` in your request object. For example:
+
+
+```python
+# views.py
+
+def my_view(request):
+    # Prints client IP address: "12.34.56.78"
+    print(request.META["HTTP_X_FORWARDED_FOR"])
+    # Prints NGINX IP address: "127.0.0.1", ie. localhost
+    print(request.META["REMOTE_ADDR"])
+    return HttpResponse("Hello World")
+```
+
+Does this seem kind of underwhelming? Maybe a little pointless? As I said before, if you don't care about client IP addresses, then this header isn't for you.
+
+
 ## Proxy redirect
+
+http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_redirect
 
 ```nginx
 proxy_redirect http://127.0.0.1:8000 http://www.example.com;
@@ -408,3 +504,6 @@ https://docs.nginx.com/nginx/admin-guide/web-server/web-server/
 
 simple django deployment
 nginx logs article
+
+
+If you want to take a 40 minute side-quest I recommend checking out Brian Will's "The Internet" videos to learn more about what HTTP, TCP, and ports are: [part 1](https://www.youtube.com/watch?v=DTQV7_HwF58), [part 2](https://www.youtube.com/watch?v=3fvUc2Dzr04&t=167s), [part 3](https://www.youtube.com/watch?v=_55PyDw0lGU), [part 4](https://www.youtube.com/watch?v=yz3lkSqioyU).

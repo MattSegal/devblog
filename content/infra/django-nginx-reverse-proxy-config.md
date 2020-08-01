@@ -5,11 +5,11 @@ Date: 2020-07-31 12:00
 Category: DevOps
 
 You are trying to deploy your Django web app to the internet.
-You have never done this before:, so you follow a guide like [this one](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04).
+You have never done this before, so you follow a guide like [this one](https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04).
 The guide gives you many instructions, which includes installing and configuring an "NGINX reverse proxy".
 At some point you mutter to yourself:
 
-> What the fuck is an NGINX? Eh, whatever, let's keep reading.
+> What-the-fuck is an NGINX? Eh, whatever, let's keep reading.
 
 You will have to copy-paste some weird gobbledygook into a file, which looks like this:
 
@@ -32,12 +32,11 @@ server {
 ```
 
 What is all this stuff? What is it supposed to do?
-How do you know if it will work?
 
 Most people do their first Django deployment as a learning exercise.
 You want to understand what you are doing, so that you can fix problems if you get stuck
 and so you don't need to rely on guides in the future.
-In this post I'll break down the elements of this config and how it ties in with Django,
+In this post I'll break down the elements of this NGINX config and how it ties in with Django,
 so that you can confidently debug, update and extend it in the future.
 
 If you have specific questions that aren't covered by this post, I recommend looking at the official NGINX documentation [here](https://docs.nginx.com/nginx/admin-guide/web-server/web-server/).
@@ -45,8 +44,8 @@ If you have specific questions that aren't covered by this post, I recommend loo
 ## What is this file supposed to achieve?
 
 This scary-looking config file sets up NGINX so that it acts as the entrypoint to your Django application.
-Explaining why you might choose to use NGINX is a topic too expansive for this post, so I'm going to stick to just explaining
-what it is doing.
+Explaining _why_ you might choose to use NGINX is a topic too expansive for this post, so I'm just going to stick to explaining
+how it works.
 
 First, I'd like to establish that NGINX is completely separate program to your Django app.
 NGINX is running inside its own process, while Django is running inside a WSGI server process, such as Gunicorn.
@@ -63,10 +62,10 @@ When a new request comes in:
 
 - NGINX looks at the request, checks some rules, and sends it on to your WSGI server, which is usually listening on localhost, port 8000
 - Your Django app will process the request and eventually produce a response
-- Your WSGI server will send the response to NGINX; and then
--  NGINX will send the response back out to the original requesting user
+- Your WSGI server will send the response back to NGINX; and then
+-  NGINX will send the response back out to the original requesting client
 
-You can also configure it to serve static files, like images, directly from the filesystem, so requests for these assets don't need to go through Django
+You can also configure it to serve static files, like images, directly from the filesystem, so that requests for these assets don't need to go through Django
 
 ![nginx proxy with static files]({attach}/img/nginx-static-proxy.png)
 
@@ -91,14 +90,14 @@ server {
 }
 ```
 
-Let me show you some example requests. Say we're on the same server as NGINX and we send some requests using `curl`.
+Let me show you some example requests. Say we're on the same server as NGINX and we send a GET request using the command line tool `curl`.
 
 ```bash
 curl localhost
 # Hello World
 ``` 
 
-This command sends the following [HTTP request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages) to localhost, port 80:
+This `curl` command sends the following [HTTP request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages) to localhost, port 80:
 
 ```http
 GET / HTTP/1.1
@@ -107,7 +106,7 @@ User-Agent: curl/7.58.0
 Accept: */*
 ```
 
-We get the following response back from NGINX, with a 200 OK status code and "Hello World" in the body:
+We will get the following HTTP response back from NGINX, with a 200 OK status code and "Hello World" in the body:
 
 ```http
 HTTP/1.1 200 OK
@@ -119,7 +118,7 @@ Connection: keep-alive
 Hello World
 ```
 
-We can also request some random path inside this virtual server... same result:
+We can also request some random path inside this virtual server and we get the same result:
 
 ```bash
 curl localhost/some/path/on/website
@@ -169,7 +168,7 @@ server {
 ```
 
 NGINX uses the `server_name` directive to check the `Host` header of incoming requests and match the request to a virtual server. Your web browser will usually set this header automatically for you.
-You can set up a particular virtual server to be the default choice if no other virtual servers match. You can use this feature to host multiple
+You can set up a particular virtual server to be the default choice (`default_server`) if no other ones match the incoming request. You can use this feature to host multiple
 Django apps on a single server. All you need to do is [set up your DNS](https://mattsegal.dev/dns-for-noobs.html) to get multiple domain names to point to a single server, and then add a virtual server for each Django app.
 
 Let's test out the config above. If send a request to `localhost`, we'll get a 404 status code from the default server:
@@ -198,7 +197,7 @@ curl localhost --header "Host: foo.com"
 # Welcome to foo.com!
 ```
 
-We got directed to the foo.com virtual server because we sent the correct `Host` header in our request:
+No we were directed to the `foo.com` virtual server because we sent the correct `Host` header in our request:
 
 ```http
 GET / HTTP/1.1
@@ -300,7 +299,7 @@ You might also find the NGINX documentation on [reverse proxies](https://docs.ng
 ## Proxy pass
 
 The `proxy_pass` directive tells NGINX to send all requests for that location to the specified address.
-For example, if your WSGI server was running on 127.0.0.1 / localhost, port 8000, then you would use this config:
+For example, if your WSGI server was running on localhost (which has IP 127.0.0.1), port 8000, then you would use this config:
 
 ```nginx
 server {
@@ -311,7 +310,7 @@ server {
 }
 ```
 
-You can also point proxy pass at a [Unix domain socket](https://en.wikipedia.org/wiki/Unix_domain_socket#:~:text=A%20Unix%20domain%20socket%20or,the%20same%20host%20operating%20system.), with Gunicorn listening on that socket, which is very similar to using localhost except it doesn't use up a port number and it's a bit faster:
+You can also point `proxy_pass` at a [Unix domain socket](https://en.wikipedia.org/wiki/Unix_domain_socket#:~:text=A%20Unix%20domain%20socket%20or,the%20same%20host%20operating%20system.), with Gunicorn listening on that socket, which is very similar to using localhost except it doesn't use up a port number and it's a bit faster:
 
 ```nginx
 server {
@@ -326,7 +325,7 @@ Seems simple enough - you just point NGINX at your WSGI server, so... what was a
 
 ## Setting the Host header
 
-Django would like to know the value of the Host header so that various bits of the framework, like [ALLOWED_HOSTS](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts) or [HttpRequest.get_host](https://docs.djangoproject.com/en/3.0/ref/request-response/#django.http.HttpRequest.get_host) can function. The problem is that NGINX does not pass the Host header to proxied servers by default.
+Django would like to know the value of the `Host` header so that various bits of the framework, like [ALLOWED_HOSTS](https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts) or [HttpRequest.get_host](https://docs.djangoproject.com/en/3.0/ref/request-response/#django.http.HttpRequest.get_host) can work. The problem is that NGINX does not pass the `Host` header to proxied servers by default.
 
 For example, when I'm using `proxy_pass` like I did in the previous section, and I send a request with the `Host` header like this:
 
@@ -334,7 +333,7 @@ For example, when I'm using `proxy_pass` like I did in the previous section, and
 curl localhost --header "Host: foo.com"
 ```
 
-Then NGINX receives the request, which looks like this:
+Then NGINX receives the HTTP request, which looks like this:
 
 ```http
 GET / HTTP/1.1
@@ -343,7 +342,7 @@ User-Agent: curl/7.58.0
 Accept: */*
 ```
 
-and then NGINX sends a request to your WSGI server, like this:
+and then NGINX sends a HTTP request to your WSGI server, like this:
 
 ```http
 GET / HTTP/1.0

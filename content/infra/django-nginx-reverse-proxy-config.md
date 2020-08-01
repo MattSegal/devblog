@@ -1,4 +1,4 @@
-Title: A breakdown of how NGINX is typically configured with Django 
+Title: A breakdown of how NGINX is configured with Django 
 Description: A detailed review of all the NGINX configurations that are typically used with Django
 Slug: nginx-django-reverse-proxy-config
 Date: 2020-07-31 12:00

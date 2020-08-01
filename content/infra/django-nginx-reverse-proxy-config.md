@@ -104,17 +104,14 @@ This `curl` command sends the following [HTTP request](https://developer.mozilla
 GET / HTTP/1.1
 Host: localhost
 User-Agent: curl/7.58.0
-Accept: */*
 ```
 
 We will get the following HTTP response back from NGINX, with a 200 OK status code and "Hello World" in the body:
 
 ```http
 HTTP/1.1 200 OK
-Date: Fri, 31 Jul 2020 07:15:49 GMT
 Content-Type: application/octet-stream
 Content-Length: 11
-Connection: keep-alive
 
 Hello World
 ```
@@ -132,17 +129,14 @@ With `curl` sending this HTTP request:
 GET /some/path/on/website HTTP/1.1
 Host: localhost
 User-Agent: curl/7.58.0
-Accept: */*
 ```
 
 and we get back the same response as before:
 
 ```http
 HTTP/1.1 200 OK
-Date: Fri, 31 Jul 2020 07:34:47 GMT
 Content-Type: application/octet-stream
 Content-Length: 11
-Connection: keep-alive
 
 Hello World
 ```
@@ -188,7 +182,6 @@ We got the default server because the `Host` header we sent didn't match `foo.co
 GET / HTTP/1.1
 Host: localhost
 User-Agent: curl/7.58.0
-Accept: */*
 ```
 
 Let's try setting the `Host` header to `foo.com`:
@@ -204,7 +197,6 @@ We were directed to the `foo.com` virtual server because we sent the correct `Ho
 GET / HTTP/1.1
 Host: foo.com
 User-Agent: curl/7.58.0
-Accept: */*
 ```
 
 Finally, we can see that setting a random `Host` header sends us to the default server:
@@ -369,7 +361,6 @@ Then NGINX receives the HTTP request, which looks like this:
 GET / HTTP/1.1
 Host: foo.com
 User-Agent: curl/7.58.0
-Accept: */*
 ```
 
 and then NGINX sends a HTTP request to your WSGI server, like this:
@@ -377,9 +368,7 @@ and then NGINX sends a HTTP request to your WSGI server, like this:
 ```http
 GET / HTTP/1.0
 Host: 127.0.0.1:8000
-Connection: close
 User-Agent: curl/7.58.0
-Accept: */*
 ```
 
 Notice something? That rat-fuck-excuse-for-a-webserver sent different headers to our WSGI server!
@@ -403,9 +392,7 @@ Now NGINX will send the desired headers to Django:
 ```http
 GET / HTTP/1.0
 Host: foo.com
-Connection: close
 User-Agent: curl/7.58.0
-Accept: */*
 ```
 
 Gunicorn will read this `Host` header and provide it to you in your Django views via the `request.META` object:
@@ -497,11 +484,74 @@ Does this seem kind of underwhelming? Maybe a little pointless? As I said before
 
 ## Proxy redirect
 
-http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_redirect
+Let's cover the final line of the Django reverse proxy config: `proxy_redirect`.
+The NGINX docs for this directive are [here](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_redirect).
 
 ```nginx
-proxy_redirect http://127.0.0.1:8000 http://www.example.com;
+proxy_redirect http://127.0.0.1:8000 http://foo.com;
 ```
+
+This directive is used when handling redirects that are issued by Django.
+For example, you might have a webpage that used to live at path `old/page/`, but you moved it to `new/page/`.
+You want to send any user that asked for `old/page/` to `new/page/`. 
+To achieve this you could write a Django view like this:
+
+```python
+# view.py
+def redirect_view(request):
+    return HttpResponseRedirect("new/page/")
+
+```
+
+When a user asks for `old/page/`, this view will send them a HTTP response with a 302 redirect status code:
+
+```http
+HTTP/1.1 302 Found
+Location: new/page/
+```
+
+Your web browser will follow the `Location` response header to the new page.
+A problem occurs when your Django app includes the WSGI server's address and port in the `Location` header:
+
+```http
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:8000/new/page/
+```
+
+This is a problem because the client's browser will try to go to that address, and it will fail because the WSGI server is not
+on the same server as the client.
+
+Here's the thing: I have never actually seen this happen, and I'm having trouble thinking of a common scenario where this would happen.
+Send me an email if you know where this issue crops up. Anyway, using `proxy_redirect` helps in the hypothetical case where Django does include the WSGI address
+in a redirect's `Location` header.
+
+The directive rewrites the header using the syntax:
+
+```nginx
+proxy_redirect redirect replacement
+```
+
+So, for example, if there was a redirect response like this:
+
+```http
+HTTP/1.1 302 Found
+Location: http://127.0.0.1:8000/new/page/
+```
+
+and you set up your `proxy_redirect` like this 
+
+```nginx
+proxy_redirect http://127.0.0.1:8000 https://foo.com/blog/;
+```
+
+then the outgoing response would be re-written to this:
+
+```http
+HTTP/1.1 302 Found
+Location: https://foo.com/blog/new/page/
+```
+
+I guess this directive might be useful in some situations? I'm not really sure.
 
 ## Static block
 
@@ -510,6 +560,10 @@ location /static/ {
     root /home/myuser/myproject;
 }
 ```
+![nginx proxy with static files]({attach}/img/nginx-static-proxy.png)
+
+
+
 ## Next steps
 
 weirdly hard to navigate and google search

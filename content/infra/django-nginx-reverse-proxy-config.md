@@ -47,7 +47,7 @@ Explaining _why_ you might choose to use NGINX is a topic too expansive for this
 how it works.
 
 NGINX is completely separate program to your Django app.
-It is running inside its own process, while Django is running inside a WSGI server process, such as Gunicorn.
+It is running inside its own process, while Django is running inside a [WSGI server](https://mattsegal.dev/simple-django-deployment-2.html#wsgi) process, such as Gunicorn.
 In this post I will sometimes refer to Gunicorn and Django interchangeably.
 
 ![nginx as a separate process]({attach}/img/nginx-separate-process.png)

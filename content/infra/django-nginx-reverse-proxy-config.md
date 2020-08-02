@@ -230,7 +230,7 @@ server {
 }
 ```
 
-Under this configuration, any request that doesn't match `/forbidden` will return a 403 Forbidden status code, and everything else will return _Cool!_ Let's try it out:
+Under this configuration, any requested path that matches `/forbidden` will return a 403 Forbidden status code, and everything else will return _Cool!_ Let's try it out:
 
 ```bash
 curl localhost

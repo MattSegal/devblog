@@ -16,7 +16,10 @@ class GameOfLife {
   constructor() {
     this.setupGame();
     this.runRenderLoop();
-    window.addEventListener("resize", () => this.setupGame());
+    window.addEventListener("resize", () => {
+      this.setupGame();
+      this.runGame();
+    });
     this.runGame();
   }
 

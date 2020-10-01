@@ -1,4 +1,4 @@
-Title: How to use both camelCase and snake_case in frontend and backend
+Title: How to use both camelCase and snake_case in your frontend and backend
 Description: How to use camel_case in your Python and camelCase in your JavaScript at the same time.
 Slug: camel-and-snake-case
 Date: 2020-09-24 12:00

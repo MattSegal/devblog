@@ -1,8 +1,9 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% block content_title %}Blog Posts{% endblock %}
+
+{% block content %}
 <section id="content">
-  {% block content_title %}
-  <h2>All articles</h2>
-  {% endblock %}
 
   <div class="ui list middle aligned divided">
     {% for article in articles_page.object_list %}

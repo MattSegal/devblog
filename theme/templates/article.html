@@ -1,4 +1,7 @@
 {% extends "base.html" %} {% block html_lang %}{{ article.lang }}{% endblock %}
+
+
+
 {% block title %}{{ article.title }}{% endblock %} {% block social_card %}
 <meta
   property="og:image"
@@ -13,9 +16,13 @@
 <meta property="og:description" content="{{ article.description }}" />
 <meta name="twitter:description" content="{{ article.description }}" />
 <meta name="twitter:title" content="{{ article.title }}" />
-{% endblock %} {% block content %}
+{% endblock %} 
+
+{% block content_title %}{{ article.title }}{% endblock %}
+
+{% block content %}
 <div class="ui huge header">
-  {{ article.title }}
+  
   <div class="sub header">
     {{ article.locale_date }}, by {% for author in article.authors %} {{ author
     }} {% endfor %}

@@ -6,8 +6,8 @@ const VAL = 1;
 
 const STEP_MODULUS = 4; // mouse move steps per update
 const CELL_LENGTH = 3; // px
-const canvas = document.getElementById("banner-animation");
-const banner = document.getElementById("banner");
+const canvas = document.getElementById("hero-animation");
+const banner = document.getElementById("hero");
 const ctx = canvas.getContext("2d");
 const WHITE = "rgb(255, 255, 255)";
 
@@ -36,7 +36,7 @@ class GameOfLife {
       const row = [];
       this.grid.push(row);
       for (let j = 0; j < this.numCols; j++) {
-        const val = Math.random() > 0.8 ? 1 : 0;
+        const val = Math.random() > 0.35 ? 1 : 0;
         row.push(val);
       }
     }
@@ -51,12 +51,8 @@ class GameOfLife {
     for (let i = 0; i < 10; i++) {
       this.progressGame();
     }
-    let counter = 0;
-    window.addEventListener("mousemove", (e) => {
-      if (counter % STEP_MODULUS == 0) {
-        this.progressGame();
-      }
-      counter++;
+    banner.addEventListener("click", (e) => {
+      this.progressGame();
     });
   }
 

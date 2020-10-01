@@ -109,15 +109,22 @@
     {% endblock %}
   </head>
   <body id="index" class="home">
-    <canvas id="banner-animation"></canvas>
+    <header class="body">
+      <a href="{{ SITEURL }}/">
+        <h1 id="banner">
+          {{ SITENAME }}
+        </h1>
+      </a>
+    </header>
+    <div id="hero">
+      <canvas id="hero-animation"></canvas>
+      <div class="hero-content">
+        <h1>
+          {% block content_title %}{% endblock %}
+        </h1>
+      </div>
+    </div>
     <div class="ui container text" style="padding-bottom: 20px;">
-      <header class="body">
-        <a href="{{ SITEURL }}/">
-          <h1 id="banner">
-            {{ SITENAME }}
-          </h1>
-        </a>
-      </header>
       {% block content %} {% endblock %}
     </div>
     <script type="text/javascript">

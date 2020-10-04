@@ -1,5 +1,5 @@
 Title: Django project blueprint: wireframes
-Description: TODO
+Description: Wireframe appendix for the Django project blueprint post
 Slug: django-survey-project-wireframes
 Date: 2020-10-03 12:00
 Category: Appendix

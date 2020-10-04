@@ -1,5 +1,5 @@
 Title: A Django project blueprint to help you learn by doing
-Description: TODO
+Description: I've found that a lot of people on reddit had the same complaint - they had been told to work on a project but didn't know what to build. I made a project template to help with this.
 Slug: django-survey-project
 Date: 2020-10-03 12:00
 Category: Django

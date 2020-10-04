@@ -1,5 +1,5 @@
 Title: Django project blueprint: data model
-Description: TODO
+Description: Data model appendix for the Django project blueprint post
 Slug: django-survey-project-data-model
 Date: 2020-10-03 12:00
 Category: Appendix

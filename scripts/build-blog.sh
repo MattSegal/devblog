@@ -1,6 +1,7 @@
+#!/bin/bash
 set -e
 export PELICAN_GA=""
-export PELICAN_HOSTURL="file:///home/matt/code/devblog/output"
+export PELICAN_HOSTURL="http://localhost:8000"
 . ./env/bin/activate
 echo ">>> Building social cards"
 ./build_social_cards.py

@@ -1,3 +1,4 @@
+#!/bin/bash
 set -e
 . ./env/bin/activate
 export PELICAN_GA="UA-103174696-6"

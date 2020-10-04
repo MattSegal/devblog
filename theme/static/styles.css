@@ -1,5 +1,14 @@
 p {
   line-height: 1.8em;
+  font-size: 1.3rem !important;
+}
+@media (max-width: 400px) {
+  p {
+    font-size: 1rem !important;
+  }
+  li {
+    font-size: 1rem !important;
+  }
 }
 
 header {
@@ -16,7 +25,6 @@ header a:visited {
 }
 header h1 {
   margin: 0;
-  font-weight: bold;
   font-size: 1.2rem;
   color: #e97dfd;
   text-transform: uppercase;
@@ -100,17 +108,17 @@ code {
 }
 
 .article {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 }
 
-.article .header {
-  font-size: 20px;
-}
 .article .header a {
   color: #333;
 }
 .article .preview {
   opacity: 0.5;
+}
+.article .ui.divider {
+  margin: 2.5rem 0;
 }
 
 @media (max-width: 600px) {

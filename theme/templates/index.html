@@ -4,17 +4,18 @@ block content %}
   <div class="ui list middle aligned divided">
     {% for article in articles_page.object_list %}
     <div class="article">
-      <h3 class="header">
+      <h2 class="header">
         <a
           href="{{ SITEURL }}/{{ article.url }}"
           rel="bookmark"
           title="Permalink to {{ article.title|striptags }}"
           >{{ article.title }}</a
         >
-      </h3>
+      </h2>
       <div class="preview">
         {{ article.summary }}
       </div>
+      <div class="ui divider"></div>
     </div>
     {% endfor %}
   </div>

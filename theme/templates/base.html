@@ -119,7 +119,7 @@
     <div id="hero">
       <canvas id="hero-animation"></canvas>
       <div class="hero-content">
-        <h1>
+        <h1 id="hero-header">
           {% block content_title %}{% endblock %}
         </h1>
       </div>
@@ -151,5 +151,11 @@
       ga("send", "pageview");
     </script>
     <script type="text/javascript" src="{{ SITEURL }}/theme/header.js"></script>
+
+
+    {% if HOT_RELOAD %}
+    <script type="text/javascript" src="{{ SITEURL }}/theme/live.js"></script>
+    {% endif %}
+
   </body>
 </html>

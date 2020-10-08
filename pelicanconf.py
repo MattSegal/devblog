@@ -27,3 +27,6 @@ SOCIAL = []
 DEFAULT_PAGINATION = 10
 
 IGNORE_FILES = ["*.draft.*"]
+
+HOT_RELOAD = os.environ.get("HOT_RELOAD", False)
+

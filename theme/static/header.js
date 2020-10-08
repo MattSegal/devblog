@@ -7,6 +7,7 @@ const VAL = 1;
 const STEP_MODULUS = 4; // mouse move steps per update
 const CELL_LENGTH = 3; // px
 const canvas = document.getElementById("hero-animation");
+const header = document.getElementById("hero-header");
 const banner = document.getElementById("hero");
 const ctx = canvas.getContext("2d");
 const WHITE = "rgb(255, 255, 255)";
@@ -19,6 +20,15 @@ class GameOfLife {
     window.addEventListener("resize", () => {
       this.setupGame();
       this.runGame();
+    });
+    window.addEventListener("scroll", (e) => {
+      const scroll = window.pageYOffset;
+      const height = window.outerHeight;
+      const scrollPercent = scroll / height;
+      if (scrollPercent > 0.5) return;
+      this.progressGame();
+      header.style.opacity = 1 - 3 * scrollPercent;
+      canvas.style.opacity = 0.4 - (0.4 / 0.5) * scrollPercent;
     });
     this.runGame();
   }

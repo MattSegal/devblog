@@ -10,7 +10,7 @@ I make a lot of stupid mistakes when I'm working on Python code. I tend to:
 - accidently delete a variable that's used somewhere else
 - leave unused variables lying around when they should be deleted
 
-It's easy to accidentally create code like the image below, where you have unused variables (`y`, `z`, `q`) and references to variables that aren't defined yet (`z`). 
+It's easy to accidentally create code like in the image below, where you have unused variables (`y`, `z`, `q`) and references to variables that aren't defined yet (`z`).
 
 ![foo-before]({attach}/img/pylance/foo-before.png)
 
@@ -36,7 +36,7 @@ You'll also note that there is an error in my import statement. `import copy fro
 ## Setting this up with VS Code
 
 You can get these variable highlights in VS Code very easily by installing [PyLance](https://devblogs.microsoft.com/python/announcing-pylance-fast-feature-rich-language-support-for-python-in-visual-studio-code/
-), and alternative "language server" for VS Code. A language server is a tool, which runs alongside VSCode, that does [static analysis](https://en.wikipedia.org/wiki/Static_program_analysis) of your code.
+), and alternative "language server" for VS Code. A language server is a tool, which runs alongside the editor, that does [static analysis](https://en.wikipedia.org/wiki/Static_program_analysis) of your code.
 
 To get this language server, go into your extensions tab in VS Code, search for "pylance", install it, and then you'll see this popup:
 

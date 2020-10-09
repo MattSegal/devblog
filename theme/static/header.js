@@ -21,6 +21,7 @@ class GameOfLife {
       this.setupGame();
       this.runGame();
     });
+    this.scrollCount = 0;
     window.addEventListener("scroll", (e) => {
       const scroll = window.pageYOffset;
       const height = window.outerHeight;

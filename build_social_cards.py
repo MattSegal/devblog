@@ -4,6 +4,7 @@ import math
 import random
 import glob
 
+
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw

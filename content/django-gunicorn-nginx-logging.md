@@ -14,7 +14,7 @@ In this post I'll give you a brief overview of your logging options with Django,
 
 I've previously written a short guide on [setting up file logging](https://mattsegal.dev/file-logging-django.html) with Django if you just want quick instructions on what to do. 
 
-### NGINX logging
+## NGINX logging
 
 NGINX allows you to set up [two log files](https://docs.nginx.com/nginx/admin-guide/monitoring/logging/), access_log and error_log. I usually configure them like this in my `/etc/nginx/nginx.conf` file:
 
@@ -23,7 +23,7 @@ access_log /var/log/nginx/access.log;
 error_log /var/log/nginx/error.log;
 ```
 
-### NGINX access logs
+## NGINX access logs
 
 The NGINX access_log is a file which records of all the requests that are coming in to your server via NGINX. It looks like this:
 
@@ -70,20 +70,22 @@ If you have your server accessible via the internet, then you will get garbage r
 
 I assume this is a bot trying to hack an old version of PHP (which I do not run on this server).
 
-### NGINX error logs
+## NGINX error logs
 
 NGINX also logs errors to error_log, which can occur when you've messed up your configuration somehow, or if your Gunicorn server is unresponsive. This file is also useful for debugging so I recommend you include it as well in your NGINX config. You get error messages like this:
 
 ```text
 2020/07/25 08:14:57 [error] 32115#32115: *44242 connect() failed (111: Connection refused) while connecting to upstream, client: 11.22.33.44, server: www.example.com, request: "GET /admin/ HTTP/1.1", upstream: "http://127.0.0.1:8000/admin/", host: "clerk.anikalegal.com", referrer: "https://www.example.com/admin/"
 ```
+{% from 'mail.html' import mailchimp %}
+{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
 
-### Gunicorn logging
+## Gunicorn logging
 
 Gunicorn has [two main logfiles](https://docs.gunicorn.org/en/latest/settings.html#errorlog) that it writes, the error log and the access log.
 You can configure the log settings through the [command line](https://docs.gunicorn.org/en/latest/configure.html#command-line) or a [config file](https://docs.gunicorn.org/en/latest/configure.html#configuration-file). I recommend using the config file because it's easier to read.
 
-### Gunicorn access logs
+## Gunicorn access logs
 
 The Gunicorn access log is very similar to the NGINX access log, it records all the requests coming in to the Gunicorn server:
 
@@ -95,7 +97,7 @@ The Gunicorn access log is very similar to the NGINX access log, it records all 
 
 I think you may as well enable this so that you can debug issues where you're not sure if NGINX is sending requests to Gunicorn properly.
 
-### Gunicorn error logs
+## Gunicorn error logs
 
 The Gunicorn error log is a little bit more complicated. By default it contains information about what the Gunicorn server is doing, like starting up and shutting down:
 
@@ -135,7 +137,7 @@ You can run Gunicorn using config like this as follows:
 gunicorn myapp.wsgi:application -c /some/folder/gunicorn.conf.py
 ```
 
-### Django logging
+## Django logging
 
 Django logging refers to the output of your Django application. The kind of messages you see printed by `runserver` in development. Stuff like this:
 
@@ -163,7 +165,7 @@ I think you have two viable options for your Django logging:
 I personally prefer option #2, but you whatever makes you happy.
 
 
-### Next steps
+## Next steps
 
 I encourage you to set up the logging described in this post, so that you don't waste hours trying to figure out what is causing bugs in production.
 I also recommend that you configure error alerting with Django, with [Sentry](https://mattsegal.dev/sentry-for-django-error-monitoring.html) being a strong choice.

@@ -212,6 +212,11 @@ curl localhost --header "Host: fasfsadfs.com"
 There's [more](https://docs.nginx.com/nginx/admin-guide/web-server/web-server/#setting-up-virtual-servers) that you can do with virtual servers in NGINX,
 but what we've covered so far should be enough for you to understand their typical usage with Django. 
 
+
+{% from 'mail.html' import mailchimp %}
+{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+
+
 ## Location blocks
 
 Within a virtual server you can route the request based on the path.

@@ -23,8 +23,6 @@ That's the whole app.  I have created a [reference implementation on my GitHub](
 
 The project description sounds simple, doesn't it? I thought this would take me 8 hours to design and build, but I spent **20 hours** at the keyboard to get it done. Software projects are hard to estimate before they are built, since they have a [surprising amount of detail](http://johnsalvatier.org/blog/2017/reality-has-a-surprising-amount-of-detail) that you don't think about beforehand.
 
-
-
 # Designing the app
 
 So now you know what you're building, but you're not ready to write any code yet. We need to create a design first. As the saying goes: _weeks of coding can save hours of planning_. 
@@ -65,6 +63,10 @@ To better understand your data, I recommend that you create a simple diagram tha
 I explain how I came up with this particular data model in this [appendix page]({filename}/survey/django-survey-project-data-model.md).
 
 You don't need to get too formal or technical with these diagrams. They're just a starting point, not a perfect, final description of how your app will work. Also, the data model which I made isn't the only possible one for this app. Feel free to make your own and do it differently.
+
+{% from 'mail.html' import mailchimp %}
+{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+
 
 # Webpage wireframes
 

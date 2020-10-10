@@ -3,3 +3,4 @@ pelican
 pygments-lexer-babylon
 watchdog[watchmedo]
 Pillow
+pelican-jinja2content

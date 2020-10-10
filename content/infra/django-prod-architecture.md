@@ -14,7 +14,7 @@ There are many ways to extend a Django server setup to achieve better performanc
 This post will take you on a tour of some common Django server setups, from the most simple and basic to the more complex and powerful.
 I hope it will build up your mental model of how Django is hosted in production, piece-by-piece.
 
-### Your local machine
+## Your local machine
 
 Let's start by reviewing a Django setup that you are alreay familiar with: your local machine.
 Going over this will be a warm-up for later sections.
@@ -28,7 +28,7 @@ When you run Django locally, you have:
 
 Pretty simple right? Next let's look at something similar, but deployed to a web server.
 
-### Simplest possible webserver
+## Simplest possible webserver
 
 The simplest Django web server you can setup is very similar to your local dev environment.
 Most professional Django devs don't use a basic setup like this for their production environments. It works perfectly fine, but it has some limitations that we'll discuss later.
@@ -45,7 +45,7 @@ Otherwise, not that much is different from your local machine: you can still use
 
 This is the bare bones of the setup. There are a few other details that you'll need to manage like [setting up DNS](https://mattsegal.dev/dns-for-noobs.html), virtual environments, babysitting Gunicorn with a process supervisor like [Supervisord](https://mattsegal.dev/simple-django-deployment-4.html) or how to serve static files with [Whitenoise](http://whitenoise.evans.io/en/stable/). If you're interested in a more complete guide on how to set up a simple server like this, I wrote [a guide](https://mattsegal.dev/simple-django-deployment.html) that explains how to deploy Django.
 
-### Typical standalone webserver
+## Typical standalone webserver
 
 Let's go over an environment that a professional Django dev might set up in production when using a single server.
 It's not the exact setup that everyone will always use, but the structure is very common.
@@ -68,7 +68,10 @@ over just using Gunicorn to serve web requests. For example we can use NGINX to 
 It's important to note that everything here lives on a single server, which means that if the server goes away, so does all your data, [unless you have backups](https://mattsegal.dev/postgres-backup-and-restore.html).
 This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the [MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#media-root) folder, somewhere on your filesystem. Having only one server also means that if your server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
 
-### Single webserver with multiple apps
+{% from 'mail.html' import mailchimp %}
+{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+
+## Single webserver with multiple apps
 
 Once you start using NGINX and PostgreSQL, you can run multiple Django apps on the same machine.
 You can save money on hosting fees by packing multiple apps onto a single server rather than paying for a separate server for each app. This setup also allows you to re-use some of the services
@@ -99,13 +102,13 @@ If you haven't worked with task queues before then it's not immediately obvious 
 
 If you want to learn more about this stuff, I've written guides for getting started with [offline tasks](https://mattsegal.dev/offline-tasks.html) and [scheduled tasks](https://mattsegal.dev/simple-scheduled-tasks.html) with Django Q.
 
-### Single webserver with a cache
+## Single webserver with a cache
 
 Sometimes you'll want to [use a cache](https://docs.djangoproject.com/en/3.0/topics/cache/) to store data for a short time. For example, caches are commonly used when you have some data that was expensive to pull from the database or an API and you want to re-use it for a little while. [Redis](https://redis.io/) and [Memcached](https://en.wikipedia.org/wiki/Memcached) are both popular cache services that are used in production with Django. It's not a very complicated setup.
 
 ![cache on server setup]({attach}django-prod-architecture/cache-on-server.png)
 
-### Single webserver with Docker
+## Single webserver with Docker
 
 If you've heard of [Docker](https://www.docker.com/) before you might be wondering where it factors into these setups.
 It's a great tool for creating consistent programming environments, but it doesn't actually change how any of this works too much.
@@ -123,7 +126,7 @@ If you really wanted to you could wrap Docker containers around more things like
 This is why I think it's valuable to learn how to deploy Django without Docker first.
 That said, you can do some more complicated setups with Docker containers, which we'll get into later.
 
-### External services
+## External services
 
 So far I've been showing you server setups with just one virtual machine running Ubuntu.
 This is the simplest setup that you can use, but it has limitations: there are some things that
@@ -138,7 +141,7 @@ into smaller, more specialised units, based on their "responsibilities".
 We're going to pull apart our services bit-by-bit until there's nothing left.
 Just a note: you might not need to do this for your services, this is just an overview of what you _could_ do.
 
-### External services - database
+## External services - database
 
 The first thing you'd want to pull off of our server is the database. This involves putting PostgreSQL onto its own virtual machine.
 You can set this up yourself or pay a little extra for an off-the-shelf service like [Amazon RDS](https://aws.amazon.com/rds/).
@@ -155,7 +158,7 @@ There are a couple of reasons that you'd want to put the database on its own ser
 Using an off-the-shelf option like AWS RDS is attractive because it reduces the amount of admin work that you need to run your database server.
 If you're a backend web developer with a lot of work to do and more money than time then this is a good move.
 
-### External services - object storage
+## External services - object storage
 
 It is common to push file storage off the web server into "object storage", which is basically a filesystem behind a nice API. This is often done using [django-storages](https://django-storages.readthedocs.io/en/latest/), which I enjoy using. Object storage is usually used for user-uploaded "media" such as documents, photos and videos. I use AWS S3 (Simple Storage Service) for this, but every big cloud hosting provider has some sort of "object storage" offering.
 
@@ -171,7 +174,7 @@ There are a few reasons why this is a good idea
 Hopefully you see a theme here, we're taking shit we don't care about and making it someone else's problem.
 Paying someone else to do the work of managing our files and database leaves us more free time to work on more important things.
 
-### External services - web server
+## External services - web server
 
 You can also run your "web server" (NGINX) on a different virtual machine to your "app server" (Gunicorn + Django):
 
@@ -185,7 +188,7 @@ You could also replace NGINX with an off-the-shelf load balancer like an AWS Ela
 
 Note how putting our services on their own servers allows us to scale them out over multiple virtual machines. We couldn't run our Django app on three servers at the same time if we also had three copies of our filesystem and three databases.
 
-### External services - task queue
+## External services - task queue
 
 You can also push your "offline task" services onto their own servers. Typically the broker service would get its own machine and the worker would live on another:
 
@@ -203,7 +206,7 @@ Now that you've split things up, you can also scale out your workers to run more
 
 You could potentially swap our your self-managed broker (Redis or RabbitMQ) for a managed queue like [Amazon SQS](https://aws.amazon.com/sqs/).
 
-### External services - final form
+## External services - final form
 
 If you went totally all-out, your Django app could be set up like this:
 
@@ -226,7 +229,7 @@ on [configuration management](https://mattsegal.dev/intro-config-management.html
 You'll need to start looking into tools like [Ansible](https://www.ansible.com/) and [Packer](https://www.packer.io/) to configure your virtual machines,
 and tools like [Terraform](https://www.terraform.io/) or [CloudFormation](https://aws.amazon.com/cloudformation/) to configure your cloud services.
 
-### Auto scaling groups
+## Auto scaling groups
 
 You've already seen how you can have multiple web servers running the same app, or multiple worker servers all pulling tasks from a queue.
 These servers cost money, dollars per hour, and it can get very expensive to run more servers than you need.
@@ -239,7 +242,7 @@ dozens of file uploads per second. What if during some periods of the day, like 
 With an autoscaling setup, the CPU usage on your worker servers would spike, triggering the creation of more and more worker servers, until you had enough to handle all the uploads.
 When the rate of file uploads drops, the extra servers would be automatically destroyed, so you aren't always paying for them.
 
-### Container clusterfuck
+## Container clusterfuck
 
 There is a whole world of container fuckery that I haven't covered in much detail, because:
 
@@ -261,7 +264,7 @@ to think about the underlying servers. These teams are essentially supplying a "
 As you might have noticed, there is probably too much complexity in these container orchestration tools for them to be worth your while as a solo developer or even as a small team.
 If you're interested in this sort of thing you might like [Dokku](http://dokku.viewdocs.io/dokku/), which claims to be "the smallest PaaS implementation you've ever seen".
 
-### End of tour
+## End of tour
 
 That's basically everything that I know that I know about how Django can be set up in production.
 If you're interested in building up your infrastructure skills, then I recommend you try out one of the setups or tools that I've mentioned in this post.

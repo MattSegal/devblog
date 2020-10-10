@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+from pelican.plugins import jinja2content
 
 AUTHOR = "Matthew Segal"
 SITENAME = "Matt Segal Dev"
@@ -9,6 +10,8 @@ HOSTURL = os.environ["PELICAN_HOSTURL"]
 THEME = "./theme"
 
 PATH = "content"
+# https://github.com/pelican-plugins/jinja2content
+PLUGINS = [jinja2content]
 
 
 TIMEZONE = "Australia/Melbourne"
@@ -29,4 +32,3 @@ DEFAULT_PAGINATION = 10
 IGNORE_FILES = ["*.draft.*"]
 
 HOT_RELOAD = os.environ.get("HOT_RELOAD", False)
-

@@ -6,7 +6,7 @@ Category: Django
 
 You've deployed Django to a webserver and something has broken. There's an error _somewhere_. What happened? When you're debugging Django on your local computer, you can just throw a print statement into your code and check the output in the runserver logs. What about in production? Where do the logs go there? How can I set up Django so it's easy to see what is happening?
 
-### Write your logs to a file
+## Write your logs to a file
 
 You need to get your deployed Django app to write its logs to a file, so that you can look at them later. You can do this by configuring Django's settings. You will also need to use Python's logging library, rather than print statements. Why use logging over print? The logging library generally makes it easier to manage logs in production. Specifically, it makes it easier to:
 
@@ -16,7 +16,7 @@ You need to get your deployed Django app to write its logs to a file, so that yo
 
 You might be thinking that using "print" works fine when you're using Django's dev web server. It's true! Using "print" works fine locally, but when you're in production with DEBUG=False, you won't be able to see your print statements anymore in Django's log output. Log messages will still show up when you're working locally so there's nothing to lose by ditching print for logging.
 
-### How to use logging in Django
+## How to use logging in Django
 
 Before you set Django up to write logs to a file, you need to use Python's logging framework to write any log messages that you want to record. It's pretty easy, you just need to set it up in each module that needs it. For example, in one of your views:
 
@@ -88,7 +88,10 @@ Exception: This is an unhandled exception
 
 Importantly, you won't see any results from print statements, which is why you can't use them for production logging.
 
-### How to set up file logging
+{% from 'mail.html' import mailchimp %}
+{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+
+## How to set up file logging
 
 Now that you're sold on logging and you know how to use it in your code, you can set it up in your Django settings.
 
@@ -176,7 +179,7 @@ This is, admittedly, a horrific clusterfuck of configuration. It burns my eyes a
 
 The relevant area for you is in `LOGGING["handlers"]["file"]`. This dict defines the bit that acutally writes our logs to the file. The important key is "filename", which defines the filepath where your logs will be written. You might want to change this depending on your preferences.
 
-### Use prod settings in production
+## Use prod settings in production
 
 The last little trick you need is to tell Django to use your prod settings in production. You can do this a few ways, I like to do it by setting the DJANGO_SETTINGS_MODULE environment variable.
 
@@ -190,7 +193,7 @@ export DJANGO_SETTINGS_MODULE=myproj.settings.prod
 gunicorn myproj.wsgi:application
 ```
 
-### Bonus round: gunicorn logs
+## Bonus round: gunicorn logs
 
 If you're using gunicorn as your WSGI app server in production, you might also want to track your gunicorn logs. This will give you information about incoming web requests, and the app starting and stopping, which can be useful when debugging. To do this, you just need to set some command-line flags:
 
@@ -228,7 +231,7 @@ And the error logs are mostly information about the app booting up and stopping:
 
 Both of these can be pretty useful when debugging issues in production.
 
-### Next steps
+## Next steps
 
 Once you've conifgured all of this, you'll be able to log into your webserver and see all your info events, error messages, access logs and gunicorn events. Finding and fixing an error in prod will be much easier with these logs.
 

@@ -12,6 +12,10 @@ code {
   }
 }
 
+.ui.container.text h2 {
+  margin: 3rem 0 1rem 0;
+}
+
 header {
   padding: 0.25rem 0;
   display: flex;
@@ -208,26 +212,6 @@ pre {
   height: 100%;
 }
 
-.subscribe button {
-  background-color: #e97dfd99 !important;
-  color: #fff !important;
-}
-
-.subscribe input {
-  background-color: #fff !important;
-  border: solid 2px #e97dfd66 !important;
-}
-.subscribe input::placeholder {
-  color: #333 !important;
-}
-
-.subscribe {
-  min-width: 70%;
-}
-.subscribe-cta {
-  font-weight: bold;
-}
-
 li > code,
 p > code {
   color: #7f2598;
@@ -238,3 +222,39 @@ p > code {
   display: flex;
   justify-content: space-between;
 }
+
+/* EMAIL SIGNUP FORM  */
+
+.subscribe {
+  min-width: 70%;
+}
+.subscribe-cta {
+  font-weight: bold;
+  color: #666;
+}
+
+/* e97dfdd1 */
+.subscribe button {
+  color: #fff !important;
+  background-color: #999 !important;
+}
+
+.subscribe input {
+  background-color: #fff !important;
+  border: solid 2px #999 !important;
+  border-right: 0 !important;
+}
+.subscribe input::placeholder {
+  color: #999 !important;
+}
+
+.subscribe:hover button {
+  background-color: #e97dfdd1 !important;
+}
+
+.subscribe:hover input {
+  border: solid 2px #e97dfdd1 !important;
+  border-right: 0 !important;
+}
+
+/* END EMAIL SIGNUP FORM  */

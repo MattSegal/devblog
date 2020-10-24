@@ -65,7 +65,7 @@ I explain how I came up with this particular data model in this [appendix page](
 You don't need to get too formal or technical with these diagrams. They're just a starting point, not a perfect, final description of how your app will work. Also, the data model which I made isn't the only possible one for this app. Feel free to make your own and do it differently.
 
 {% from 'mail.html' import mailchimp %}
-{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+{{ mailchimp("Get alerted when I publish new blog posts", "Enter your email address", "Subscribe") }}
 
 
 # Webpage wireframes

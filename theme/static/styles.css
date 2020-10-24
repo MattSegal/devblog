@@ -1,14 +1,26 @@
 p,
-li,
+li, 
 code {
   line-height: 1.8em;
-  font-size: 1.3rem !important;
+  font-size: 1.2rem !important;
+}
+code {
+  font-size: 1.1rem !important;
+}
+pre > code {
+  line-height: 1.2em;
+  font-size: 1rem !important;
 }
 @media (max-width: 400px) {
   p,
-  li,
-  code {
+  li {
     font-size: 1rem !important;
+  }
+  code {
+    font-size: 0.9rem !important;
+  }
+  pre > code {
+    font-size: 0.8rem !important;
   }
 }
 

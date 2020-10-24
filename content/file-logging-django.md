@@ -89,7 +89,7 @@ Exception: This is an unhandled exception
 Importantly, you won't see any results from print statements, which is why you can't use them for production logging.
 
 {% from 'mail.html' import mailchimp %}
-{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+{{ mailchimp("Get alerted when I publish new blog posts", "Enter your email address", "Subscribe") }}
 
 ## How to set up file logging
 

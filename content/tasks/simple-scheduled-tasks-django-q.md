@@ -45,7 +45,7 @@ class Discount(model.Model):
 And let's say that every minute I want to delete every discount that is older than a minute. It's a silly thing to do, but this is just an learning example. So how do we set up Django-Q to do this?
 
 {% from 'mail.html' import mailchimp %}
-{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+{{ mailchimp("Get alerted when I publish new blog posts", "Enter your email address", "Subscribe") }}
 
 
 ## Install the package

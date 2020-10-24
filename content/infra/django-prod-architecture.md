@@ -69,7 +69,7 @@ It's important to note that everything here lives on a single server, which mean
 This data includes your Django tables, which are stored in Postgres, and files uploaded by users, which will be stored in the [MEDIA_ROOT](https://docs.djangoproject.com/en/3.0/ref/settings/#media-root) folder, somewhere on your filesystem. Having only one server also means that if your server restarts or shuts off, so does your website. This is OK for smaller projects, but it's not acceptable for big sites like StackOverflow or Instagram, where the cost of downtime is very high.
 
 {% from 'mail.html' import mailchimp %}
-{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+{{ mailchimp("Get alerted when I publish new blog posts", "Enter your email address", "Subscribe") }}
 
 ## Single webserver with multiple apps
 

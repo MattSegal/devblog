@@ -28,8 +28,6 @@ class GameOfLife {
       const scrollPercent = scroll / height;
       if (scrollPercent > 0.5) return;
       this.progressGame();
-      header.style.opacity = 1 - 3 * scrollPercent;
-      canvas.style.opacity = 0.4 - (0.4 / 0.5) * scrollPercent;
     });
     this.runGame();
   }
@@ -161,7 +159,7 @@ const getFillStyle = (value) => {
   // #2 - smash them together
   const idx = Math.floor(h);
   const rgb = huePrimeLookup(x, c)
-    [idx].map((color) => color + o)
+  [idx].map((color) => color + o)
     .map((color) => Math.round(255 * color));
 
   // Turn RGB to CSS string

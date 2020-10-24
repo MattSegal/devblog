@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 export PELICAN_GA=""
-export PELICAN_HOSTURL="http://localhost:8000"
+export PELICAN_HOSTURL="http://localhost:8001"
 export HOT_RELOAD="1"
 . ./env/bin/activate
 echo ">>> Building social cards"

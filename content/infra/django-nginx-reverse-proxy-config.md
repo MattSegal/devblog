@@ -214,7 +214,7 @@ but what we've covered so far should be enough for you to understand their typic
 
 
 {% from 'mail.html' import mailchimp %}
-{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+{{ mailchimp("Get alerted when I publish new blog posts", "Enter your email address", "Subscribe") }}
 
 
 ## Location blocks

@@ -78,7 +78,7 @@ NGINX also logs errors to error_log, which can occur when you've messed up your 
 2020/07/25 08:14:57 [error] 32115#32115: *44242 connect() failed (111: Connection refused) while connecting to upstream, client: 11.22.33.44, server: www.example.com, request: "GET /admin/ HTTP/1.1", upstream: "http://127.0.0.1:8000/admin/", host: "clerk.anikalegal.com", referrer: "https://www.example.com/admin/"
 ```
 {% from 'mail.html' import mailchimp %}
-{{ mailchimp("Get more Django tips by email", "Enter your email address", "Subscribe") }}
+{{ mailchimp("Get alerted when I publish new blog posts", "Enter your email address", "Subscribe") }}
 
 ## Gunicorn logging
 

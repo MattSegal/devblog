@@ -1,11 +1,13 @@
 const HUE_INIT = (11 * Math.PI) / 12;
-const HUE_INCREMENT = Math.PI / 8;
-const HUE_CUTOFF = 6;
-const SAT = 0.7;
+const HUE_INCREMENT = Math.PI / 9;
+const HUE_CUTOFF = 8;
+const SAT = 1;
 const VAL = 1;
 
-const STEP_MODULUS = 4; // mouse move steps per update
-const CELL_LENGTH = 3; // px
+const PROB_CELL_EXISTS = 0.4;
+const GAME_STEPS = 50;
+
+const CELL_LENGTH = 3.5; // px
 const canvas = document.getElementById("hero-animation");
 const header = document.getElementById("hero-header");
 const banner = document.getElementById("hero");
@@ -16,20 +18,17 @@ class GameOfLife {
   // FIXME - handle resize
   constructor() {
     this.setupGame();
-    this.runRenderLoop();
+    this.runGame();
+    this.renderGrid();
     window.addEventListener("resize", () => {
       this.setupGame();
       this.runGame();
+      this.renderGrid();
     });
-    this.scrollCount = 0;
-    window.addEventListener("scroll", (e) => {
-      const scroll = window.pageYOffset;
-      const height = window.outerHeight;
-      const scrollPercent = scroll / height;
-      if (scrollPercent > 0.5) return;
+    banner.addEventListener("click", () => {
       this.progressGame();
+      this.renderGrid();
     });
-    this.runGame();
   }
 
   setupGame() {
@@ -48,7 +47,7 @@ class GameOfLife {
       const row = [];
       this.grid.push(row);
       for (let j = 0; j < this.numCols; j++) {
-        const val = Math.random() > 0.35 ? 1 : 0;
+        const val = Math.random() <= PROB_CELL_EXISTS ? 1 : 0;
         row.push(val);
       }
     }
@@ -60,12 +59,9 @@ class GameOfLife {
   }
 
   runGame() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < GAME_STEPS; i++) {
       this.progressGame();
     }
-    banner.addEventListener("click", (e) => {
-      this.progressGame();
-    });
   }
 
   progressGame() {
@@ -159,7 +155,7 @@ const getFillStyle = (value) => {
   // #2 - smash them together
   const idx = Math.floor(h);
   const rgb = huePrimeLookup(x, c)
-  [idx].map((color) => color + o)
+    [idx].map((color) => color + o)
     .map((color) => Math.round(255 * color));
 
   // Turn RGB to CSS string

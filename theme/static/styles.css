@@ -1,5 +1,5 @@
 p,
-li, 
+li,
 code {
   line-height: 1.8em;
   font-size: 1.2rem !important;
@@ -55,6 +55,8 @@ header h1 {
   height: 50vh;
   margin-bottom: 2rem;
   position: relative;
+  cursor: pointer;
+  user-select: none;
 }
 .hero-content {
   padding: 1rem 0;

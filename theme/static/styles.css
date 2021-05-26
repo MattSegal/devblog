@@ -27,13 +27,20 @@ pre > code {
 .ui.container.text h2 {
   margin: 3rem 0 1rem 0;
 }
+.ui.container.text h2 {
+  margin: 3rem 0 1rem 0;
+}
+.ui.container.text .article h2 {
+  margin: 0 0 1rem 0;
+}
+
 
 header {
   padding: 0.25rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: -1px -11px 20px 0px rgba(51, 51, 51, 1);
+  box-shadow: -1px -13px 20px 0px rgba(51, 51, 51, 1);
 }
 header a,
 header a:visited {
@@ -43,7 +50,7 @@ header a:visited {
 header h1 {
   margin: 0;
   font-size: 1.2rem;
-  color: #e97dfd;
+  color: rgba(233, 125, 253, 0.8);
   text-transform: uppercase;
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
@@ -52,17 +59,22 @@ header h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50vh;
-  margin-bottom: 2rem;
   position: relative;
   cursor: pointer;
   user-select: none;
+  -webkit-tap-highlight-color: transparent
 }
+
+
 .hero-content {
-  padding: 1rem 0;
+  padding: 8rem 1rem;
   text-align: center;
-  max-width: 60vw;
   user-select: none;
+}
+@media (max-width: 700px) {
+  .hero-content {
+    padding: 4rem 1rem;
+  }
 }
 
 #hero-animation {
@@ -72,6 +84,7 @@ header h1 {
   top: 0;
   bottom: 0;
   pointer-events: none;
+  user-select: none;
   opacity: 0.4;
   width: 100%;
   height: 100%;
@@ -79,7 +92,7 @@ header h1 {
 }
 
 .hero-content h1 {
-  color: rgb(70, 70, 70);
+  color: rgba(70, 70, 70, 0.9);
   font-size: 50px;
   font-weight: 700;
   max-width: 900px;
@@ -88,12 +101,14 @@ header h1 {
 }
 
 @media (max-width: 700px) {
-  .hero-content {
-    max-width: 90vw;
-  }
   .hero-content h1 {
-    font-size: 25px;
+    font-size: 30px;
   }
+}
+
+.content-wrapper {
+  padding: 2rem 0;
+  box-shadow: 1px 13px 20px 0px rgba(51, 51, 51, 1);
 }
 
 /* Semantic CSS override */
@@ -126,8 +141,17 @@ code {
   font-size: 1rem;
 }
 
+.article-grid {
+  display: grid;
+  justify-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 3rem;
+  padding: 0 2rem;
+  grid-template-columns: repeat(auto-fit, 420px);
+}
+
 .article {
-  margin-bottom: 1rem;
 }
 
 .article .header a {
@@ -135,9 +159,6 @@ code {
 }
 .article .preview {
   opacity: 0.5;
-}
-.article .ui.divider {
-  margin: 2.5rem 0;
 }
 
 @media (max-width: 600px) {

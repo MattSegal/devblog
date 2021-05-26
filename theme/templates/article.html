@@ -21,30 +21,31 @@
 {% block content_title %}{{ article.title }}{% endblock %}
 
 {% block content %}
-<div class="ui huge header">
-  
-  <div class="sub header">
-    {{ article.locale_date }}, by {% for author in article.authors %} {{ author
-    }} {% endfor %}
-    <div class="category">
-      Category:
-      <a href="{{ SITEURL }}/{{ article.category.url }}"
-        >{{ article.category }}</a
-      >
+<div class="ui container text">
+  <div class="ui huge header">
+    
+    <div class="sub header">
+      {{ article.locale_date }}, by {% for author in article.authors %} {{ author
+      }} {% endfor %}
+      <div class="category">
+        Category:
+        <a href="{{ SITEURL }}/{{ article.category.url }}"
+          >{{ article.category }}</a
+        >
+      </div>
     </div>
   </div>
+  <div>
+    {{ article.content }}
+  </div>
+
+  {% from 'mail.html' import mailchimp %}
+  {{ mailchimp("Get more backend web development tips", "Enter your email address", "I want tips") }}
+
+  <p style="text-align: center; color: grey;">
+    <small>
+      If you have any feedback or questions email me at mattdsegal@gmail.com
+    </small>
+  </p>
 </div>
-<div>
-  {{ article.content }}
-</div>
-
-{% from 'mail.html' import mailchimp %}
-{{ mailchimp("Get more backend web development tips", "Enter your email address", "I want tips") }}
-
-<p style="text-align: center; color: grey;">
-  <small>
-    If you have any feedback or questions email me at mattdsegal@gmail.com
-  </small>
-</p>
-
 {% endblock %}

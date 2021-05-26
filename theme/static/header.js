@@ -1,13 +1,17 @@
 const HUE_INIT = (11 * Math.PI) / 12;
 const HUE_INCREMENT = Math.PI / 9;
 const HUE_CUTOFF = 8;
-const SAT = 1;
+const SAT = 0.5;
 const VAL = 1;
 
 const PROB_CELL_EXISTS = 0.4;
 const GAME_STEPS = 50;
 
-const CELL_LENGTH = 3.5; // px
+
+let CELL_LENGTH = 3; // px
+if (window.screen.width < 600) {
+  CELL_LENGTH = 2 // px
+}
 const canvas = document.getElementById("hero-animation");
 const header = document.getElementById("hero-header");
 const banner = document.getElementById("hero");

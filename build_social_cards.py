@@ -22,10 +22,10 @@ ROOT_DIR = 'theme/static/social-cards/'
 
 def main():
     print("Generating generic card")
+    create_social_card("theme/static/social-card.png", "Matt's Web Development Blog")
     if not os.path.exists(ROOT_DIR):
         os.makedirs(ROOT_DIR, exist_ok=True)
 
-    create_social_card("theme/static/social-card.png", "Matt's Web Development Blog")
     for path in glob.glob("content/**/*.md", recursive=True):
         if ".draft." in path:
             continue
@@ -68,13 +68,11 @@ def draw_text(draw: ImageDraw, title: str):
         font = ImageFont.truetype(FONT, 0.8 * TITLE_FONT_SIZE)
         tw, th = draw.textsize(text, font)
 
-    ty = HEIGHT / 2 - th / 2 - 40 # Hack
-    for line_text in textwrap.wrap(title, width=CHAR_WIDTH):
-        tw, th = draw.textsize(line_text, font)
-        tx = WIDTH / 2 - tw / 2 
-        draw.text((tx, ty), line_text, WHITE_COLOR, font=font, stroke_width=3)
-        draw.text((tx, ty), line_text, TITLE_COLOR, font=font)
-        ty += th
+    tx = WIDTH / 2 - tw / 2
+    ty = HEIGHT / 2 - th / 2
+    
+    draw.text((tx, ty), text, WHITE_COLOR, font=font, stroke_width=2, align="center", spacing=0)
+    draw.text((tx, ty), text, TITLE_COLOR, font=font, align="center", spacing=4)
 
 HUE_INIT = (11 * math.pi) / 12
 HUE_INCREMENT = math.pi / 8

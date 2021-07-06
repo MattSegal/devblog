@@ -3,6 +3,7 @@ import os
 import math
 import random
 import glob
+import textwrap
 
 
 from PIL import Image
@@ -12,18 +13,21 @@ from PIL import ImageDraw
 WIDTH = 1200
 HEIGHT = 630
 FONT = "theme/static/fonts/Lato-Bold.ttf"
-TITLE_TEXT = "MATT SEGAL DEV"
-TITLE_COLOR = (233, 125, 253, 255)
+TITLE_COLOR = (70, 70, 70, 255)
+WHITE_COLOR = (255, 255, 255, 255)
 TITLE_FONT_SIZE = 100
-SUBTITLE_COLOR = (70, 70, 70, 255)
-SUBTITLE_FONT_SIZE = 50
+CHAR_WIDTH = 21
+OFFSET_X = 60
+OFFSET_Y = 30
+ROOT_DIR = 'theme/static/social-cards/'
 
 
 def main():
-    subtitle_text = "Backend web development blog"
     print("Generating generic card")
-    create_social_card("theme/static/social-card.png", TITLE_TEXT, subtitle_text)
+    if not os.path.exists(ROOT_DIR):
+        os.makedirs(ROOT_DIR, exist_ok=True)
 
+    create_social_card("theme/static/social-card.png", "Matt's Web Development Blog")
     for path in glob.glob("content/**/*.md", recursive=True):
         if ".draft." in path:
             continue
@@ -43,69 +47,45 @@ def main():
             print("Skipping", path)
 
         print("Generating card for", slug)
-        create_social_card(f"theme/static/social-cards/{slug}.png", TITLE_TEXT, title)
+        create_social_card(f"theme/static/social-cards/{slug}.png", title)
 
 
-def create_social_card(path, title, subtitle):
+def create_social_card(path, title):
     if os.path.exists(path):
         return
 
     img = Image.new("RGB", (WIDTH, HEIGHT), color=(255, 255, 255))
     draw = ImageDraw.Draw(img, "RGBA")
     draw_game_of_life(draw)
-    draw_text(draw, title, subtitle)
+    draw_text(draw, title)
     img.save(path)
 
 
-def draw_text(draw: ImageDraw, title: str, subtitle: str):
-    # Draw title
-    font = ImageFont.truetype(FONT, TITLE_FONT_SIZE)
-    tw, th = draw.textsize(title, font)
-    tx = WIDTH / 2 - tw / 2
-    ty = HEIGHT / 2 - 1.2 * th
-    draw.text((tx, ty), title, TITLE_COLOR, font=font)
-
+def draw_text(draw: ImageDraw, title: str):
     # Draw subtitle
-    font = ImageFont.truetype(FONT, SUBTITLE_FONT_SIZE)
-    tw, th = draw.textsize(subtitle, font)
-    if tw < 1000:
-        tx = WIDTH / 2 - tw / 2
-        ty = 2 * HEIGHT / 3 - 1.5 * th
-        draw.text((tx, ty), subtitle, SUBTITLE_COLOR, font=font)
-    else:
-        parts = subtitle.split(" ")
-        first_parts = []
-        idx = 0
-        len_first = 0
-        len_parts = sum([len(p) for p in parts])
-        while len_first < len_parts / 2:
-            first_parts.append(parts[idx])
-            len_first = sum([len(p) for p in first_parts])
-            idx += 1
+    font = ImageFont.truetype(FONT, TITLE_FONT_SIZE)
+    text = "\n".join(textwrap.wrap(title, width=CHAR_WIDTH))
+    tw, th = draw.textsize(text, font)
+    if tw > WIDTH or th > HEIGHT:
+        font = ImageFont.truetype(FONT, 0.8 * TITLE_FONT_SIZE)
 
-        first = " ".join(first_parts)
-        second = " ".join(parts[idx:])
-
-        tw, th = draw.textsize(first, font)
-        tx = WIDTH / 2 - tw / 2
-        ty = 2 * HEIGHT / 3 - 1.5 * th
-        draw.text((tx, ty), first, SUBTITLE_COLOR, font=font)
-
-        tw, th = draw.textsize(second, font)
-        tx = WIDTH / 2 - tw / 2
-        ty = ty + th
-        draw.text((tx, ty), second, SUBTITLE_COLOR, font=font)
-
+    tx, ty = OFFSET_X, OFFSET_Y
+    for line_text in textwrap.wrap(title, width=CHAR_WIDTH):
+        tw, th = draw.textsize(line_text, font)
+        draw.text((tx, ty), line_text, WHITE_COLOR, font=font, stroke_width=3)
+        draw.text((tx, ty), line_text, TITLE_COLOR, font=font)
+        ty += th
 
 HUE_INIT = (11 * math.pi) / 12
 HUE_INCREMENT = math.pi / 8
 HUE_CUTOFF = 6
-SAT = 0.7
+SAT = 0.8
 VAL = 1
-CELL_LENGTH = 8
-NUM_ITERS = 50
-COLOR_OPACITY = 77
+CELL_LENGTH = 5
+NUM_ITERS = 100
+COLOR_OPACITY = 95
 WHITE = (255, 255, 255, 255)
+CELL_PROBABILITY = 0.5
 
 
 def draw_game_of_life(draw: ImageDraw):
@@ -121,7 +101,7 @@ def run_game_of_life(num_iters, num_rows, num_cols):
         row = []
         grid.append(row)
         for j in range(num_cols):
-            val = 1 if random.random() > 0.8 else 0
+            val = 1 if random.random() > CELL_PROBABILITY else 0
             row.append(val)
 
     for _ in range(NUM_ITERS):

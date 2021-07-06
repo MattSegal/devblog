@@ -17,8 +17,6 @@ TITLE_COLOR = (70, 70, 70, 255)
 WHITE_COLOR = (255, 255, 255, 255)
 TITLE_FONT_SIZE = 100
 CHAR_WIDTH = 21
-OFFSET_X = 60
-OFFSET_Y = 30
 ROOT_DIR = 'theme/static/social-cards/'
 
 
@@ -68,10 +66,12 @@ def draw_text(draw: ImageDraw, title: str):
     tw, th = draw.textsize(text, font)
     if tw > WIDTH or th > HEIGHT:
         font = ImageFont.truetype(FONT, 0.8 * TITLE_FONT_SIZE)
+        tw, th = draw.textsize(text, font)
 
-    tx, ty = OFFSET_X, OFFSET_Y
+    ty = HEIGHT / 2 - th / 2 - 40 # Hack
     for line_text in textwrap.wrap(title, width=CHAR_WIDTH):
         tw, th = draw.textsize(line_text, font)
+        tx = WIDTH / 2 - tw / 2 
         draw.text((tx, ty), line_text, WHITE_COLOR, font=font, stroke_width=3)
         draw.text((tx, ty), line_text, TITLE_COLOR, font=font)
         ty += th

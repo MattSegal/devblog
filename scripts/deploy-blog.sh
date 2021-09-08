@@ -4,14 +4,6 @@ set -e
 export PELICAN_GA="UA-103174696-6"
 export PELICAN_HOSTURL="https://mattsegal.dev"
 
-echo ">>> Purging Cloudflare cache"
-. ./scripts/secrets.sh
-PURGE_URL="https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache"
-curl -X DELETE $PURGE_URL \
-    -H "Authorization: Bearer $CLOUDFLARE_AUTH_KEY" \
-    -H "Content-Type:application/json" \
-    --data '{"purge_everything":true}'
-
 echo ">>> Building social cards"
 ./build_social_cards.py
 
@@ -28,3 +20,10 @@ aws s3 cp \
     ./output \
     s3://mattsegal.dev
 
+echo ">>> Purging Cloudflare cache"
+. ./scripts/secrets.sh
+PURGE_URL="https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache"
+curl -X DELETE $PURGE_URL \
+    -H "Authorization: Bearer $CLOUDFLARE_AUTH_KEY" \
+    -H "Content-Type:application/json" \
+    --data '{"purge_everything":true}'

@@ -1,7 +1,7 @@
-{% extends "base.html" %} {% block content_title %}Blog Posts{% endblock %} {%
-block content %}
+{% extends "base.html" %} {% block content_title %}Matt's Dev Blog{% endblock %} 
+{% block outer_content %}
 <section id="content">
-  <div class="ui list middle aligned divided">
+  <div class="article-list">
     {% for article in articles_page.object_list %}
     <div class="article">
       <h2 class="header">
@@ -15,13 +15,12 @@ block content %}
       <div class="preview">
         {{ article.summary }}
       </div>
-      <div class="ui divider"></div>
     </div>
     {% endfor %}
-  </div>
-
   {% if articles_page.has_other_pages() %} {% include 'pagination.html' %} {%
   endif %}
+  </div>
+  
 </section>
 <!-- /#content -->
-{% endblock content %}
+{% endblock outer_content %}

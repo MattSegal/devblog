@@ -3,9 +3,9 @@ import os
 from pelican.plugins import jinja2content
 
 AUTHOR = "Matthew Segal"
-SITENAME = "Matt Segal Dev"
+SITENAME = "Matt's Dev Blog"
 SITEURL = ""
-HOSTNAME = "Matt Segal Dev"
+HOSTNAME = "Matt's Dev Blog"
 HOSTURL = os.environ["PELICAN_HOSTURL"]
 THEME = "./theme"
 
@@ -27,7 +27,7 @@ AUTHOR_FEED_RSS = None
 
 LINKS = []
 SOCIAL = []
-DEFAULT_PAGINATION = 10
+DEFAULT_PAGINATION = 20
 
 IGNORE_FILES = ["*.draft.*"]
 

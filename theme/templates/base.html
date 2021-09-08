@@ -111,10 +111,23 @@
   <body id="index" class="home">
     <header class="body">
       <a href="{{ SITEURL }}/">
-        <h1 id="banner">
-          {{ SITENAME }}
+        <h1>
+          Blog
         </h1>
       </a>
+      <h1 style="margin: 0 1rem">|</h1>
+      <a href="https://www.youtube.com/channel/UC_jevZode3OpEjW3g5I0BCA">
+        <h1>
+          YouTube
+        </h1>
+      </a>
+      <h1 style="margin: 0 1rem">|</h1>
+      <a href="https://twitter.com/mattdsegal">
+        <h1>
+          Twitter
+        </h1>
+      </a>
+
     </header>
     <div id="hero">
       <canvas id="hero-animation"></canvas>
@@ -124,9 +137,13 @@
         </h1>
       </div>
     </div>
-    <div class="ui container text" style="padding-bottom: 20px;">
-      {% block content %} {% endblock %}
-    </div>
+    <main>
+      {% block outer_content %}
+      <div class="ui container text">
+        {% block content %} {% endblock %}
+      </div>
+      {% endblock %}
+    </main>
     <script type="text/javascript">
       (function (i, s, o, g, r, a, m) {
         i["GoogleAnalyticsObject"] = r;

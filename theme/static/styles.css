@@ -29,10 +29,6 @@ pre > code {
 }
 
 header {
-  padding: 0.25rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   box-shadow: 0 -10px 20px 0px rgba(51, 51, 51, 1);
 }
 header a,
@@ -40,7 +36,15 @@ header a:visited {
   color: #212529;
   text-decoration: none;
 }
-header h1 {
+header .banner {
+  padding: 0.4rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+header .banner.links h1 {
   margin: 0;
   font-size: 1.1rem;
   color: #e97dfd;
@@ -48,6 +52,24 @@ header h1 {
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
 }
+header .banner.freelance {
+  background-color: #e97dfd;
+}
+header .banner.freelance h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+header .banner.freelance button {
+  color: #e97dfd;
+  text-transform: uppercase;
+  background: #fff;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
 #hero {
   display: flex;
   align-items: center;

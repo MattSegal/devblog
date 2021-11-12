@@ -110,30 +110,34 @@
   </head>
   <body id="index" class="home">
     <header class="body">
+      <div class="banner links">
       <a href="{{ SITEURL }}/">
         <h1>
           Blog
         </h1>
       </a>
-      <h1 style="margin: 0 1rem">|</h1>
       <a href="https://www.youtube.com/channel/UC_jevZode3OpEjW3g5I0BCA">
         <h1>
           YouTube
         </h1>
       </a>
-      <h1 style="margin: 0 1rem">|</h1>
       <a href="https://twitter.com/mattdsegal">
         <h1>
           Twitter
         </h1>
       </a>
-      <h1 style="margin: 0 1rem">|</h1>
       <a href="https://www.linkedin.com/in/matthew-segal-aa132093/">
         <h1>
           LinkedIn
         </h1>
       </a>
+      </div>
+      <div class="banner freelance">
+        <h1>Hire me for your web project</h1>
+        <a href="https://mattsegal.com.au"><button>Learn more</button></a>
+      </div>
     </header>
+
     <div id="hero">
       <canvas id="hero-animation"></canvas>
       <div class="hero-content">
@@ -173,11 +177,5 @@
       ga("send", "pageview");
     </script>
     <script type="text/javascript" src="{{ SITEURL }}/theme/header.js"></script>
-
-
-    {% if HOT_RELOAD %}
-    <script type="text/javascript" src="{{ SITEURL }}/theme/live.js"></script>
-    {% endif %}
-
   </body>
 </html>

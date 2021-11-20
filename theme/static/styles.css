@@ -37,7 +37,7 @@ header a:visited {
   text-decoration: none;
 }
 header .banner {
-  padding: 0.4rem 0;
+  padding: 0.6rem 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,7 +53,7 @@ header .banner.links h1 {
     1px 1px 0 #fff;
 }
 header .banner.freelance {
-  background-color: #e97dfd;
+  background-color: #e97dfdc7;
 }
 header .banner.freelance h1 {
   margin: 0;
@@ -61,13 +61,10 @@ header .banner.freelance h1 {
   font-size: 1.1rem;
   text-transform: uppercase;
 }
-header .banner.freelance button {
-  color: #e97dfd;
-  text-transform: uppercase;
-  background: #fff;
-  border: none;
-  padding: 4px 8px;
+header .banner.freelance a {
   cursor: pointer;
+  text-decoration: underline;
+  color: #fff;
 }
 
 #hero {
@@ -95,7 +92,7 @@ header .banner.freelance button {
 .hero-content h1 {
   user-select: none;
   text-align: center;
-  padding: 4rem 0;
+  padding: 6rem 0;
   color: rgb(70, 70, 70);
   font-size: 45px;
   font-weight: 700;
@@ -111,9 +108,13 @@ header .banner.freelance button {
 }
 
 main {
-  padding-top: 2rem;
+  padding-top: 4rem;
   padding-bottom: 20px;
-  box-shadow: 0 10px 20px 0px rgba(51, 51, 51, 1);
+}
+@media (max-width: 600px) {
+  main {
+    padding-top: 2rem;
+  }
 }
 
 /* Semantic CSS override */
@@ -150,20 +151,34 @@ code {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem;
-  padding: 0 2rem;
-  max-width: calc(1200px + 2rem);
+  gap: 4rem;
+  padding: 0 4rem;
+  max-width: calc(1200px + 4rem);
   margin: 0 auto;
 }
 
 .article {
   padding: 2rem;
-  box-shadow: rgb(51 51 51) 0px 0px 10px -5px;
+  background: #f1d2ff26;
   width: calc(50% - 2rem);
+  border: solid 4px #f1d2ff;
   max-width: 600px;
-  border-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
+.article:nth-child(4n - 1),
+.article:nth-child(4n - 2) {
+  background: #d1eaff47;
+  border: solid 4px #d1eaff;
+}
+
 @media (max-width: 600px) {
+  .article-list {
+    gap: 2rem;
+    padding: 0 2rem;
+    max-width: calc(1200px + 2rem);
+  }
+
   .article {
     width: 100%;
   }
@@ -173,7 +188,7 @@ code {
   color: #333;
 }
 .article .preview {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 .article .ui.divider {
   margin: 2.5rem 0;

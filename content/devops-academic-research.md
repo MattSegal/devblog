@@ -212,3 +212,5 @@ Finally I used AWS S3 to store all of the outputs, intermediate values, log file
 Overall I look back on this job fondly. You might have noticed that I've written thousands of words about it. There were some downsides specific to the academic environment. There was an emphasis on producing novel results, especially in the context of COVID in 2020, and as a consequence there were a lot of "one off" tasks and analyses. The codebase was constantly evolving and it felt like I was always trying to catch-up. It was cool working on things that I'd never done before where I didn't know what the solution was. I drew a lot of inspiration from machine learning and data science.
 
 Thanks for reading. If this sounds cool and you think you might like working as a software developer in academia, then go pester some academics.
+
+If you read this and were like "wow! we should get this guy working for us!", I've got good news. I am looking for projects to work on as a freelance web developer. See [here](https://mattsegal.com.au/) for more details.

@@ -4,7 +4,7 @@ Slug: devops-academic-research
 Date: 2021-11-21 12:00
 Category: Programming
 
-I'd like to share some things I've learned and done in the 18 months I worked as a "Research DevOps Specialist" for some infectious disease [epidemiologists](https://www.bmj.com/about-bmj/resources-readers/publications/epidemiology-uninitiated/1-what-epidemiology).
+I'd like to share some things I've learned and done in the 18 months I worked as a "Research DevOps Specialist" for a team of infectious disease [epidemiologists](https://www.bmj.com/about-bmj/resources-readers/publications/epidemiology-uninitiated/1-what-epidemiology).
 Prior to this job I'd worked as a web developer for four years and I'd found that the day-to-day had become quite routine. Web dev is a mature field where most of the hard problems have been solved. Looking for something new, I started a new job at a local university in early 2020. The job was created when my colleagues wrote ~20k lines of Python code and then found out what a pain in the ass it is to maintain a medium-sized codebase. It's the usual story: the code is fragile, it's slow, it's easy to break things, changes are hard to make. I don't think this situation is anyone's fault per-se: it arises naturally whenever you write a big pile of code.
 
 In the remainder of this post I'll talk about the application we were working on and the awesome, transformative, <superlative\> power of:

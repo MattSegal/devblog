@@ -20,7 +20,7 @@ You'll need a few different (free) tools to get a holistic picture of what your 
 - **Log aggregation**: allows you to read about what happened on your servers ([Sumologic](https://www.sumologic.com/))
 - **Performance**: tells you how long requests took, what's fast, what's slow ([Sentry](tps://sentry.io/welcome/), [New Relic](https://newrelic.com/products/application-monitoring))
 
-In the rest of this post I'll talk about these SaaS tools in more detail, why I like to use the ones linked above, and finish with a few examples of how you can use them together to solve problems.
+In the rest of this post I'll talk about these SaaS tools in more detail and why I like to use the ones linked above.
 
 ## Uptime monitoring
 

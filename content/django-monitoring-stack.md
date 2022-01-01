@@ -1,4 +1,4 @@
-Title: My (free) Django monitoring stack for 2021
+Title: My (free) Django monitoring stack for 2022
 Description: The free tools I use to keep an eye on my Django apps
 Slug: django-monitoring-stack
 Date: 2022-01-01 12:00

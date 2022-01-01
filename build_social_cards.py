@@ -43,6 +43,7 @@ def main():
 
         if not (title and slug):
             print("Skipping", path)
+            continue
 
         print("Generating card for", slug)
         create_social_card(f"theme/static/social-cards/{slug}.png", title)

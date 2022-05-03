@@ -4,38 +4,51 @@ code {
   line-height: 1.8em;
   font-size: 1.2rem !important;
 }
+
 code {
   font-size: 1.1rem !important;
 }
-pre > code {
+
+pre>code {
   line-height: 1.2em;
   font-size: 1rem !important;
 }
+
 @media (max-width: 400px) {
+
   p,
   li {
     font-size: 1rem !important;
   }
+
   code {
     font-size: 0.9rem !important;
   }
-  pre > code {
+
+  pre>code {
     font-size: 0.8rem !important;
   }
 }
 
+.ui.container.text {
+
+  max-width: 850px !important;
+}
+
 .ui.container.text h2 {
-  margin: 0 0 1rem 0;
+  margin: 2rem 0 1rem 0;
 }
 
 header {
   box-shadow: 0 -10px 20px 0px rgba(51, 51, 51, 1);
 }
+
 header a,
 header a:visited {
   color: #212529;
   text-decoration: none;
 }
+
 header .banner {
   padding: 0.6rem 0;
   display: flex;
@@ -44,6 +57,7 @@ header .banner {
   flex-wrap: wrap;
   gap: 1rem;
 }
+
 header .banner.links h1 {
   margin: 0;
   font-size: 1.1rem;
@@ -52,15 +66,18 @@ header .banner.links h1 {
   text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
     1px 1px 0 #fff;
 }
+
 header .banner.freelance {
   background-color: #e97dfdc7;
 }
+
 header .banner.freelance h1 {
   margin: 0;
   color: #fff;
   font-size: 1.1rem;
   text-transform: uppercase;
 }
+
 header .banner.freelance a {
   cursor: pointer;
   text-decoration: underline;
@@ -111,6 +128,7 @@ main {
   padding-top: 4rem;
   padding-bottom: 20px;
 }
+
 @media (max-width: 600px) {
   main {
     padding-top: 2rem;
@@ -166,6 +184,7 @@ code {
   border-bottom-left-radius: 15px;
   border-top-right-radius: 15px;
 }
+
 .article:nth-child(4n - 1),
 .article:nth-child(4n - 2) {
   background: #d1eaff47;
@@ -187,9 +206,11 @@ code {
 .article .header a {
   color: #333;
 }
+
 .article .preview {
   opacity: 0.7;
 }
+
 .article .ui.divider {
   margin: 2.5rem 0;
 }
@@ -204,7 +225,8 @@ code {
   margin-bottom: 1rem;
   padding-top: 1rem !important;
 }
-.item > h3.header {
+
+.item>h3.header {
   font-weight: 600 !important;
 }
 
@@ -225,6 +247,7 @@ pre {
   margin: 0;
   display: block;
 }
+
 @media (max-width: 600px) {
   .highlight {
     padding: 2rem 0 2em 1em;
@@ -235,6 +258,7 @@ pre {
     border-radius: 0;
     overflow: auto;
   }
+
   code {
     font-size: 1rem;
   }
@@ -246,6 +270,7 @@ pre {
   margin-top: 20px;
   font-style: italic;
 }
+
 .bio a {
   font-weight: bold;
 }
@@ -280,8 +305,8 @@ pre {
   height: 100%;
 }
 
-li > code,
-p > code {
+li>code,
+p>code {
   color: #7f2598;
   font-weight: 500;
 }
@@ -297,6 +322,7 @@ p > code {
 .subscribe {
   min-width: 70%;
 }
+
 .subscribe-cta {
   font-weight: bold;
   color: #666;
@@ -313,6 +339,7 @@ p > code {
   border: solid 2px #999 !important;
   border-right: 0 !important;
 }
+
 .subscribe input::placeholder {
   color: #999 !important;
 }

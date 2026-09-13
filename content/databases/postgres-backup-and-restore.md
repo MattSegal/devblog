@@ -85,9 +85,9 @@ This "custom" format is ~3x smaller in terms of file size, but it's not as prett
 pg_dump --format=custom | head
 
 # Output:
-# xtshirt9.5.199.5.19k0ENCODINENCODING
+# ^A^A^A^X^Dx^Ftshirt^F9.5.19^F9.5.19k^A0^AENCODINENCODING^B^^
 # SET client_encoding = 'UTF8';
-# false00
+# ^A^A^A^A^A^Afalse^A^A^C^A0^A0
 # ... etc ...
 ```
 

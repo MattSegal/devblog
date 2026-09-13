@@ -250,9 +250,9 @@ And that's part one of our script done: find the latest backup file. Now we need
 ```bash
 S3_TARGET=$S3_BUCKET/$LATEST_FILE
 aws s3 cp $S3_TARGET -
-# xtshirt9.5.199.5.19k0ENCODINENCODING
+# ^A^A^A^X^Dx^Ftshirt^F9.5.19^F9.5.19k^A0^AENCODINENCODING^B^^
 # SET client_encoding = 'UTF8';
-# false00
+# ^A^A^A^A^A^Afalse^A^A^C^A0^A0
 # ... etc ...
 ```
 

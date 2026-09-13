@@ -67,23 +67,6 @@ header .banner.links h1 {
     1px 1px 0 #fff;
 }
 
-header .banner.freelance {
-  background-color: #e97dfdc7;
-}
-
-header .banner.freelance h1 {
-  margin: 0;
-  color: #fff;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-}
-
-header .banner.freelance a {
-  cursor: pointer;
-  text-decoration: underline;
-  color: #fff;
-}
-
 #hero {
   display: flex;
   align-items: center;
